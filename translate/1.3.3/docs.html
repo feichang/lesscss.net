@@ -271,8 +271,7 @@ pre { .wrap }
 }
 </code></pre>
 
-<p>Guards 支持的运算符包括：<strong><code>&gt; &gt;= = =&lt; &lt;</code></strong>。Additionally, the keyword <code>true</code>
-is the only truthy value, making these two mixins equivalent:</p>
+<p>Guards 支持的运算符包括：<strong><code>&gt; &gt;= = =&lt; &lt;</code></strong>。说明一下，“true”关键字是唯一被判断为真的值，它使这两个mixin相等:</p>
 
 <pre><code>.truth (@a) when (@a) { ... }
 .truth (@a) when (@a = true) { ... }

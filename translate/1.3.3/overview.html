@@ -161,9 +161,9 @@ h2 {
 
 <section id="usage" class="page page-dark">
   <div class="content">
-    <h1>Client-side usage</h1>
+    <h1>客户端使用方式</h1>
 
-<p>客户端在线编译的方式是入门和开发的最好方式。但是如果你是在产品中使用，请使用预编译的方式编译成css后在线使用。</p>
+<p>客户端使用方式是入门和开发的最好方式。但是如果你是在产品中使用，请使用预编译的方式编译成css后在线使用。</p>
 <p>引入 <code>.less</code> 样式文件的时候要设置 <code>rel</code> 属性值为 &ldquo;<code>stylesheet/less</code>&rdquo;:</p>
 
 <pre><code>&lt;link rel="stylesheet/less" type="text/css" href="styles.less"&gt;
@@ -204,12 +204,12 @@ h2 {
 
 <h2>调试模式</h2>
 
-<p>It is possible to output rules in your css which allow tools to locate the source of the rule.</p>
+<p>为了方便调试，可以在输出的CSS中加上一些额外信息，以方便调试工具确定对应的样式规则在源代码中的位置。</p>
 
-<p>Either specify the option <code>dumpLineNumbers</code> as above or add <code>!dumpLineNumbers:mediaQuery</code> to the url.</p>
+<p>在上面的配置项上加入 <code>dumpLineNumbers</code>，或者是在url中加入<code>!dumpLineNumbers:mediaQuery</code>即可开启这个功能。</p>
 
-<p>You can use the &ldquo;comments&rdquo; option with <a href="https://addons.mozilla.org/en-us/firefox/addon/fireless/">FireLESS</a> and
-the &ldquo;mediaQuery&rdquo; option with FireBug/Chrome dev tools (it is identical to the SCSS media query debugging format).</p>
+<p>你可以使用&ldquo;comments&rdquo; 选项来配合<a href="https://addons.mozilla.org/en-us/firefox/addon/fireless/">FireLESS</a>调试，
+或者是使用&ldquo;mediaQuery&rdquo; 选项来配合FireBug/Chrome开发者工具 (会被识别为SCSS media query调试模式)。</p>
 
 <h1>服务端使用方法</h1>
 

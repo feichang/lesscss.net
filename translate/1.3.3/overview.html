@@ -279,6 +279,41 @@ parser.parse('.class { width: 1 + 1 }', function (e, tree) {
 });
 </code></pre>
 
+<h2>Node.js中Web框架的使用方法</h2>
+<p>你可以通过Node.js中的Web开发框架(如webjs, express等)使用Less。</p>
+<pre><code>var web = require('webjs');
+
+web.run()
+  .use(
+    web.compiler({ enable: [ 'less' ] }),
+    '/static', web.static(__dirname + '/assert')
+  );
+
+console.log('Simple HTTP Server is running on http://localhost');</code></pre>
+<p>此后，你可以在前端页面中如此使用经过服务器编译的Less样式文件，而无需再引入less.js文件。</p>
+<pre><code>&lt;link rel="stylesheet" type="text/css" href="/static/style/main.less"&gt;</code></pre>
+<h3>express</h3>
+<pre><code>var express = require('express');
+var lessMiddleware = require('less-middleware');
+
+var app = express();
+
+app.configure(function () {
+
+  app.use(lessMiddleware({
+      src: __dirname + '/assert',
+      compress: true
+  }));
+  app.use('/static', express.static(__dirname + '/assert'));
+
+});
+
+app.listen(80);
+
+console.log('Simple HTTP Server is running on http://localhost');</code></pre>
+<p>通过express编译的less文件需要在前端页面以css后缀名引入。</p>
+<pre><code>&lt;link rel="stylesheet" type="text/css" href="/static/style/main.css"&gt;</code></pre>
+
 <h2>第三方工具</h2>
 
 <p><a href="http://less.cnodejs.net/tools">工具汇总</a></p>

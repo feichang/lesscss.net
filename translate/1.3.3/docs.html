@@ -30,7 +30,58 @@ content: @@var;
 <pre><code>content: "I am fnord.";
 </code></pre>
 
-<p>请注意 LESS 中的变量为完全的 &lsquo;常量&rsquo;，所以只能定义一次。</p>
+<p>变量定义两次时，从当前作用域向上搜索，最后一个变量定义有效。这与 CSS 本身相似，定义中后面的属性决定该属性的值。</p>
+
+<p>例如：</p>
+
+<pre><code>@var: 0;
+.class1 {
+  @var: 1;
+  .class {
+    @var: 2;
+    three: @var;
+    @var: 3;
+  }
+  one: @var;
+}</code></pre>
+
+<p>解析后：</p>
+
+<pre><code>.class1 .class {
+  three: 3;
+}
+.class {
+  one: 1;
+}</code></pre>
+
+<p>变量是延迟加载（lazy loaded）的，使用前不需要事先声明。</p>
+
+<p>合法的 Less 代码：</p>
+
+<pre><code>lazy-eval {
+  width: @var;
+}
+
+@var: @a;
+@a: 9%;</code></pre>
+
+<p>这段也是合法的 Less：</p>
+
+<pre><code>.lazy-eval-scope {
+  width: @var;
+  @a: 9%;
+}
+
+@var: @a;
+@a: 100%;
+</code></pre>
+
+<p>都被解析为：</p>
+
+<pre><code>.lazy-eval-scope {
+  width: 9%;
+}
+</code></pre>
 
 <h2 id='-mixins'>混合</h2>
 
@@ -109,7 +160,7 @@ content: @@var;
 
 <p>radius 的值就会是 5px。</p>
 
-<p>你也可以定义不带参数属性集合，如果你想隐藏这个属性集合，不让它暴露到 CSS 中去，但是你还想在其他的属性集合中引用，你会发现这个方法非常的好用：</p>
+<p>你也可以定义不带参数属性集合。如果你想隐藏这个属性集合，不让它暴露到 CSS 中去，但是你还想在其他的属性集合中引用，你会发现这个方法非常的好用：</p>
 
 <pre><code>.wrap () {
   text-wrap: wrap;
@@ -131,9 +182,132 @@ pre { .wrap }
 }
 </code></pre>
 
+<h3>带多个参数的混合</h3>
+
+<p>参数用<em>分号</em>或者<em>逗号</em>分隔。推荐使用<em>分号</em>分隔。逗号这个符号有双重含义：它可以被解析为混合的参数分隔符，或者是 CSS 列表的分隔符。</p>
+
+<p>若使用逗号作为混合的分隔符，则不可能再用它创建逗号分隔的列表来做参数。相反，当编译器在混合调用或声明内部遇到一个或多个分号时，它会假设参数是以分号分隔的，而所有的逗号都属于 CSS 列表：</p>
+
+<ul>
+  <li>两个参数，各自含有逗号分隔的列表：<code><span class="mixin"> … </span>
+      (
+    <span class="number"> … </span>
+      , 
+    <span class="number"> … </span>
+      , 
+    <span class="number"> … </span>
+      ; something, else)
+    </code>，</li>
+  <li>三个参数，各自含有一个数字：<code>
+      .name(
+    <span class="number"> … </span>
+      , 
+    <span class="number"> … </span>
+      , 
+    <span class="number"> … </span>
+      )
+    </code>，</li>
+  <li>用一个空的分号来创建混合调用，使用一个含有逗号分隔的 CSS 列表的参数：<code><span class="mixin"> … </span>
+      (
+    <span class="number"> … </span>
+      , 
+    <span class="number"> … </span>
+      , 
+    <span class="number"> … </span>
+      ;)
+    </code>，</li>
+  <li>逗号分隔的默认值：<code><span class="mixin"> … </span>
+      (
+    <span class="variable"> … </span>
+      : red, blue;)
+    </code>。</li>
+</ul>
+
+<p>使用相同的混合名和参数数量来创建多个混合是合法的。LESS 会使用所有适用的属性。假设你使用了带有一个参数的混合，例如 <code><span class="mixin"> … </span>
+      (green);
+    </code>，那么所有强制参数数量正好为一的混合的属性将被使用：</p>
+
+<pre><code><span class="class"> … </span>
+      (
+    <span class="variable"> … </span>
+      ) {
+  color
+    <span class="number"> … </span>
+      : 
+    <span class="variable"> … </span>
+      ;
+}
+
+    <span class="mixin"> … </span>
+      (
+    <span class="variable"> … </span>
+      ; 
+    <span class="variable"> … </span>
+      :
+    <span class="number"> … </span>
+      ) {
+  color
+    <span class="number"> … </span>
+      : 
+    <span class="variable"> … </span>
+      ;
+  padding
+    <span class="number"> … </span>
+      : 
+    <span class="variable"> … </span>
+      ;
+}
+
+    <span class="mixin"> … </span>
+      (
+    <span class="variable"> … </span>
+      ; 
+    <span class="variable"> … </span>
+      ; 
+    <span class="variable"> … </span>
+      : 
+    <span class="number"> … </span>
+      ) {
+  color
+    <span class="number"> … </span>
+      : 
+    <span class="variable"> … </span>
+      ;
+  padding
+    <span class="number"> … </span>
+      : 
+    <span class="variable"> … </span>
+      ;
+  
+    <span class="attribute"> … </span>
+      : 
+    <span class="variable"> … </span><span class="variable"> … </span><span class="variable"> … </span><span class="variable"> … </span>
+      ;
+}
+
+    <span class="class"> … </span><span class="class"> … </span><span class="element"> … </span>
+       {
+  
+    <span class="mixin"> … </span>
+      (
+    <span class="color"> … </span>
+      );
+}
+
+    </code></pre>
+
+<p>解析后：</p>
+
+<pre><code><span class="class">.some</span> <span class="class">.selector</span> <span class="element">div</span> {
+  color<span class="number">-1</span>: <span class="color">#008000</span>;
+  color<span class="number">-2</span>: <span class="color">#008000</span>;
+  padding<span class="number">-2</span>: <span class="number">2</span>;
+}
+</code></pre>
+
 <h3><code>@arguments</code> 变量</h3>
 
-<p><code>@arguments</code>包含了所有传递进来的参数。 如果你不想单独处理每一个参数的话就可以像这样写：</p>
+<p><code>@arguments</code> 在混合内部有特殊含义，它包含了所有混合被调用时传递进来的参数。 如果你不想单独处理每一个参数的话就可以像这样写：</p>
 
 <pre><code>.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
   box-shadow: @arguments;
@@ -169,7 +343,39 @@ pre { .wrap }
 }
 </code></pre>
 
-<h2>Pattern-matching and Guard expressions</h2>
+<h2 id="-the-keyword-!important">
+      关键字 !important
+    </h2>
+
+<p>在混合调用后使用 !important 关键字来把所有混合带来的属性标记为 !important：</p>
+
+<p>样本输入：</p>
+
+<pre><code><span class="class">.mixin</span> (<span class="variable">@a</span>: <span class="number">0</span>) {
+  <span class="attribute">border</span>: <span class="variable">@a</span>;
+  <span class="attribute">boxer</span>: <span class="variable">@a</span>;
+}
+<span class="class">.unimportant</span> {
+  <span class="mixin">.mixin</span>(<span class="number">1</span>); 
+}
+<span class="class">.important</span> {
+  <span class="mixin">.mixin</span>(<span class="number">2</span>) <span class="special">!important</span>; 
+}
+</code></pre>
+
+<p>解析为：</p>
+
+<pre><code><span class="class">.unimportant</span> {
+  <span class="attribute">border</span>: <span class="number">1</span>;
+  <span class="attribute">boxer</span>: <span class="number">1</span>;
+}
+<span class="class">.important</span> {
+  <span class="attribute">border</span>: <span class="number">2</span> <span class="special">!important</span>;
+  <span class="attribute">boxer</span>: <span class="number">2</span> <span class="special">!important</span>;
+}
+</code></pre>
+
+<h2 id="-pattern-matching-and-guard-expressions">模式匹配（Pattern-matching）和守卫表达式（Guard expressions）</h2>
 
 <p>LESS 提供了通过参数值控制 mixin 行为的功能，让我们先从最简单的例子开始：</p>
 
@@ -234,9 +440,9 @@ pre { .wrap }
 
 <p>调用 <code>.mixin</code> 时，如果使用了一个参数，输出第一条 .mixin，使用了两个参数，则输出第二条。</p>
 
-<h3>Guards</h3>
+<h3>守卫（Guards）</h3>
 
-<p>与上面匹配值，或者参数数量的情况不同，Guards 被用来匹配表达式 (<em>expressions</em>)。如果你很熟悉编程函数的用法，相信你已经掌握它的用法了。</p>
+<p>与上面只匹配值或者参数数量的情况不同，Guards 被用来匹配表达式 (<em>expressions</em>)。如果你很熟悉函数式编程，相信你已经遇到过守卫了。</p>
 
 <p>为了尽可能地符合 CSS 的语言结构，LESS 选择使用 <strong>guarded mixins</strong> （类似于 <code>@media</code> 的工作方式）执行条件判断，而不是加入 if/else 声明。</p>
 
@@ -271,25 +477,25 @@ pre { .wrap }
 }
 </code></pre>
 
-<p>Guards 支持的运算符包括：<strong><code>&gt; &gt;= = =&lt; &lt;</code></strong>。说明一下，“true”关键字是唯一被判断为真的值，它使这两个mixin相等:</p>
+<p>Guards 支持的运算符包括：<strong><code>&gt; &gt;= = =&lt; &lt;</code></strong>。说明一下，“true”关键字是唯一被判断为真的值，它使这两个 mixin 相等:</p>
 
 <pre><code>.truth (@a) when (@a) { ... }
 .truth (@a) when (@a = true) { ... }
 </code></pre>
 
-<p>其他不等于 <code>true</code> 的值是无效的：</p>
+<p>关键字 <code>true</code> 以外的任何的值都是无效的：</p>
 
 <pre><code>.class {
   .truth(40); // 不会匹配上面的 mixin
 }
 </code></pre>
 
-<p>Guards 通过 &lsquo;<code>,</code>&rsquo; 逗号表示分隔，如果 guards 的结果为 true，匹配成立：</p>
+<p>Guards 通过 &lsquo;<code>,</code>&rsquo; 逗号表示分隔，如果任一 guards 的结果为 true，则匹配成立：</p>
 
 <pre><code>.mixin (@a) when (@a &gt; 10), (@a &lt; -10) { ... }
 </code></pre>
 
-<p>注意：也可以比较参数，或者不设定参数：</p>
+<p>注意：也可以在参数间进行比较，或者用参数比较非参数：</p>
 
 <pre><code>@media: mobile;
 

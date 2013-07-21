@@ -15,24 +15,24 @@ LESSCSS可以在多种语言、环境中使用，包括浏览器端、桌面客�
 
 LESS源码：
 
-  @color: #4D926F;
+	@color: #4D926F;
 
-  #header {
-	color: @color;
-  }
-  h2 {
-	color: @color;
-  }
+	#header {
+		color: @color;
+	}
+	h2 {
+		color: @color;
+	}
 
 
 编译后的CSS：
 
-  #header {
-	color: #4D926F;
-  }
-  h2 {
-	color: #4D926F;
-  }
+	#header {
+		color: #4D926F;
+	}
+	h2 {
+		color: #4D926F;
+	}
 
 ### 混合（Mixins）
 
@@ -40,37 +40,37 @@ LESS源码：
 
 LESS源码：
 
-  .rounded-corners (@radius: 5px) {
-	-webkit-border-radius: @radius;
-	-moz-border-radius: @radius;
-	-ms-border-radius: @radius;
-	-o-border-radius: @radius;
-	border-radius: @radius;
-  }
+	.rounded-corners (@radius: 5px) {
+		-webkit-border-radius: @radius;
+		-moz-border-radius: @radius;
+		-ms-border-radius: @radius;
+		-o-border-radius: @radius;
+		border-radius: @radius;
+	}
 
-  #header {
-	.rounded-corners;
-  }
-  #footer {
-	.rounded-corners(10px);
-  }
+	#header {
+		.rounded-corners;
+	}
+	#footer {
+		.rounded-corners(10px);
+	}
 
 编译后的CSS：
 
-  #header {
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
-  }
-  #footer {
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	-ms-border-radius: 10px;
-	-o-border-radius: 10px;
-	border-radius: 10px;
-  }
+	#header {
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		-ms-border-radius: 5px;
+		-o-border-radius: 5px;
+		border-radius: 5px;
+	}
+	#footer {
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		-ms-border-radius: 10px;
+		-o-border-radius: 10px;
+		border-radius: 10px;
+	}
 
 
 ### 嵌套
@@ -79,33 +79,37 @@ LESS源码：
 
 LESS源码：
 
-  #header {
-	h1 {
-	  font-size: 26px;
-	  font-weight: bold;
+	#header {
+		h1 {
+			font-size: 26px;
+			font-weight: bold;
+		}
+		p {
+			font-size: 12px;
+			a {
+				text-decoration: none;
+				&:hover {
+					border-width: 1px
+				}
+			}
+		}
 	}
-	p { font-size: 12px;
-	  a { text-decoration: none;
-		&:hover { border-width: 1px }
-	  }
-	}
-  }
 
 编译后的CSS：
 
-  #header h1 {
-	font-size: 26px;
-	font-weight: bold;
-  }
-  #header p {
-	font-size: 12px;
-  }
-  #header p a {
-	text-decoration: none;
-  }
-  #header p a:hover {
-	border-width: 1px;
-  }
+	#header h1 {
+		font-size: 26px;
+		font-weight: bold;
+	}
+	#header p {
+		font-size: 12px;
+	}
+	#header p a {
+		text-decoration: none;
+	}
+	#header p a:hover {
+		border-width: 1px;
+	}
 
 ### 函数和运算
 
@@ -113,31 +117,31 @@ LESS源码：
 
 LESS源码：
 
-  @the-border: 1px;
-  @base-color: #111;
-  @red:        #842210;
+	@the-border: 1px;
+	@base-color: #111;
+	@red:        #842210;
 
-  #header {
-	color: (@base-color * 3);
-	border-left: @the-border;
-	border-right: (@the-border * 2);
-  }
-  #footer {
-	color: (@base-color + #003300);
-	border-color: desaturate(@red, 10%);
-  }
+	#header {
+		color: (@base-color * 3);
+		border-left: @the-border;
+		border-right: (@the-border * 2);
+	}
+	#footer {
+		color: (@base-color + #003300);
+		border-color: desaturate(@red, 10%);
+	}
 
 编译后的CSS：
 
-  #header {
-	color: #333;
-	border-left: 1px;
-	border-right: 2px;
-  }
-  #footer {
-	color: #114411;
-	border-color: #7d2717;
-  }
+	#header {
+		color: #333;
+		border-left: 1px;
+		border-right: 2px;
+	}
+	#footer {
+		color: #114411;
+		border-color: #7d2717;
+	}
 
 ## 为什么用LESS
 
@@ -227,7 +231,7 @@ less.render('.class { width: (1 + 1) }', function (e, css) {
 which will output
 
 .class {
-  width: 2;
+	width: 2;
 }
 you may also manually invoke the parser and compiler:
 

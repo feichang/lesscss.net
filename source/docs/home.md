@@ -265,22 +265,20 @@ GUI Tools
 
 ### 1.4.0
 
-We have released 1.4.0. This includes new features such as extends, the data-uri function and more maths functions. See the changelog for a full list of changes.
+1.4.0已经正式发布，这个版本引入了一些新我，如派伸（extends）、`data-uri`函数以及更多的数学函数。详细的变更情况请查看[更新日志](../changelog.html)。
 
-There are some known breaking changes.
+在这个版本中，有一些不兼容的变化。
 
-@import-once is removed and is now default behaviour for @import.
+- `@import-once`被移除，现在`@import`的默认行为就是只引入一次（和旧版本`@import-once`功能一样）。
+- 像`(~".myclass_@{index}") {...}`这样在选择器中插入变量的语法不再被支持，请使用`.myclass_@{index} {...}`来代替，这种新语法在1.3.1以上版本中都支持。
+- 用于浏览器的less.js不再包含es5-shim.js。因为我们之前用的es5-shim.js版本中有一些错误，而新版本的体积又明显变大了。使用时请根据需要选用es5-shim或者是只在现代浏览器中使用。
+- 引入了一种“严格运算模式”（可选），在严格运算模式中，数学运算必须被括号包裹，如：
 
-(~".myclass_@{index}") { ... selector interpolation is deprecated, do this instead .myclass_@{index} { .... This works in 1.3.1 onwards.
+		(1 + 1)  // 2
+		1 + 1    // 1+1
 
-The browser version no longer bundles a version of es5-shim.js - the version we previously used was inaccurate and the new version is significantly larger. Please include your choice of es-5 shim or only use on modern browsers.
+	在1.4.0中，这个选项默认被关闭，但我们希望在未来的某个时间将它默认设置为开启。我们建议你升级代码的写法，并打开严格运算模式。（在命令行中加上`-strict-math=on`或者是在JavaScript代码中加入`strictMath:true`。）带括号的写法与旧版的less编译器兼容。
+- 引入了一种“严格单位模式”（`strictUnits:true`或者`strict-units=on`），这将强制让lessc验证单位的合法性。例如`4px/2px`结果为`2`，而不是`2px`，而`4em/2px`将报错。目前没有将这个选项默认打开的计划，但它可能在排查bug的时候有用。
+- 单位的运算功能已完成，所以`(4px * 3em) / 4px`以前结果是`3px`，但现在是`3em`。但是，我们没有取消有单位数字向无单位数字转换的功能，除非“严格单位模式”被开启。
 
-We have introduced a optional strictMath mode, where math is required to be in parenthesis, e.g.
-
-(1 + 1)  // 2
-1 + 1    // 1+1
-In 1.4.0 this option is turned off, but we intend to turn this on by default. We recommend you upgrade code and switch on the option (–strict-math=on in the command line or strictMath: true in JavaScript). Code written with brackets is backwards compatible with older versions of the less compiler.
-
-We also added a strict units option (strictUnits: true or strict-units=on) and this causes lessc to validate the units used are valid (e.g. 4px/2px = 2, not 2px and 4em/2px throws an error). There are no longer any plans to switch this option on permanently, but some users will find it useful for bug finding.
-
-Unit maths is done, so (4px * 3em) / 4px used to equal 3px and it now equals 3em. However we do not cancel units down to unitless numbers unless strict units is on. The selector interpolation, maths and units changes can be made to your less now and will compile fine with less 1.3.3.
+你可以现在就将选择器中插入变量、运算、单位的涉及到的变化应用到代码中去，这些变化能很好地与less 1.3.3兼容。

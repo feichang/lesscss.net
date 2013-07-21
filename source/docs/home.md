@@ -18,20 +18,20 @@ LESS源码：
   @color: #4D926F;
 
   #header {
-    color: @color;
+	color: @color;
   }
   h2 {
-    color: @color;
+	color: @color;
   }
 
 
 编译后的CSS：
 
   #header {
-    color: #4D926F;
+	color: #4D926F;
   }
   h2 {
-    color: #4D926F;
+	color: #4D926F;
   }
 
 ### 混合（Mixins）
@@ -41,35 +41,35 @@ LESS源码：
 LESS源码：
 
   .rounded-corners (@radius: 5px) {
-    -webkit-border-radius: @radius;
-    -moz-border-radius: @radius;
-    -ms-border-radius: @radius;
-    -o-border-radius: @radius;
-    border-radius: @radius;
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	-ms-border-radius: @radius;
+	-o-border-radius: @radius;
+	border-radius: @radius;
   }
 
   #header {
-    .rounded-corners;
+	.rounded-corners;
   }
   #footer {
-    .rounded-corners(10px);
+	.rounded-corners(10px);
   }
 
 编译后的CSS：
 
   #header {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
   }
   #footer {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
-    border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
   }
 
 
@@ -80,31 +80,31 @@ LESS源码：
 LESS源码：
 
   #header {
-    h1 {
-      font-size: 26px;
-      font-weight: bold;
-    }
-    p { font-size: 12px;
-      a { text-decoration: none;
-        &:hover { border-width: 1px }
-      }
-    }
+	h1 {
+	  font-size: 26px;
+	  font-weight: bold;
+	}
+	p { font-size: 12px;
+	  a { text-decoration: none;
+		&:hover { border-width: 1px }
+	  }
+	}
   }
 
 编译后的CSS：
 
   #header h1 {
-    font-size: 26px;
-    font-weight: bold;
+	font-size: 26px;
+	font-weight: bold;
   }
   #header p {
-    font-size: 12px;
+	font-size: 12px;
   }
   #header p a {
-    text-decoration: none;
+	text-decoration: none;
   }
   #header p a:hover {
-    border-width: 1px;
+	border-width: 1px;
   }
 
 ### 函数和运算
@@ -118,25 +118,25 @@ LESS源码：
   @red:        #842210;
 
   #header {
-    color: (@base-color * 3);
-    border-left: @the-border;
-    border-right: (@the-border * 2);
+	color: (@base-color * 3);
+	border-left: @the-border;
+	border-right: (@the-border * 2);
   }
   #footer {
-    color: (@base-color + #003300);
-    border-color: desaturate(@red, 10%);
+	color: (@base-color + #003300);
+	border-color: desaturate(@red, 10%);
   }
 
 编译后的CSS：
 
   #header {
-    color: #333;
-    border-left: 1px;
-    border-right: 2px;
+	color: #333;
+	border-left: 1px;
+	border-right: 2px;
   }
   #footer {
-    color: #114411;
-    border-color: #7d2717;
+	color: #114411;
+	border-color: #7d2717;
   }
 
 ## 为什么用LESS
@@ -158,20 +158,20 @@ Make sure you include your stylesheets before the script.
 You can set options by setting things on a global LESS object before the script. E.g.
 
 <script type="text/javascript">
-    less = {
-        env: "development", // or "production"
-        async: false,       // load imports async
-        fileAsync: false,   // load imports async when in a page under
-                            // a file protocol
-        poll: 1000,         // when in watch mode, time in ms between polls
-        functions: {},      // user functions, keyed by name
-        dumpLineNumbers: "comments", // or "mediaQuery" or "all"
-        relativeUrls: false,// whether to adjust url's to be relative
-                            // if false, url's are already relative to the
-                            // entry less file
-        rootpath: ":/a.com/"// a path to add on to the start of every url
-                            //resource
-    };
+	less = {
+		env: "development", // or "production"
+		async: false,       // load imports async
+		fileAsync: false,   // load imports async when in a page under
+							// a file protocol
+		poll: 1000,         // when in watch mode, time in ms between polls
+		functions: {},      // user functions, keyed by name
+		dumpLineNumbers: "comments", // or "mediaQuery" or "all"
+		relativeUrls: false,// whether to adjust url's to be relative
+							// if false, url's are already relative to the
+							// entry less file
+		rootpath: ":/a.com/"// a path to add on to the start of every url
+							//resource
+	};
 </script>
 <script src="less.js" type="text/javascript"></script>
 Watch mode
@@ -185,8 +185,8 @@ Modify variables
 modifyVars enables modification of LESS variables in run-time. When called with new values, the LESS file is recompiled without reloading. Simple basic usage:
 
 less.modifyVars({
-    '@buttonFace': '#5B83AD',
-    '@buttonText': '#D9EEF2'
+	'@buttonFace': '#5B83AD',
+	'@buttonText': '#D9EEF2'
 });
 Debugging
 
@@ -222,7 +222,7 @@ You can invoke the compiler from node, as such:
 var less = require('less');
 
 less.render('.class { width: (1 + 1) }', function (e, css) {
-    console.log(css);
+	console.log(css);
 });
 which will output
 
@@ -234,20 +234,20 @@ you may also manually invoke the parser and compiler:
 var parser = new(less.Parser);
 
 parser.parse('.class { width: (1 + 1) }', function (err, tree) {
-    if (err) { return console.error(err) }
-    console.log(tree.toCSS());
+	if (err) { return console.error(err) }
+	console.log(tree.toCSS());
 });
 Configuration
 
 You may pass some options to the compiler:
 
 var parser = new(less.Parser)({
-    paths: ['.', './lib'], // Specify search paths for @import directives
-    filename: 'style.less' // Specify a filename, for better error messages
+	paths: ['.', './lib'], // Specify search paths for @import directives
+	filename: 'style.less' // Specify a filename, for better error messages
 });
 
 parser.parse('.class { width: (1 + 1) }', function (e, tree) {
-    tree.toCSS({ compress: true }); // Minify CSS output
+	tree.toCSS({ compress: true }); // Minify CSS output
 });
 Third Party Tools
 

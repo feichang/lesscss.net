@@ -269,133 +269,151 @@
     boxer: 2 !important;
   }
 
-### Pattern-matching and Guard expressions
+### 模式匹配与Guard表达式
 
 LESS 提供了通过参数值控制 mixin 行为的功能，让我们先从最简单的例子开始：
 
-.mixin (@s, @color) { ... }
+  .mixin (@s, @color) { ... }
 
-    .class {
+  .class {
     .mixin(@switch, #888);
-    }
-如果要根据 @switch 的值控制 .mixin 行为，只需按照下面的方法定义 .mixin：
+  }
 
-.mixin (dark, @color) {
+如果要根据 `@switch` 的值控制 `.mixin` 行为，只需按照下面的方法定义 `.mixin`：
+
+  .mixin (dark, @color) {
     color: darken(@color, 10%);
-    }
-    .mixin (light, @color) {
+  }
+  .mixin (light, @color) {
     color: lighten(@color, 10%);
-    }
-    .mixin (@_, @color) {
+  }
+  .mixin (@_, @color) {
     display: block;
-    }
-现在运行：
+  }
 
-@switch: light;
+然后调用：
 
-    .class {
+  @switch: light;
+
+  .class {
     .mixin(@switch, #888);
-    }
+  }
+
 将会得到以下 CSS：
 
-.class {
+  .class {
     color: #a2a2a2;
     display: block;
-    }
-导入给 .mixin 的颜色将执行 lighten 函数，如果 @switch 的值是 dark，那么则会执行 darken 函数输出颜色。
+  }
+
+传给 `.mixin` 的颜色将执行 `lighten` 函数，如果 `@switch` 的值是 `dark`，那么则会执行 `darken` 函数输出颜色。
 
 以下是整个过程如何发生的：
 
-第一条 mixin 没有匹配，因为不满足 dark 条件；
-第二条 mixin 可以被匹配，因为它满足了 light 条件；
-第三条 mixin 也可以被匹配，因为它接受任何参数。
-只有满足匹配要求的 mixin 才可以被使用。变量可以使用任何值，而变量之外的参数只有它们的值完全相等时才可以匹配成功。
+- 第一个 `.mixin` 没有匹配，因为不满足 `dark` 条件；
+- 第二个 `.mixin` 可以被匹配，因为它满足了 `light` 条件；
+- 第三个 `.mixin` 也可以被匹配，因为它接受任何参数。
+
+只有满足匹配要求的混合才会被使用。混合中的变量可以匹配任何值，非变量形式的值只有与传入的值完全相等时才可以匹配成功。
 
 我们也可以根据参数的数量进行匹配，比如：
 
-.mixin (@a) {
+  .mixin (@a) {
     color: @a;
-    }
-    .mixin (@a, @b) {
+  }
+  .mixin (@a, @b) {
     color: fade(@a, @b);
-    }
-调用 .mixin 时，如果使用了一个参数，输出第一条 .mixin，使用了两个参数，则输出第二条。
+  }
 
-Guards
+调用 `.mixin` 时，如果使用了一个参数，输出第一个 `.mixin`，使用了两个参数，则输出第二个。
 
-与上面匹配值，或者参数数量的情况不同，Guards 被用来匹配表达式 (expressions)。如果你很熟悉编程函数的用法，相信你已经掌握它的用法了。
+#### Guards
 
-为了尽可能地符合 CSS 的语言结构，LESS 选择使用 guarded mixins （类似于 @media 的工作方式）执行条件判断，而不是加入 if/else 声明。
+与上面匹配值或者匹配参数数量的情况不同，Guards 被用来匹配表达式 (expressions)。如果你很熟悉编程函数的用法，那么很可能你已经掌握它的用法了。
+
+为了尽可能地符合 CSS 的语言结构，LESS 选择使用 guard混合（guarded mixins）（类似于 `@media` 的工作方式）执行条件判断，而不是加入 `if/else` 声明。
 
 首先通过下面的例子开始介绍：
 
-.mixin (@a) when (lightness(@a) >= 50%) {
+  .mixin (@a) when (lightness(@a) >= 50%) {
     background-color: black;
-    }
-    .mixin (@a) when (lightness(@a) < 50%) {
+  }
+  .mixin (@a) when (lightness(@a) < 50%) {
     background-color: white;
-    }
-    .mixin (@a) {
+  }
+  .mixin (@a) {
     color: @a;
-    }
-要点在于关键词 when，它引入了一条 guard 条件 （这里只用到一个 guard）。现在如果运行下面的代码：
+  }
 
-.class1 { .mixin(#ddd) }
-    .class2 { .mixin(#555) }
+要点在于关键词 `when`，它引入了一个 guard 条件 （这里只用到一个 guard）。现在如果运行下面的代码：
+
+  .class1 { .mixin(#ddd) }
+  .class2 { .mixin(#555) }
+
 将会得到以下输出结果：
 
-.class1 {
+  .class1 {
     background-color: black;
     color: #ddd;
-    }
-    .class2 {
+  }
+  .class2 {
     background-color: white;
     color: #555;
-    }
-Guards 支持的运算符包括：> >= = =< <。说明一下，“true”关键字是唯一被判断为真的值，它使这两个mixin相等:
+  }
 
-.truth (@a) when (@a) { ... }
-    .truth (@a) when (@a = true) { ... }
-其他不等于 true 的值是无效的：
+Guards 支持的运算符包括：`>` `>=` `=` `=<` `<`。说明一下，`true`关键字是唯一被判断为真的值，也就是这两个混合是相等的：
 
-.class {
+  .truth (@a) when (@a) { ... }
+  .truth (@a) when (@a = true) { ... }
+
+其他不为 `true` 的值都判为假：
+
+  .class {
     .truth(40); // 不会匹配上面的 mixin
-    }
-Guards 通过 ‘,’ 逗号表示分隔，如果 guards 的结果为 true，匹配成立：
+  }
 
-.mixin (@a) when (@a > 10), (@a < -10) { ... }
-注意：也可以比较参数，或者不设定参数：
+多个Guards可以通过逗号表示分隔，如果其中任意一个结果为 `true`，则匹配成功：
 
-@media: mobile;
+  .mixin (@a) when (@a > 10), (@a < -10) { ... }
 
-    .mixin (@a) when (@media = mobile) { ... }
-    .mixin (@a) when (@media = desktop) { ... }
+值得注意的是不同的参数之间也可以比较，而参与比较的也可以一个参数都没有：
 
-    .max (@a, @b) when (@a > @b) { width: @a }
-    .max (@a, @b) when (@a < @b) { width: @b }
-如果需要根据值的类型 (value type) 匹配 mixin，可以使用 is* 函数：
+  @media: mobile;
 
-.mixin (@a, @b: 0) when (isnumber(@b)) { ... }
-    .mixin (@a, @b: black) when (iscolor(@b)) { ... }
+  .mixin (@a) when (@media = mobile) { ... }
+  .mixin (@a) when (@media = desktop) { ... }
+
+  .max (@a, @b) when (@a > @b) { width: @a }
+  .max (@a, @b) when (@a < @b) { width: @b }
+
+如果需要根据值的类型匹配混合，可以使用 `is*` 函数：
+
+  .mixin (@a, @b: 0) when (isnumber(@b)) { ... }
+  .mixin (@a, @b: black) when (iscolor(@b)) { ... }
+
 几个检查基本类型的函数：
 
-iscolor
-isnumber
-isstring
-iskeyword
-isurl
-如果需要检查一个值，准确的说是数字使用了哪个单位，可以使用下面三个函数：
+- `iscolor`
+- `isnumber`
+- `isstring`
+- `iskeyword`
+- `isurl`
 
-ispixel
-ispercentage
-isem
-最后，你可以使用关键词 and 在 guard 中加入额外的条件：
+如果需要检查一个值（数字）使用了哪个单位，可以使用下面三个函数：
+
+- `ispixel`
+- `ispercentage`
+- `isem`
+
+最后，你可以使用关键词 `and` 在 `guard` 中加入额外的条件:
 
 .mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }
-或者，使用关键词 not 否定条件：
+
+或者，使用关键词 `not` 否定条件：
 
 .mixin (@b) when not (@b > 0) { ... }
-嵌套规则
+
+## 嵌套规则
 
 LESS 可以让我们以 嵌套 的方式编写层叠样式。 让我们先看下下面这段 CSS：
 
@@ -665,132 +683,6 @@ JavaScript 表达式也可以在 .less 文件中使用，可以通过反引号�
 
 
 
-
-
-
-
-
-Pattern-matching and Guard expressions
-
-Sometimes, you may want to change the behaviour of a mixin, based on the parameters you pass to it. Let’s start with something basic:
-
-.mixin (@s; @color) { ... }
-
-.class {
-  .mixin(@switch; #888);
-}
-Now let’s say we want .mixin to behave differently, based on the value of @switch, we could define .mixin as such:
-
-.mixin (dark; @color) {
-  color: darken(@color, 10%);
-}
-.mixin (light; @color) {
-  color: lighten(@color, 10%);
-}
-.mixin (@_; @color) {
-  display: block;
-}
-Now, if we run:
-
-@switch: light;
-
-.class {
-  .mixin(@switch; #888);
-}
-We will get the following CSS:
-
-.class {
-  color: #a2a2a2;
-  display: block;
-}
-Where the color passed to .mixin was lightened. If the value of @switch was dark, the result would be a darker color.
-
-Here’s what happened:
-
-The first mixin definition didn’t match because it expected dark as the first argument.
-The second mixin definition matched, because it expected light.
-The third mixin definition matched because it expected any value.
-Only mixin definitions which matched were used. Variables match and bind to any value. Anything other than a variable matches only with a value equal to itself.
-
-We can also match on arity, here’s an example:
-
-.mixin (@a) {
-  color: @a;
-}
-.mixin (@a; @b) {
-  color: fade(@a; @b);
-}
-Now if we call .mixin with a single argument, we will get the output of the first definition, but if we call it with two arguments, we will get the second definition, namely @a faded to @b.
-
-Guards
-
-Guards are useful when you want to match on expressions, as opposed to simple values or arity. If you are familiar with functional programming, you have probably encountered them already.
-
-In trying to stay as close as possible to the declarative nature of CSS, LESS has opted to implement conditional execution via guarded mixins instead of if/else statements, in the vein of @media query feature specifications.
-
-Let’s start with an example:
-
-.mixin (@a) when (lightness(@a) >= 50%) {
-  background-color: black;
-}
-.mixin (@a) when (lightness(@a) < 50%) {
-  background-color: white;
-}
-.mixin (@a) {
-  color: @a;
-}
-The key is the when keyword, which introduces a guard sequence (here with only one guard). Now if we run the following code:
-
-.class1 { .mixin(#ddd) }
-.class2 { .mixin(#555) }
-Here’s what we’ll get:
-
-.class1 {
-  background-color: black;
-  color: #ddd;
-}
-.class2 {
-  background-color: white;
-  color: #555;
-}
-The full list of comparison operators usable in guards are: > >= = =< <. Additionally, the keyword true is the only truthy value, making these two mixins equivalent:
-
-.truth (@a) when (@a) { ... }
-.truth (@a) when (@a = true) { ... }
-Any value other than the keyword true is falsy:
-
-.class {
-  .truth(40); // Will not match any of the above definitions.
-}
-Guards can be separated with a comma ‘,’–if any of the guards evaluates to true, it’s considered as a match:
-
-.mixin (@a) when (@a > 10), (@a < -10) { ... }
-Note that you can also compare arguments with each other, or with non-arguments:
-
-@media: mobile;
-
-.mixin (@a) when (@media = mobile) { ... }
-.mixin (@a) when (@media = desktop) { ... }
-
-.max (@a; @b) when (@a > @b) { width: @a }
-.max (@a; @b) when (@a < @b) { width: @b }
-Lastly, if you want to match mixins based on value type, you can use the is* functions:
-
-.mixin (@a; @b: 0) when (isnumber(@b)) { ... }
-.mixin (@a; @b: black) when (iscolor(@b)) { ... }
-Here are the basic type checking functions:
-
-iscolor
-isnumber
-isstring
-iskeyword
-isurl
-If you want to check if a value, in addition to being a number, is in a specific unit, you may use one of:
-
-ispixel
-ispercentage
-isem
-isunit
 Last but not least, you may use the and keyword to provide additional conditions inside a guard:
 
 .mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }

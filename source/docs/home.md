@@ -143,129 +143,71 @@ LESS源码：
 		border-color: #7d2717;
 	}
 
-## 为什么用LESS
+## 快速上手
 
-## 如何上手
+LESSCSS的使用是很容易的，首先，使用你最常使用的代码编辑器，按LESSCSS的语法规则写好.less文件，接下来，使用编译工具它编译成.css，最后再引入页面即可。
 
-Client-side usage
+### GUI编译工具
 
-Client-side is the easiest way to get started and good for developing your LESS. For production and especially if performance is important, we recommend pre-compiling using node or one of the many third party tools.
+为方便起见，建议初学者使用GUI编译工具来编译.less文件，以下是一些可选GUI编译工具：
 
-Link your .less stylesheets with the rel set to “stylesheet/less”:
+1. koala(Win/Mac/Linux)
 
-<link rel="stylesheet/less" type="text/css" href="styles.less" />
-Then download less.js from the top of the page, and include it in the <head> element of your page, like so:
+	国人开发的LESSCSS/SASS编译工具。下载地址：<http://koala-app.com/index-zh.html>
+2. Codekit(Mac)
 
-<script src="less.js" type="text/javascript"></script>
-Make sure you include your stylesheets before the script.
+	一款自动编译Less/Sass/Stylus/CoffeeScript/Jade/Haml的工具，含语法检查、图片优化、自动刷新等附加功能。下载地址<http://incident57.com/codekit/>
+3. WinLess(Win)
 
-You can set options by setting things on a global LESS object before the script. E.g.
+	一款LESS编译软件。下载地址<http://winless.org/>
+4. SimpleLess(Win/Mac/Linux)
 
-<script type="text/javascript">
-	less = {
-		env: "development", // or "production"
-		async: false,       // load imports async
-		fileAsync: false,   // load imports async when in a page under
-							// a file protocol
-		poll: 1000,         // when in watch mode, time in ms between polls
-		functions: {},      // user functions, keyed by name
-		dumpLineNumbers: "comments", // or "mediaQuery" or "all"
-		relativeUrls: false,// whether to adjust url's to be relative
-							// if false, url's are already relative to the
-							// entry less file
-		rootpath: ":/a.com/"// a path to add on to the start of every url
-							//resource
-	};
-</script>
-<script src="less.js" type="text/javascript"></script>
-Watch mode
+	一款LESS编译软件。下载地址<http://wearekiss.com/simpless>
 
-Watch mode is a client-side feature which enables your styles to refresh automatically as they are changed.
+### Node.js库
 
-To enable it, append ‘#!watch’ to the browser URL, then refresh the page. Alternatively, you can run less.watch() from the console.
+LESSCSS官方有一款基于Node.js的库，用于编译.less文件。
 
-Modify variables
+使用时，首先全局安装less（部分系统下可能需要在前面加上sudo切换为超级管理员权限）：
 
-modifyVars enables modification of LESS variables in run-time. When called with new values, the LESS file is recompiled without reloading. Simple basic usage:
+	npm install -g less
 
-less.modifyVars({
-	'@buttonFace': '#5B83AD',
-	'@buttonText': '#D9EEF2'
-});
-Debugging
+接下来就可以使用lessc来编译.less文件了：
 
-It is possible to output rules in your CSS which allow tools to locate the source of the rule.
+	lessc example/example.less example/example.css
 
-Either specify the option dumpLineNumbers as above or add !dumpLineNumbers:mediaQuery to the url.
+更多选项可以直接运行lessc查看说明。
 
-You can use the “comments” option with FireLESS and the “mediaQuery” option with FireBug/Chrome dev tools (it is identical to the SCSS media query debugging format).
+### 浏览器端使用
 
-Server-side usage
+LESSCSS也可以不经编译，直接在浏览器端使用。
 
-Installation
+使用方法：
 
-The easiest way to install LESS on the server, is via npm, the node package manager, as so:
+1. 下载LESSCSS的.js文件，例如lesscss-1.4.0.min.js。
+2. 在页面中引入.less文件
 
-$ npm install -g less
-Command-line usage
+		<link rel="stylesheet/less" href="example.less" />
 
-Once installed, you can invoke the compiler from the command-line, as such:
+	需要注意`rel`属性的值是`stylesheet/less`，而不是`stylesheet`。
+3. 引入第1步下载的.js文件
 
-$ lessc styles.less
-This will output the compiled CSS to stdout, you may then redirect it to a file of your choice:
+		<script src="lesscss-1.4.0.min.js"></script>
 
-$ lessc styles.less > styles.css
-To output minified CSS, simply pass the -x option. If you would like more involved minification, the YUI CSS Compressor is also available with the --yui-compress option.
+需要特别注意的是，由于浏览器端使用时是使用ajax来拉取.less文件，因此直接在本机文件系统打开（即地址是`file://`开头）或者是有跨域的情况下会拉取不到.less文件，导致样式无法生效。
 
-To see all the command line options run lessc without parameters.
+还有一种情况容易导致样式无法生效，就是部分服务器（以IIS居多）会对未知后缀的文件返回404，导致无法正常读取.less文件。解决方案是在服务器中为.less文件配置MIME值为`text/css`（具体方法请搜索）。或者还有一种更简单的方法，即是直接将.less文件改名为.css文件即可。
 
-Usage in Code
+### 更多说明
 
-You can invoke the compiler from node, as such:
+更多使用上的说明请参见[使用说明](./usage.html)。
 
-var less = require('less');
-
-less.render('.class { width: (1 + 1) }', function (e, css) {
-	console.log(css);
-});
-which will output
-
-.class {
-	width: 2;
-}
-you may also manually invoke the parser and compiler:
-
-var parser = new(less.Parser);
-
-parser.parse('.class { width: (1 + 1) }', function (err, tree) {
-	if (err) { return console.error(err) }
-	console.log(tree.toCSS());
-});
-Configuration
-
-You may pass some options to the compiler:
-
-var parser = new(less.Parser)({
-	paths: ['.', './lib'], // Specify search paths for @import directives
-	filename: 'style.less' // Specify a filename, for better error messages
-});
-
-parser.parse('.class { width: (1 + 1) }', function (e, tree) {
-	tree.toCSS({ compress: true }); // Minify CSS output
-});
-Third Party Tools
-
-There are a selection of tools available to run in your particular environment and these are documented in the Github wiki.
-
-Command Line Tools
-
-GUI Tools
 
 ## 更新说明
 
 ### 1.4.0
 
-1.4.0已经正式发布，这个版本引入了一些新特性，如派伸（extends）、`data-uri`函数以及更多的数学函数。详细的变更情况请查看[更新日志](../changelog.html)。
+1.4.0已经正式发布，这个版本引入了一些新特性，如派生（extends）、`data-uri`函数以及更多的数学函数。详细的变更情况请查看[更新日志](../changelog.html)。
 
 在这个版本中，有一些不兼容的变化。
 

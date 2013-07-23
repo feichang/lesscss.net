@@ -415,632 +415,406 @@ Guards 支持的运算符包括：`>` `>=` `=` `=<` `<`。说明一下，`true`�
 
 ## 嵌套规则
 
-LESS 可以让我们以 嵌套 的方式编写层叠样式。 让我们先看下下面这段 CSS：
+LESS 可以让我们以嵌套的方式编写层叠样式。 让我们先看下下面这段 CSS：
 
-#header { color: black; }
-		#header .navigation {
-		font-size: 12px;
-		}
-		#header .logo {
-		width: 300px;
-		}
-		#header .logo:hover {
-		text-decoration: none;
-		}
+	#header { color: black; }
+
+	#header .navigation {
+	font-size: 12px;
+	}
+
+	#header .logo {
+	width: 300px;
+	}
+
+	#header .logo:hover {
+	text-decoration: none;
+	}
+
 在 LESS 中, 我们就可以这样写：
 
-#header {
+	#header {
 		color: black;
 
 		.navigation {
-		font-size: 12px;
+			font-size: 12px;
 		}
+
 		.logo {
-		width: 300px;
-		&:hover { text-decoration: none }
+			width: 300px;
+			&:hover { text-decoration: none }
 		}
-		}
+	}
+
 或者这样写：
 
-#header        { color: black;
-		.navigation  { font-size: 12px }
-		.logo        { width: 300px;
-		&:hover    { text-decoration: none }
+	#header { color: black;
+		.navigation { font-size: 12px }
+		.logo { width: 300px;
+			&:hover { text-decoration: none }
 		}
-		}
+	}
+
 代码更简洁了，而且感觉跟 DOM 结构格式有点像。
 
-注意 & 符号的使用 — 如果你想写串联选择器，而不是写后代选择器，就可以用到 & 了。这点对伪类尤其有用如 :hover 和 :focus。
+注意 `&` 符号的使用 — 如果你想写串联选择器，而不是写后代选择器，就可以用到 `&` 了。这点对伪类尤其有用如 `:hover` 和 `:focus`。
 
 例如：
 
-.bordered {
+	.bordered {
 		&.float {
-		float: left;
+			float: left;
 		}
 		.top {
-		margin: 5px;
+			margin: 5px;
 		}
-		}
+	}
+
 会输出：
 
-.bordered.float {
+	.bordered.float {
 		float: left;
-		}
-		.bordered .top {
+	}
+	.bordered .top {
 		margin: 5px;
-		}
-嵌套 Media Queries
+	}
 
-Media queries 允许像选择器那样进行嵌套。
+### 嵌套 Media Queries
 
-.one {
+Media query也可以使用同样的方式进行嵌套。
+
+	.one {
 		@media (width: 400px) {
-		font-size: 1.2em;
-		@media print and color {
-		color: blue;
+			font-size: 1.2em;
+			@media print and color {
+				color: blue;
+			}
 		}
-		}
-		}
+	}
+
 输出：
 
-@media (width: 400px) {
+	@media (width: 400px) {
 		.one {
-		font-size: 1.2em;
+			font-size: 1.2em;
 		}
-		}
-		@media (width: 400px) and print and color {
+	}
+	@media (width: 400px) and print and color {
 		.one {
-		color: blue;
-		}
-		}
-& 的高级用法
+			color: blue;
+			}
+	}
 
-嵌套的外层含有多个选择器的情况下，& 符号可以交替输出他们的顺序。
+### `&` 的高级用法
+
+用在选择器中的`&`还可以反转嵌套的顺序并且可以应用到多个类名上。
 
 例如：
 
-.child, .sibling {
+	.child, .sibling {
 		.parent & {
-		color: black;
+			color: black;
 		}
 		& + & {
-		color: red;
+			color: red;
 		}
-		}
+	}
+
 输出：
 
-.parent .child,
-		.parent .sibling {
+	.parent .child,
+	.parent .sibling {
 		color: black;
-		}
-		.child + .child,
-		.child + .sibling,
-		.sibling + .child,
-		.sibling + .sibling {
+	}
+	.child + .child,
+	.child + .sibling,
+	.sibling + .child,
+	.sibling + .sibling {
 		color: red;
-		}
-& 也可以用在 mixin 中表示嵌套这个 mixin 的父选择器。
+	}
 
-运算
+`&`也可以用在混合中用于指示嵌套这个混合的父选择器。
 
-任何数字、颜色或者变量都可以参与运算，来看一组例子：
+## 运算
 
-@base: 5%;
-		@filler: @base * 2;
-		@other: @base + @filler;
+任何数字、颜色或者变量都可以参与运算，运算应该被包裹在括号中。来看一组例子：
 
-		color: #888 / 4;
-		background-color: @base-color + #111;
-		height: 100% / 2 + @filler;
-LESS 的运算已经超出了我们的期望，它能够分辨出颜色和单位。如果像下面这样单位运算的话：
+	@base: 5%;
+	@filler: (@base * 2);
+	@other: (@base + @filler);
 
-@var: (1px + 5);
-LESS 会输出 6px。
+	color: (#888 / 4);
+	background-color: (@base-color + #111);
+	height: (100% / 2 + @filler);
 
-括号也同样允许使用：
+LESS 的运算已经超出了我们的期望，如果像下面这样的话，它能够分辨出颜色和单位：
 
-width: ((@var + 5) * 2);
-并且可以在复合属性中进行运算：
+	@var: (1px + 5);
 
-border: (@width * 2) solid black;
-函数
+LESS 将会使用出现的单位，最终输出 `6px`。
 
-LESS 提供了多种函数用于控制颜色变化、处理字符串、算术运算等等。这些函数会在下面的函数列表部分详细介绍。
+也可以使用括号：
 
-函数的用法非常简单，下面这个例子将介绍如何将 0.5 转换为 50%；颜色饱和度增加 5%；以及颜色亮度降低 25% 色相值增加 8 等用法：
+	width: ((@var + 5) * 2);
 
-@base: #f04615;
-		@width: 0.5;
+## 函数
 
-		.class {
+LESS 提供了多种函数用于控制颜色变化、处理字符串、算术运算等等。这些函数在[函数手册](./reference.html)中有详细介绍。
+
+函数的用法非常简单，下面这个例子将介绍如何将 `0.5` 转换为 `50%`，将颜色饱和度增加 `5%`,以及颜色亮度降低 `25%` 色相值增加 `8` 等用法：
+
+	@base: #f04615;
+	@width: 0.5;
+
+	.class {
 		width: percentage(0.5); // returns `50%`
 		color: saturate(@base, 5%);
 		background-color: spin(lighten(@base, 25%), 8);
-		}
-命名空间
+	}
 
-有时候，你可能为了更好组织 CSS 或者单纯是为了更好的封装，将一些变量或者混合模块打包起来，你可以像下面这样在 #bundle 中定义一些属性集之后可以重复使用：
+## 命名空间
 
-#bundle {
+有时候，你可能为了更好组织 CSS 或者单纯是为了更好的封装，将一些变量或者混合模块打包起来，你可以像下面这样在 `#bundle` 中定义一些属性集之后可以重复使用：
+
+	#bundle {
 		.button () {
-		display: block;
-		border: 1px solid black;
-		background-color: grey;
-		&:hover { background-color: white }
+			display: block;
+			border: 1px solid black;
+			background-color: grey;
+			&:hover { background-color: white }
 		}
 		.tab { ... }
 		.citation { ... }
-		}
-你只需要在 #header a 中像这样引入 .button：
+	}
 
-#header a {
+你只需要在 `#header a` 中像这样引入 `.button`：
+
+	#header a {
 		color: orange;
 		#bundle > .button;
-		}
-作用域
+	}
+
+## 作用域
 
 LESS 中的作用域跟其他编程语言非常类似，首先会从本地查找变量或者混合模块，如果没找到的话会去父级作用域中查找，直到找到为止。
 
-@var: red;
+	@var: red;
 
-		#page {
+	#page {
 		@var: white;
 		#header {
-		color: @var; // white
+			color: @var; // white
 		}
-		}
+	}
 
-		#footer {
+	#footer {
 		color: @var; // red
-		}
-注释
+	}
 
-CSS 的注释格式在 LESS 中是依然保留的：
+## 注释
 
-/* Hello, I'm a CSS-style comment */
-		.class { color: black }
+CSS 的注释格式在 LESS 中依然有效：
+
+	/* Hello, I'm a CSS-style comment */
+	.class { color: black }
+
 LESS 同样也支持双斜线的注释，但是编译成 CSS 的时候自动过滤掉：
 
-// Hi, I'm a silent comment, I won't show up in your CSS
-		.class { color: white }
-Importing
+	// Hi, I'm a silent comment, I won't show up in your CSS
+	.class { color: white }
 
-你可以在 main 文件中通过下面的格式导入 .less 文件， .less 后缀可带可不带：
+## 导入（Import）
 
-@import "lib.less";
-		@import "lib";
-如果你想导入一个 CSS 文件而且不想 LESS 对它进行处理，只需要使用 .css 后缀就可以：
+在LESS中，你既可以导入CSS文件，也可以导入LESS文件。但只有导入的LESS文件才会被处理（编译），导入的CSS文件会保持原样。如果你希望导入一个CSS文件，保留`.css`后缀即可：
+	
+	@import "lib.css";
 
-@import "lib.css";
-这样 LESS 就会跳过它不去处理它。
+编译过程中，对导入CSS文件只做一处处理：将导入的语句提到最前，紧跟在`@charset`之后。
 
-为了避免重复导入文件，使用 @import-once 限制文件只允许被导入一次。
+例如输入的文件有导入语句：
 
-@import-once "lib.less";
-		@import-once "lib.less"; // will be ignored
-LESS 1.4.0 版将默认执行 @import-once
+	h1 { color: green; }
+	@import "import/official-branding.css?urlParameter=23";
 
-字符串插值
+导入语句将被提到最前：
 
-变量可以用类似 ruby 和 php 的方式嵌入到字符串中，像 @{name} 这样的结构：
+	@import "import/official-branding.css?urlParameter=23";
+	h1 { color: green; }
 
-@base-url: "http://assets.fnord.com";
-		background-image: url("@{base-url}/images/bg.png");
-避免编译
+被导入的LESS文件会被复制到含导入语句的文件中，然后一起编译。导入和被导入的文件共享所有的混合、命名空间、变量以及其它结构。
+
+另外，如果导入语句是通过media query指定的，那么导入的语句编译之后会被包裹在@Media声明中。
+
+例如有被导入的文件`library.less`：
+
+	@imported-color: red;
+	h1 { color: green; }
+
+主样式文件导入了上面的`library.less`：
+
+	@import "library.less" screen and (max-width: 400px); // 通过media query指定的import
+	@import "library.less"; // 无media query的import
+
+	.class {
+		color: @importedColor; // 使用导入的变量
+	}
+
+将会编译出：
+
+	// 对应通过media query指定的import
+	@media screen and (max-width: 400px) {
+		h1 { color: green; }
+	}
+
+	// 对应无media query的import
+	h1 { color: green; }
+	.class {
+		// 使用导入的变量
+		color: #ff0000;
+	}
+
+LESS文件的导入语句并不强制要求在顶部，它可以被入在规则内部、混合中或者其它的结构中。
+
+例如放在规则内部：
+
+	pre {
+		@import "library.less";
+		color: @importedColor;
+	}
+
+在`library.less`中定义的变量和规则都会被投篮到`pre`的规则中：
+
+	pre {
+		color: #ff0000; // 定义在library.less中的变量可用
+	}
+	pre h1 { // 定义在library.less中的样式规则被嵌套到pre中
+		color: green;
+	}
+
+在v1.3.0 - v1.3.3中，`@import`允许多次导入同一个文件，可以使用`@import-once`让同一文件只导入一次。
+
+在v1.4.0中，移除了`@import-once`，`@import`的行为就是同一文件只导入一次了。这意味着，如果代码是这样的：
+
+	@import “file.less”; @import “file.less”;
+
+那么第二个文件将被忽略。
+
+任何不以`.css`结尾的文件都被认为是less文件，将被处理。另外，如果文件名没有后缀，LESS会自动在结尾加上`.less`。下面两种写法是等价的：
+
+	@import "lib.less";
+	@import "lib";
+
+在v1.4.0中，你可以强制某个文件使用特写的方式来处理，比如：
+
+	@import (css) "lib";
+
+将会输出：
+
+	@import "lib";
+
+而
+
+	@import (less) "lib.css";
+
+会将`lib.css`引入，并当作LESS文件处理。如果你指定了某个文件是less但是没有包含后缀名，LESS将不会自动添加后缀。
+
+
+## 字符串插值
+
+变量可以用像 `@{name}` 这样的结构，以类似 ruby 和 php 的方式嵌入到字符串中：
+
+	@base-url: "http://assets.fnord.com";
+	background-image: url("@{base-url}/images/bg.png");
+
+## 避免编译
 
 有时候我们需要输出一些不正确的 CSS 语法或者使用一些 LESS 不认识的专有语法。
 
 要输出这样的值我们可以在字符串前加上一个 ~，例如：
 
 
-		.class {
+	.class {
 		filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";
-		}
-我们可以将要避免编译的值用 “ ” 包裹起来，输出结果为：
+	}
+
+这叫作“避免编译”，输出结果为：
 
 
-		.class {
+	.class {
 		filter: ms:alwaysHasItsOwnSyntax.For.Stuff();
-		}
-Selector Interpolation
+	}
 
-如果需要在选择器中使用 LESS 变量，只需通过 @{selector} 插值语句导入变量，例如：
+在避免编译的值中间也可以像字符串一样插入变量：
 
-@name: blocked;
-		.@{name} {
+	.class {
+		@what: "Stuff";
+		filter: ~"ms:alwaysHasItsOwnSyntax.For.@{what}()";
+	}
+
+## 选择器插值
+
+如果需要在选择器中使用 LESS 变量，只需通过使用和字符串插件一样的 `@{selector}` 即可，例如：
+
+	@name: blocked;
+	.@{name} {
 		color: black;
-		}
+	}
+
 输出：
 
-.blocked {
+	.blocked {
 		color: black;
+	}
+
+注意：`(~"@{name}")` 语句可以在 LESS 1.3.1 等之前版本中使用，但 1.4.0 版将不再支持这种用法。
+
+## media query作为变量
+
+如果你希望在media query中使用LESS变量，你可以直接使用普通的变量方式。例如：
+
+	@singleQuery: ~"(max-width: 500px)";
+	@media screen, @singleQuery {
+		set {
+			padding: 3 3 3 3;
 		}
-注意：(~"@{name}") 语句可以在 LESS 1.3.1 等之前版本中使用，但 1.4.0 版将不再支持这种用法。
+	}
 
-JavaScript evaluation
+被编译为：
 
-JavaScript 表达式也可以在 .less 文件中使用，可以通过反引号的方式使用（但是不建议使用）：
+	@media screen, (max-width: 500px) {
+		set {
+			padding: 3 3 3 3;
+		}
+	}
 
-@var: `"hello".toUpperCase() + '!'`;
+变量必须包含完整的media query。这样写会导致报错：`@media screen and @partial {`。
+
+在1.4.0中，在开启严格运算模式的情况下，你也可以在media query的条件中插入变量。如`@media screen, (max-width: @width) {`。
+
+## JavaScript求值
+
+在LESS中还可以使用JavaScript表达式来求值。我们不建议谨慎使用这个特性，因为它会使得LESS在其它平台的可编译性变低，也会使得LESS更难维护。如果可能，试着想想能否用一个函数来完成相同的事情，在github上这样的库很多。我们有计划开放对函数的扩展。但，如果你仍然想用的话，你可以通过反引号的方式使用：
+
+	@var: `"hello".toUpperCase() + '!'`;
+
 输出：
 
-@var: "HELLO!";
+	@var: "HELLO!";
+
 注意你也可以同时使用字符串插值和避免编译：
 
-@str: "hello";
-		@var: ~`"@{str}".toUpperCase() + '!'`;
+	@str: "hello";
+	@var: ~`"@{str}".toUpperCase() + '!'`;
+
 输出：
 
-@var: HELLO!;
+	@var: HELLO!;
+
 它也可以访问 JavaScript 环境：
 
-@height: `document.body.clientHeight`;
+	@height: `document.body.clientHeight`;
+	
 如果你想将一个 JavaScript 字符串解析成16进制的颜色值，你可以使用 color 函数：
 
-@color: color(`window.colors.baseColor`);
-		@darkcolor: darken(@color, 10%);
-
-
-
-Last but not least, you may use the and keyword to provide additional conditions inside a guard:
-
-.mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }
-And the not keyword to negate conditions:
-
-.mixin (@b) when not (@b > 0) { ... }
-Nested rules
-
-LESS gives you the ability to use nesting instead of, or in combination with cascading. Lets say we have the following CSS:
-
-#header { color: black; }
-#header .navigation {
-	font-size: 12px;
-}
-#header .logo {
-	width: 300px;
-}
-#header .logo:hover {
-	text-decoration: none;
-}
-In LESS, we can also write it this way:
-
-#header {
-	color: black;
-
-	.navigation {
-		font-size: 12px;
-	}
-	.logo {
-		width: 300px;
-		&:hover { text-decoration: none }
-	}
-}
-Or this way:
-
-#header        { color: black;
-	.navigation  { font-size: 12px }
-	.logo        { width: 300px;
-		&:hover    { text-decoration: none }
-	}
-}
-The resulting code is more concise, and mimics the structure of your DOM tree.
-
-Notice the & combinator - it’s used when you want a nested selector to be concatenated to its parent selector, instead of acting as a descendant. This is especially important for pseudo-classes like :hover and :focus.
-
-For example:
-
-.bordered {
-	&.float {
-		float: left;
-	}
-	.top {
-		margin: 5px;
-	}
-}
-Will output
-
-.bordered.float {
-	float: left;
-}
-.bordered .top {
-	margin: 5px;
-}
-Nested Media Queries
-
-Media queries can be nested in the same way as selectors e.g.
-
-.one {
-		@media (width: 400px) {
-				font-size: 1.2em;
-				@media print and color {
-						color: blue;
-				}
-		}
-}
-Will output
-
-@media (width: 400px) {
-	.one {
-		font-size: 1.2em;
-	}
-}
-@media (width: 400px) and print and color {
-	.one {
-		color: blue;
-	}
-}
-Advanced Usage of &
-
-The & symbol can be used in selectors in order to reverse the ordering of the nesting and to multiply classes.
-
-For example:
-
-.child, .sibling {
-		.parent & {
-				color: black;
-		}
-		& + & {
-				color: red;
-		}
-}
-Will output
-
-.parent .child,
-.parent .sibling {
-		color: black;
-}
-.child + .child,
-.child + .sibling,
-.sibling + .child,
-.sibling + .sibling {
-		color: red;
-}
-You can also use & in mixins in order to reference nesting that is outside of your mixin.
-
-Operations
-
-Any number, color or variable can be operated on. Operations should be performed within parentheses. Here are a couple of examples:
-
-@base: 5%;
-@filler: (@base * 2);
-@other: (@base + @filler);
-
-color: (#888 / 4);
-background-color: (@base-color + #111);
-height: (100% / 2 + @filler);
-The output is pretty much what you expect—LESS understands the difference between colors and units. If a unit is used in an operation, like in:
-
-@var: (1px + 5);
-LESS will use that unit for the final output—6px in this case.
-
-Extra parentheses are also authorized in operations:
-
-width: ((@var + 5) * 2);
-Functions
-
-LESS provides a variety of functions which transform colors, manipulate strings and do maths. They are documented fully in the function reference.
-
-Using them is pretty straightforward. The following example uses percentage to convert 0.5 to 50%, increases the saturation of a base color by 5% and then sets the background color to one that is lightened by 25% and spun by 8 degrees:
-
-@base: #f04615;
-@width: 0.5;
-
-.class {
-	width: percentage(0.5); // returns `50%`
-	color: saturate(@base, 5%);
-	background-color: spin(lighten(@base, 25%), 8);
-}
-Namespaces
-
-Sometimes, you may want to group your variables or mixins, for organizational purposes, or just to offer some encapsulation. You can do this pretty intuitively in LESS—say you want to bundle some mixins and variables under #bundle, for later re-use, or for distributing:
-
-#bundle {
-	.button () {
-		display: block;
-		border: 1px solid black;
-		background-color: grey;
-		&:hover { background-color: white }
-	}
-	.tab { ... }
-	.citation { ... }
-}
-Now if we want to mixin the .button class in our #header a, we can do:
-
-#header a {
-	color: orange;
-	#bundle > .button;
-}
-Scope
-
-Scope in LESS is very similar to that of programming languages. Variables and mixins are first looked up locally, and if they aren’t found, the compiler will look in the parent scope, and so on.
-
-@var: red;
-
-#page {
-	@var: white;
-	#header {
-		color: @var; // white
-	}
-}
-
-#footer {
-	color: @var; // red
-}
-Comments
-
-CSS-style comments are preserved by LESS:
-
-/* Hello, I'm a CSS-style comment */
-.class { color: black }
-Single-line comments are also valid in LESS, but they are ‘silent’, they don’t show up in the compiled CSS output:
-
-// Hi, I'm a silent comment, I won't show up in your CSS
-.class { color: white }
-Importing
-
-You can import both CSS and LESS files. Only LESS files import statements are processed, CSS file import statements are kept as they are. If you want to import a CSS file, and don’t want LESS to process it, just use the .css extension:
-
-@import "lib.css";
-Compilation makes only one change to CSS file imports: top level CSS file imports are moved on top of the sheet, right after @charset declarations.
-
-Input file with import statement:
-
-h1 { color: green; }
-@import "import/official-branding.css?urlParameter=23";
-import statement has been moved on top:
-
-@import "import/official-branding.css?urlParameter=23";
-h1 { color: green; }
-Content of imported LESS file is copied into importing style sheet and compiled together with it. Importing and imported files share all mixins, namespaces, variables and other structures.
-
-In addition, if the import statement has media queries specified in it, imported content is enclosed in the @Media declaration.
-
-Imported “library.less”:
-
-@imported-color: red;
-h1 { color: green; }
-Main file imports the above library.less file:
-
-@import "library.less" screen and (max-width: 400px); // import with media queries
-@import "library.less"; // import without media queries
-
-.class {
-	color: @importedColor; // use imported variable
-}
-Compiled output:
-
-// Corresponds to import with media queries
-@media screen and (max-width: 400px) {
-	h1 { color: green; }
-}
-
-// Corresponds to import without media queries
-h1 { color: green; }
-.class {
-	// Use imported variable
-	color: #ff0000;
-}
-LESS file import statement does not have to be located on top of the style sheet. It can be placed also inside rulesets, mixins or other LESS structures.
-
-Import into ruleset:
-
-pre {
-	@import "library.less";
-	color: @importedColor;
-}
-both variable and ruleset defined in “library.less” have been copied into the pre ruleset:
-
-pre {
-	color: #ff0000; // variable defined in library.less was available
-}
-pre h1 { // ruleset defined in library.less was nested into 'pre' ruleset
-	color: green;
-}
-In v1.3.0 - v1.3.3 @import imports a file multiple times and you can override this behaviour with @import-once.
-
-In v1.4.0 @import-once has been removed and @import imports once by default. This means that with the following
-
-@import “file.less”; @import “file.less”;
-
-The second file is ignored.
-
-Any file that does not end with .css is considered less file and processed. In addition, if the file name has no extension or parameters, the “.less” suffix is added on the end. Both of these are equivalent:
-
-@import "lib.less";
-@import "lib";
-In v1.4.0 you can force a file to be interpreted as a particular type by specifying an option, e.g.
-
-@import (css) "lib";
-Will output..
-
-@import "lib";
-and
-
-@import (less) "lib.css";
-Will import the lib.css file and treat it as less. If you specify a file is less and do not include an extension, none will be added.
-
-String interpolation
-
-Variables can be embedded inside strings in a similar way to Ruby or PHP, with the @{name} construct:
-
-@base-url: "http://assets.fnord.com";
-background-image: url("@{base-url}/images/bg.png");
-Escaping
-
-Sometimes you might need to output a CSS value which is either not valid CSS syntax, or uses proprietary syntax which LESS doesn’t recognize.
-
-To output such value, we place it inside a string prefixed with ~, for example:
-
-.class {
-	filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";
-}
-This is called an “escaped value”, which will result in:
-
-.class {
-	filter: ms:alwaysHasItsOwnSyntax.For.Stuff();
-}
-Escaped values can use the interpolation exactly the same way as strings:
-
-.class {
-	@what: "Stuff";
-	filter: ~"ms:alwaysHasItsOwnSyntax.For.@{what}()";
-}
-Selector Interpolation
-
-If you want to use LESS variables inside selectors, you can do this by referencing the variable using @{selector} as in string interpolation. For example:
-
-@name: blocked;
-.@{name} {
-		color: black;
-}
-will output
-
-.blocked {
-		color: black;
-}
-Note: prior to LESS 1.3.1 a (~"@{name}") type of selector was supported. Support for this will be removed in 1.4.0.
-
-Media Queries as Variables
-
-If you want to use less variables inside media, you can do this using the usual variable variable referencing syntax @variable. For example:
-
-@singleQuery: ~"(max-width: 500px)";
-@media screen, @singleQuery {
-	set {
-		padding: 3 3 3 3;
-	}
-}
-compiles into:
-
-@media screen, (max-width: 500px) {
-	set {
-		padding: 3 3 3 3;
-	}
-}
-The variable must contain whole media query. This would cause an error: @media screen and @partial {.
-
-In 1.4.0, without strict maths off, you can also include variables in media values, e.g. @media screen, (max-width: @width) {.
-
-JavaScript evaluation
-
-JavaScript expressions can be evaluated as values inside .less files. We recommend using caution with this feature as the LESS will not be compilable by ports and it makes the LESS harder to maintain. If possible, try to think of a function that can be added to achieve the same purpose and ask for it on github. We have plans to allow expanding the default functions available. However, if you still want to use JavaScript in .less, this is done by wrapping the expression with back-ticks:
-
-@var: `"hello".toUpperCase() + '!'`;
-Becomes:
-
-@var: "HELLO!";
-Note that you may also use interpolation and escaping as with strings:
-
-@str: "hello";
-@var: ~`"@{str}".toUpperCase() + '!'`;
-Becomes:
-
-@var: HELLO!;
-It is also possible to access the JavaScript environment:
-
-@height: `document.body.clientHeight`;
-If you want to parse a JavaScript string as a hex color, you may use the color function:
-
-@color: color(`window.colors.baseColor`);
-@darkcolor: darken(@color, 10%);
+	@color: color(`window.colors.baseColor`);
+	@darkcolor: darken(@color, 10%);

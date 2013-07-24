@@ -1,90 +1,91 @@
 # 函数手册 - LESSCSS中国官网
 
-Index
+## 索引
 
-escape(@string);               // URL encodes a string
-e(@string);                    // escape string content
-%(@string, values...);         // formats a string
+- escape(@string);					// 通过 URL-encoding 编码字符串
+- e(@string);						// 对字符串转义
+- %(@string, values...);			// 格式化字符串
 
-unit(@dimension, [@unit: ""]); // remove or change the unit of a dimension
-color(@string);                // parses a string to a color
-data-uri([mimetype,] url);       // * inlines a resource and falls back to url()
+- unit(@dimension, [@unit: ""]);	// 移除或替换属性值的单位
+- color(@string);					// 将字符串解析为颜色值
+- data-uri([mimetype,] url);		// * 将资源内嵌到css中，可能回退到url()
 
-ceil(@number);                 // rounds up to an integer
-floor(@number);                // rounds down to an integer
-percentage(@number);           // converts to a %, e.g. 0.5 -> 50%
-round(number, [places: 0]);    // rounds a number to a number of places
-sqrt(number);                  // * calculates square root of a number
-abs(number);                   // * absolute value of a number
-sin(number);                   // * sine function
-asin(number);                  // * arcsine - inverse of sine function
-cos(number);                   // * cosine function
-acos(number);                  // * arccosine - inverse of cosine function
-tan(number);                   // * tangent function
-atan(number);                  // * arctangent - inverse of tangent function
-pi();                          // * returns pi
-pow(@base, @exponent);     // * first argument raised to the power of the second argument
-mod(number, number);       // * first argument modulus second argument
+- ceil(@number);					// 向上取整
+- floor(@number);					// 向下取整
+- percentage(@number);				// 将数字转换为百分比，例如 0.5 -> 50%
+- round(number, [places: 0]);		// 四舍五入取整
+- sqrt(number);						// * 计算数字的平方根
+- abs(number);						// * 数字的绝对值
+- sin(number);						// * sin函数
+- asin(number);						// * arcsin函数
+- cos(number);						// * cos函数
+- acos(number);						// * arccos函数
+- tan(number);						// * tan函数
+- atan(number);						// * arctan函数
+- pi();								// * 返回PI
+- pow(@base, @exponent);			// * 返回@base的@exponent次方
+- mod(number, number);				// * 第一个参数对第二个参数取余
 
-convert(number, units);    // * converts between number types
-unit(number, units);       // *changes number units without converting it
-color(string);             // converts string or escaped value into color
+- convert(number, units);			// * 在数字之间转换
+- unit(number, units);				// * 不转换的情况下替换数字的单位
+- color(string);					// 将字符串或者转义后的值转换成颜色
 
-rgb(@r, @g, @b);                             // converts to a color
-rgba(@r, @g, @b, @a);                        // converts to a color
-argb(@color);                                // creates a #AARRGGBB
-hsl(@hue, @saturation, @lightness);          // creates a color
-hsla(@hue, @saturation, @lightness, @alpha); // creates a color
-hsv(@hue, @saturation, @value);              // creates a color
-hsva(@hue, @saturation, @value, @alpha);     // creates a color
+- rgb(@r, @g, @b);								// 转换为颜色值
+- rgba(@r, @g, @b, @a);							// 转换为颜色值
+- argb(@color);									// 创建 #AARRGGBB 格式的颜色值
+- hsl(@hue, @saturation, @lightness);			// 创建颜色值
+- hsla(@hue, @saturation, @lightness, @alpha);	// 创建颜色值
+- hsv(@hue, @saturation, @value);				// 创建颜色值
+- hsva(@hue, @saturation, @value, @alpha);		// 创建颜色值
 
-hue(@color);           // returns the `hue` channel of @color in the HSL space
-saturation(@color);    // returns the `saturation` channel of @color in the HSL space
-lightness(@color);     // returns the 'lightness' channel of @color in the HSL space
-hsvhue(@color);        // * returns the `hue` channel of @color in the HSV space
-hsvsaturation(@color); // * returns the `saturation` channel of @color in the HSV space
-hsvvalue(@color);      // * returns the 'value' channel of @color in the HSV space
-red(@color);           // returns the 'red' channel of @color
-green(@color);         // returns the 'green' channel of @color
-blue(@color);          // returns the 'blue' channel of @color
-alpha(@color);         // returns the 'alpha' channel of @color
-luma(@color);          // returns the 'luma' value (perceptual brightness) of @color
+- hue(@color);						// 从颜色值中提取 `hue` 值（色相）
+- saturation(@color);				// 从颜色值中提取 `saturation` 值（饱和度）
+- lightness(@color);				// 从颜色值中提取 'lightness' 值（亮度）
+- hsvhue(@color);					// * 从颜色中提取 `hue` 值，以HSV色彩空间表示（色相）
+- hsvsaturation(@color);			// * 从颜色中提取 `saturation` 值，以HSV色彩空间表示（饱和度）
+- hsvvalue(@color);					// * 从颜色中提取 `value` 值，以HSV色彩空间表示（色调）
+- red(@color);						// 从颜色值中提取 'red' 值（红色）
+- green(@color);					// 从颜色值中提取 'green' 值（绿色）
+- blue(@color);						// 从颜色值中提取 'blue' 值（蓝色）
+- alpha(@color);					// 从颜色值中提取 'alpha' 值（透明度）
+- luma(@color);						// 从颜色值中提取 'luma' 值（亮度的百分比表示法）
 
-saturate(@color, 10%);                  // return a color 10% points *more* saturated
-desaturate(@color, 10%);                // return a color 10% points *less* saturated
-lighten(@color, 10%);                   // return a color 10% points *lighter*
-darken(@color, 10%);                    // return a color 10% points *darker*
-fadein(@color, 10%);                    // return a color 10% points *less* transparent
-fadeout(@color, 10%);                   // return a color 10% points *more* transparent
-fade(@color, 50%);                      // return @color with 50% transparency
-spin(@color, 10);                       // return a color with a 10 degree larger in hue
-mix(@color1, @color2, [@weight: 50%]);  // return a mix of @color1 and @color2
-greyscale(@color);                      // returns a grey, 100% desaturated color
-contrast(@color1, [@darkcolor: black], [@lightcolor: white], [@threshold: 43%]); 
-                                        // return @darkcolor if @color1 is > 43% luma
-                                        // otherwise return @lightcolor, see notes
+- saturate(@color, 10%);					// 饱和度增加 10%
+- desaturate(@color, 10%);					// 饱和度降低 10%
+- lighten(@color, 10%);						// 亮度增加 10%
+- darken(@color, 10%);						// 亮度降低 10%
+- fadein(@color, 10%);						// 透明度增加 10%
+- fadeout(@color, 10%);						// 透明度降低 10%
+- fade(@color, 50%);						// 设定透明度为 50%
+- spin(@color, 10);							// 色相值增加 10
+- mix(@color1, @color2, [@weight: 50%]);	// 混合两种颜色
+- greyscale(@color);						// 完全移除饱和度，输出灰色
+- contrast(@color1, [@darkcolor: black], [@lightcolor: white], [@threshold: 43%]); 
+											// 如果 @color1 的 luma 值 > 43% 输出 @darkcolor
+											// 否则输出 @lightcolor
 
-multiply(@color1, @color2);
-screen(@color1, @color2);
-overlay(@color1, @color2);
-softlight(@color1, @color2);
-hardlight(@color1, @color2);
-difference(@color1, @color2);
-exclusion(@color1, @color2);
-average(@color1, @color2);
-negation(@color1, @color2);
+- multiply(@color1, @color2);
+- screen(@color1, @color2);
+- overlay(@color1, @color2);
+- softlight(@color1, @color2);
+- hardlight(@color1, @color2);
+- difference(@color1, @color2);
+- exclusion(@color1, @color2);
+- average(@color1, @color2);
+- negation(@color1, @color2);
 
-iscolor(@colorOrAnything);              // returns true if passed a color, including keyword colors
-isnumber(@numberOrAnything);            // returns true if a number of any unit
-isstring(@stringOrAnything);            // returns true if it is passed a string
-iskeyword(@keywordOrAnything);          // returns true if it is passed keyword
-isurl(@urlOrAnything);                  // returns true if it is a string and a url
-ispixel(@pixelOrAnything);              // returns true if it is a number and a px
-ispercentage(@percentageOrAnything);    // returns true if it is a number and a %
-isem(@emOrAnything);                    // returns true if it is a number and an em
-isunit(@numberOrAnything, "rem");       // * returns if a parameter is a number and is in a particular unit
+- iscolor(@colorOrAnything);				// 判断一个值是否是颜色
+- isnumber(@numberOrAnything);				// 判断一个值是否是数字（可含单位）
+- isstring(@stringOrAnything);				// 判断一个值是否是字符串
+- iskeyword(@keywordOrAnything);			// 判断一个值是否是关键字
+- isurl(@urlOrAnything);					// 判断一个值是否是url
+- ispixel(@pixelOrAnything);				// 判断一个值是否是以px为单位的数值
+- ispercentage(@percentageOrAnything);		// 判断一个值是否是百分数
+- isem(@emOrAnything);						// 判断一个值是否是以em为单位的数值
+- isunit(@numberOrAnything, "rem");			// * 判断一个值是否是指定单位的数值
 
-// * These functions are only available in the 1.4.0 beta
+> 含*号的函数只在1.4.0 beta以上版本中可用
+
 String functions
 
 escape

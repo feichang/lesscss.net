@@ -99,65 +99,65 @@
 
 ## 1.3.1（2012-10-18）
 
-- Support for comment and @media debugging statements
-- bug fix for async access in chrome extensions
-- new functions tint, shade, multiply, screen, overlay, hardlight, difference, exclusion, average, negation, softlight, red, green, blue, - contrast
-- allow escaped characters in attributes
-- in selectors support @{a} directly, e.g. .a.@{a} { color: black; }
-- add fraction parameter to round function
-- much better support for & selector
-- preserve order of link statements client side
-- lessc has better help
-- rhino version fixed
-- fix bugs in clientside error handling
-- support dpi, vmin, vm, dppx, dpcm units
-- Fix ratios in media statements
-- in mixin guards allow comparing colors and strings
-- support for -*-keyframes (for -khtml but now supports any)
-- in mix function, default weight to 50%
-- support @import-once
-- remove duplicate rules in output
-- implement named parameters when calling mixins
-- many numerous bug fixes
+- 支持注释方式和`@media`方式的调试语句
+- 修复在chrome插件中异步调用的bug
+- 新函数`tint`、`shade`、`multiply`、`screen`、`overlay`、`hardlight`、`difference`、`exclusion`、`average`、`negation`、`softlight`、`red`、`green`、`blue`、`contrast`
+- 允许在属性名中“避免编译”
+- 允许在选择器中直接使用`@{a}`，如`.a.@{a} { color: black; }`
+- `round`函数直接小数参数
+- 对`& selector`提供更好支持
+- 客户端使用时保持`link`语句的顺序
+- lessc帮助更友好
+- rhino版本修复
+- 修复客户端错误处理的bug
+- 支持`dpi`、`vmin`、`vm`、`dppx`、`dpcm`单位
+- 修复media query中的`ratio`
+- 允许在混合的guards表达式中比较颜色和字符串
+- 支持`-*-keyframes`（为`-khtml`而生，但现在支持任何前缀）
+- 在混合中，`weight`默认值设为`50%`
+- 支持`@import-once`
+- 输出时移除重复的规则
+- 在调用混合时支持命名参数
+- 很多bug修复
 
 ## 1.3.0（2012-03-10）
 
-- @media bubbling
-- Support arbitrary entities as selectors
-- Variadic argument support
-- Behaviour of zero-arity mixins has changed
-- Allow @import directives in any selector
-- Media-query features can now be a variable
-- Automatic merging of media-query conditions
-- Fix global variable leaks
-- Fix error message on wrong-arity call
-- Fix an @arguments behaviour bug
-- Fix :: selector output
-- Fix a bug when using @media with mixins
+- 支持`@media`代码段
+- 支持在选择器中使用任何实体（entities）
+- 支持可变参数
+- 无参数混合和行为有改变
+- 允许在任何选择器中使用`@import`
+- media query的查询条件可以是变量
+- 自然合并media query的条件
+- 修复全局变量泄露
+- 修复参数不对的情况下调用时的错误提示
+- 修复一个`@arguments`参数相关的bug
+- 修复`:: selector`的输出
+- 修复在混合中使用`@media`的一个bug
 
 ## 1.2.1（2012-01-15）
 
-- Fix imports in browser
-- Improve error reporting in browser
-- Fix Runtime error reports from imported files
-- Fix File not found import error reporting
+- 修复浏览器中的导入功能
+- 改进浏览器中的错误报告
+- 修复导入文件中运行时错误报告
+- 修复导入时文件没找到的错误报告
 
-1.2.0（2012-01-07）
+## 1.2.0（2012-01-07）
 
-- Mixin guards
-- New function percentage
-- New color function to parse hex color strings
-- New type-checking stylesheet functions
-- Fix Rhino support
-- Fix bug in string arguments to mixin call
-- Fix error reporting when index is 0
-- Fix browser support in WebKit and IE
-- Fix string interpolation bug when var is empty
-- Support !important after mixin calls
-- Support vanilla @keyframes directive
-- Support variables in certain css selectors, like nth-child
-- Support @media and @import features properly
-- Improve @import support with media features
-- Improve error reports from imported files
-- Improve function call error reporting
-- Improve error-reporting
+- 支持混合的guards表达式
+- `percentage`函数
+- 新的解析十六进制颜色值字符串的函数
+- 新的样式类型检查函数
+- 修复对rhino的支持
+- 修复调用混合时的字符串参数bug
+- 修复当`index`为`0`时的错误报告
+- 修复在Webkit和IE浏览器中支持
+- 修复变量为空时的字符串插值bug
+- 支持在混合调用时加上`!important`
+- 支持`@keyframes`
+- 支持在特写的选择器中使用变量，如`nth-child`
+- 正确地支持`@media`和`@import`特性
+- 改进使用media query指定的`@import`的支持
+- 改进导入文件中产生的错误的报告
+- 改进函数调用错误报告
+- 改进错误报告

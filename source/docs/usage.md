@@ -1,111 +1,129 @@
-Client-side is the easiest way to get started and good for developing your LESS. For production and especially if performance is important, we recommend pre-compiling using node or one of the many third party tools.
+# 客户端（浏览器端）使用说明
 
-Link your .less stylesheets with the rel set to “stylesheet/less”:
+## 基本使用方式
 
-<link rel="stylesheet/less" type="text/css" href="styles.less" />
-Then download less.js from the top of the page, and include it in the <head> element of your page, like so:
+浏览器端使用是在使用LESS开发时最直观的一种方式。如果是在生产环境中，尤其是对性能要求比较高的场合，建议使用node或者其它第三方工具先编译成CSS再上线使用。
 
-<script src="less.js" type="text/javascript"></script>
-Make sure you include your stylesheets before the script.
+浏览器端使用方法：
 
-You can set options by setting things on a global LESS object before the script. E.g.
+1. 使用`link`引入.less文件，注意将`rel`设为`stylesheet/less`:
 
-<script type="text/javascript">
-	less = {
-		env: "development", // or "production"
-		async: false,       // load imports async
-		fileAsync: false,   // load imports async when in a page under
-							// a file protocol
-		poll: 1000,         // when in watch mode, time in ms between polls
-		functions: {},      // user functions, keyed by name
-		dumpLineNumbers: "comments", // or "mediaQuery" or "all"
-		relativeUrls: false,// whether to adjust url's to be relative
-							// if false, url's are already relative to the
-							// entry less file
-		rootpath: ":/a.com/"// a path to add on to the start of every url
-							//resource
-	};
-</script>
-<script src="less.js" type="text/javascript"></script>
-Watch mode
+		<link rel="stylesheet/less" type="text/css" href="styles.less" />
+2. 在本站下载less.js，将它引入页面的`<head>`元素中，像这样：
 
-Watch mode is a client-side feature which enables your styles to refresh automatically as they are changed.
+		<script src="less.js" type="text/javascript"></script>
+		
+需要注意.less文件要在脚本文件之前引入。
 
-To enable it, append ‘#!watch’ to the browser URL, then refresh the page. Alternatively, you can run less.watch() from the console.
+### 特别注意
 
-Modify variables
+1. 由于less.js会通过ajax拉取.less文件，故**必须在http(s)协议下使用**，即直接双击打开是无法生效的
+2. 由于less.js会通过ajax拉取.less文件，故**.less文件不可以跨域使用**，否则会无法生效（当然，可以通过在服务端设置CORS来解决）
+3. 由于.less对于IIS来说是一个陌生的后缀，高版本IIS会阻止访问，返回404，解决方案是**为.less文件添加MIME为`text/css`**，或者更简单，改后缀为.css即可
 
-modifyVars enables modification of LESS variables in run-time. When called with new values, the LESS file is recompiled without reloading. Simple basic usage:
+## 高级设置
 
-less.modifyVars({
-	'@buttonFace': '#5B83AD',
-	'@buttonText': '#D9EEF2'
-});
-Debugging
+你可以引入less.js之前通过创建一个全局`less`对象的方式来指定参数，例如：
 
-It is possible to output rules in your CSS which allow tools to locate the source of the rule.
+	<script type="text/javascript">
+		less = {
+			env: "development", // 或者"production"
+			async: false,       // 异步加载导入的文件
+			fileAsync: false,   // 使用文件协议访问页面时异步加载导入的文件
+			poll: 1000,         // 在监视模式下，每两次请求之间的时间间隔（ms）
+			functions: {},      // user functions, keyed by name
+			dumpLineNumbers: "comments", // 或者"mediaQuery"，或者"all"
+			relativeUrls: false,// 是否调整相对路径
+								// 如果为false，则url已经是相对入口less文件的
+								// entry less file
+			rootpath: ":/a.com/"// 添加到每个url开始处的路径
+		};
+	</script>
+	<script src="less.js" type="text/javascript"></script>
 
-Either specify the option dumpLineNumbers as above or add !dumpLineNumbers:mediaQuery to the url.
+## 监视模式
 
-You can use the “comments” option with FireLESS and the “mediaQuery” option with FireBug/Chrome dev tools (it is identical to the SCSS media query debugging format).
+监视模式是一种在客户端（浏览器）使用时的特性，它会在样式文件有更新时自动刷新页面。
 
-Server-side usage
+在URL中加入`#!watch`并刷新页面即可开启监视模式。你也可以通过在console中运行`less.watch()`来开启监视模式。
 
-Installation
+## 修改变量
 
-The easiest way to install LESS on the server, is via npm, the node package manager, as so:
+使用`modifyVars`可以在运行时修改LESS变量。当用新的变量值调用了这个函数时，LESS文件将会被重新编译，但不会被重新加载。一个基本的用法示例：
 
-$ npm install -g less
-Command-line usage
+	less.modifyVars({
+		'@buttonFace': '#5B83AD',
+		'@buttonText': '#D9EEF2'
+	});
 
-Once installed, you can invoke the compiler from the command-line, as such:
+## 调试
 
-$ lessc styles.less
-This will output the compiled CSS to stdout, you may then redirect it to a file of your choice:
+我们在生成的CSS中带上一些额外的信息，以便一些调试工具可以定位到LESS文件中的行数。
 
-$ lessc styles.less > styles.css
-To output minified CSS, simply pass the -x option. If you would like more involved minification, the YUI CSS Compressor is also available with the --yui-compress option.
+可以通过`dumpLineNumbers`选项或者在url中添加`!dumpLineNumbers:mediaQuery`来开启这个功能。
 
-To see all the command line options run lessc without parameters.
+你可以选择“注释”方式，使用FireLESS来调，或者选择“mediaQuery”方式，使用FireBug/Chrome开发者工具（被识别为SCSS media query调试格式）来调试。
 
-Usage in Code
+## Node.js
 
-You can invoke the compiler from node, as such:
+### 安装
 
-var less = require('less');
+在Node.js中安装LESS最简单的方式就是使用Node包管理工具npm来安装：
 
-less.render('.class { width: (1 + 1) }', function (e, css) {
-	console.log(css);
-});
-which will output
+	npm install -g less
 
-.class {
-	width: 2;
-}
-you may also manually invoke the parser and compiler:
+如果你使用Mac或者Linux，可能需要使用管理员身份安装：
 
-var parser = new(less.Parser);
+	sudo npm install -g less
 
-parser.parse('.class { width: (1 + 1) }', function (err, tree) {
-	if (err) { return console.error(err) }
-	console.log(tree.toCSS());
-});
-Configuration
+### 在命令行中使用
 
-You may pass some options to the compiler:
+一旦安装完成，就可以在命令行中调用，例如：
 
-var parser = new(less.Parser)({
-	paths: ['.', './lib'], // Specify search paths for @import directives
-	filename: 'style.less' // Specify a filename, for better error messages
-});
+	lessc styles.less
 
-parser.parse('.class { width: (1 + 1) }', function (e, tree) {
-	tree.toCSS({ compress: true }); // Minify CSS output
-});
-Third Party Tools
+这样的话编译后的CSS将会输出到stdout中，你可以选择将这个输出重定向到文件中：
 
-There are a selection of tools available to run in your particular environment and these are documented in the Github wiki.
+	lessc styles.less > styles.css
 
-Command Line Tools
+如果你想输出一个压缩后的CSS，只要加到`-x`选项即可。如果你想要更NB的压缩，你也可以选择使用YUI CSS压缩器，只要加上`--yui-compress`选项即可。
 
-GUI Tools
+直接运行lessc，不带任何参数将可以看到所有的命令行参数。
+
+## 在代码中使用
+
+你可以在Node中调用编译器，例如：
+
+	var less = require('less');
+
+	less.render('.class { width: (1 + 1) }', function (e, css) {
+		console.log(css);
+	});
+
+将会输出
+
+	.class {
+		width: 2;
+	}
+
+你也可以手工调用解析器和编译器：
+
+	var parser = new(less.Parser);
+
+	parser.parse('.class { width: (1 + 1) }', function (err, tree) {
+		if (err) { return console.error(err) }
+		console.log(tree.toCSS());
+	});
+
+### 设置
+
+你可以给编译器传入一些参数：
+
+	var parser = new(less.Parser)({
+		paths: ['.', './lib'], // 指定@import搜索的目录
+		filename: 'style.less' // 为了更好地输出错误信息，可以指定一个文件名
+	});
+
+	parser.parse('.class { width: (1 + 1) }', function (e, tree) {
+		tree.toCSS({ compress: true }); // 压缩输出的CSS
+	});

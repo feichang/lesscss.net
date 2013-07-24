@@ -64,100 +64,100 @@
 
 ## 1.3.2（2012-12-28）
 
-browser and server url re-writing is now aligned to not re-write (previous lessc behaviour)
-url-rewriting can be made to re-write to be relative to the entry file using the relative-urls option (less.relativeUrls option)
-rootpath option can be used to add a base path to every url
-Support mixin argument seperator of ';' so you can pass comma seperated values. e.g. .mixin(23px, 12px;);
-Fix lots of problems with named arguments in corner cases, not behaving as expected
-hsv, hsva, unit functions
-fixed lots more bad error messages
-fix @import-once to use the full path, not the relative one for determining if an import has been imported already
-support :not(:nth-child(3))
-mixin guards take units into account
-support unicode descriptors (U+00A1-00A9)
-support calling mixins with a stack when using & (broken in 1.3.1)
-support @namespace and namespace combinators
-when using % with colour functions, take into account a colour is out of 256
-when doing maths with a % do not divide by 100 and keep the unit
-allow url to contain % (e.g. %20 for a space)
-if a mixin guard stops execution a default mixin is not required
-units are output in strings (use the unit function if you need to get the value without unit)
-do not infinite recurse when mixins call mixins of the same name
-fix issue on important on mixin calls
-fix issue with multiple comments being confused
-tolerate multiple semi-colons on rules
-ignore subsequant @charset
-syncImport option for node.js to read files syncronously
-write the output directory if it is missing
-change dependency on cssmin to ycssmin
-lessc can load files over http
-allow calling less.watch() in non dev mode
-don't cache in dev mode
-less files cope with query parameters better
-sass debug statements are now chrome compatible
-modifyVars function added to re-render with different root variables
-1.3.1
-2012-10-18
+- 浏览器和服务端都不再重写（re-write）url路径（之前是lessc的行为）
+- 可以通过`relative-urls`（`less.relativeUrls`）选项来使得url路径相对入口文件
+- 可以使用`rootpath`选项来给url路径添加一个base路径
+- 支持使用分号分隔参数，这样可以传递使用逗号分隔的值，如`mixin(23px,12px;);`
+- 修复了很多极端情况下参数名处理上的问题
+- `hsv`、`hsva`、`unit`函数
+- 修复了很多不正确的报错信息
+- 修复`@import-once`的工作方式，现在使用全路径来判断是否重复引入，而不是通过相对路径
+- 支持`:not(:nth-child(3))`
+- 混合中的guards表达式会考虑单位
+- 支持unicode描述(U+00A1-00A9)
+- 支持通过`&`使用带栈（stack）的混合调用方式（1.3.1中失效了）
+- 支持`@namespace`和命名空间联合
+- 在颜色函数中使用`%`时，考虑颜色超过256的情况
+- 与带`%`的值运算时不除以100，并保持原来的单位
+- 允许URL包含`%`（如`%20`表示空格）
+- 当含有guards表达式的混合不匹配时不再强制要求一个默认的混合
+- 使用字符串输出单位（如果你需要获取不带单位的值，请使用`unit`函数）
+- 当混合调用与自己同名的混合时不再死循环
+- 修复带`!important`调用混合时的bug
+- 修复处理多个注释的bug
+- 在规则中允许存在多个分号
+- 忽略跟在`@charset`后的东西
+- `syncImport`选项会使node.js使用同步方式读取文件
+- 如果输出目录不存在会自动建立
+- 将依赖的cssmin换成了ycssmin
+- lessc可以http加载文件
+- 允许在非开发模式中调用`less.watch()`
+- 在开发模式下不缓存
+- 可以更好地处理后面带有查询参数（如时间戳）的less文件
+- sass调试语句现在与chrome兼容
+- 可使用`modifyVars`函数来改变全局变量并重新渲染
 
-Support for comment and @media debugging statements
-bug fix for async access in chrome extensions
-new functions tint, shade, multiply, screen, overlay, hardlight, difference, exclusion, average, negation, softlight, red, green, blue, contrast
-allow escaped characters in attributes
-in selectors support @{a} directly, e.g. .a.@{a} { color: black; }
-add fraction parameter to round function
-much better support for & selector
-preserve order of link statements client side
-lessc has better help
-rhino version fixed
-fix bugs in clientside error handling
-support dpi, vmin, vm, dppx, dpcm units
-Fix ratios in media statements
-in mixin guards allow comparing colors and strings
-support for -*-keyframes (for -khtml but now supports any)
-in mix function, default weight to 50%
-support @import-once
-remove duplicate rules in output
-implement named parameters when calling mixins
-many numerous bug fixes
-1.3.0
-2012-03-10
+## 1.3.1（2012-10-18）
 
-@media bubbling
-Support arbitrary entities as selectors
-Variadic argument support
-Behaviour of zero-arity mixins has changed
-Allow @import directives in any selector
-Media-query features can now be a variable
-Automatic merging of media-query conditions
-Fix global variable leaks
-Fix error message on wrong-arity call
-Fix an @arguments behaviour bug
-Fix :: selector output
-Fix a bug when using @media with mixins
-1.2.1
-2012-01-15
+- Support for comment and @media debugging statements
+- bug fix for async access in chrome extensions
+- new functions tint, shade, multiply, screen, overlay, hardlight, difference, exclusion, average, negation, softlight, red, green, blue, - contrast
+- allow escaped characters in attributes
+- in selectors support @{a} directly, e.g. .a.@{a} { color: black; }
+- add fraction parameter to round function
+- much better support for & selector
+- preserve order of link statements client side
+- lessc has better help
+- rhino version fixed
+- fix bugs in clientside error handling
+- support dpi, vmin, vm, dppx, dpcm units
+- Fix ratios in media statements
+- in mixin guards allow comparing colors and strings
+- support for -*-keyframes (for -khtml but now supports any)
+- in mix function, default weight to 50%
+- support @import-once
+- remove duplicate rules in output
+- implement named parameters when calling mixins
+- many numerous bug fixes
 
-Fix imports in browser
-Improve error reporting in browser
-Fix Runtime error reports from imported files
-Fix File not found import error reporting
-1.2.0
-2012-01-07
+## 1.3.0（2012-03-10）
 
-Mixin guards
-New function percentage
-New color function to parse hex color strings
-New type-checking stylesheet functions
-Fix Rhino support
-Fix bug in string arguments to mixin call
-Fix error reporting when index is 0
-Fix browser support in WebKit and IE
-Fix string interpolation bug when var is empty
-Support !important after mixin calls
-Support vanilla @keyframes directive
-Support variables in certain css selectors, like nth-child
-Support @media and @import features properly
-Improve @import support with media features
-Improve error reports from imported files
-Improve function call error reporting
-Improve error-reporting
+- @media bubbling
+- Support arbitrary entities as selectors
+- Variadic argument support
+- Behaviour of zero-arity mixins has changed
+- Allow @import directives in any selector
+- Media-query features can now be a variable
+- Automatic merging of media-query conditions
+- Fix global variable leaks
+- Fix error message on wrong-arity call
+- Fix an @arguments behaviour bug
+- Fix :: selector output
+- Fix a bug when using @media with mixins
+
+## 1.2.1（2012-01-15）
+
+- Fix imports in browser
+- Improve error reporting in browser
+- Fix Runtime error reports from imported files
+- Fix File not found import error reporting
+
+1.2.0（2012-01-07）
+
+- Mixin guards
+- New function percentage
+- New color function to parse hex color strings
+- New type-checking stylesheet functions
+- Fix Rhino support
+- Fix bug in string arguments to mixin call
+- Fix error reporting when index is 0
+- Fix browser support in WebKit and IE
+- Fix string interpolation bug when var is empty
+- Support !important after mixin calls
+- Support vanilla @keyframes directive
+- Support variables in certain css selectors, like nth-child
+- Support @media and @import features properly
+- Improve @import support with media features
+- Improve error reports from imported files
+- Improve function call error reporting
+- Improve error-reporting

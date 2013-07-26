@@ -163,42 +163,79 @@
 - 使用`s`格式化：`"repetitions: 3 file: directory/file.less";`
 - 使用大写`s`格式化：`"repetitions: 3 file: directory%2Ffile.less";`
 
-综合类函数 (Misc functions)
+### 综合类函数 (Misc functions)
 
-color(@string)
+#### color(@string)
 
 解析颜色，将代表颜色的字符串转换为颜色值。
 
 参数:
 
-@string: 字符串 (A string of the color.)
+- @字符串：代表颜色值的字符串
+
 例如：
 
-color("#aaa");
+	color("#aaa");
+
 输出：
 
-#aaa
-unit(@dimension, [@unit: ""])
+	#aaa
 
-移除或替换属性值 (dimension) 的单位。（注：A dimension is a number immediately followed by a unit identifier.）
+#### unit
+
+移除或替换属性值 (dimension) 的单位。
 
 参数:
 
-@dimension: 数字，带或不带单位 (A number, with or without a dimension.)
-@unit: 可选：将要替换成的单位，如果省略则移除原单位
+- @dimension: 数字，带或不带单位 
+- @unit: 可选，将要替换成的单位，如果省略则移除原单位
+
 例如：
 
-unit(5, px)
+	unit(5, px)
+
 输出：
 
-5px
+	5px
+
 例如：
 
-unit(5em)
+	unit(5em)
+
 输出：
 
-5
-算数函数 (Math functions)
+	5
+
+#### data-uri
+
+将一个资源使用BASE64编码嵌入到样式文件，如果开启了`ieCompat`选项，而且资源文件的体积过大或者是在浏览器中使用，则会使用`url()`进行回退。如果没有指定MIME，则Node.js会使用MIME包来决定正确的MIME。
+
+参数：
+
+- mimetype: MIME字符串，可选参数
+- url: 需要内嵌的文件的url
+
+例如：
+
+	data-uri('../data/image.jpg');
+
+输出：
+
+	url('data:image/jpeg;base64,bm90IGFjdHVhbGx5IGEganBlZyBmaWxlCg==');
+
+在浏览器中会输出：
+
+	url('../data/image.jpg');
+
+例如：
+
+	data-uri('image/jpeg;base64', '../data/image.jpg');
+
+会输出：
+
+	url('data:image/jpeg;base64,bm90IGFjdHVhbGx5IGEganBlZyBmaWxlCg==');
+
+### 算数函数 (Math functions)
 
 ceil(@number)
 
@@ -1078,64 +1115,8 @@ Color 1 Color 2 Color 3
 
 
 
-Misc functions
 
-color
 
-Parses a color, so a string representing a color becomes a color.
-
-Parameters:
-
-string: A string of the color
-Example:
-
-color("#aaa");
-Output:
-
-#aaa
-unit
-
-Remove or change the unit of a dimension
-
-Parameters:
-
-dimension: A number, with or without a dimension
-unit: Optional: the unit to change to, or if omitted it will remove the unit
-Example:
-
-unit(5, px)
-Output:
-
-5px
-Example:
-
-unit(5em)
-Output:
-
-5
-data-uri
-
-Inlines a resource and falls back to url() if the ieCompat option is on and the resource is too large, or if you use the function in the browser. If the mime is not given then node uses the mime package to determine the correct mime type.
-
-Parameters:
-
-mimetype: A mime type string. Optional.
-url: The URL of the file to inline.
-Example:
-
-data-uri('../data/image.jpg');
-Output:
-
-url('data:image/jpeg;base64,bm90IGFjdHVhbGx5IGEganBlZyBmaWxlCg==');
-Output in the browser:
-
-url('../data/image.jpg');
-Example:
-
-data-uri('image/jpeg;base64', '../data/image.jpg');
-Output:
-
-url('data:image/jpeg;base64,bm90IGFjdHVhbGx5IGEganBlZyBmaWxlCg==');
 Math functions
 
 ceil

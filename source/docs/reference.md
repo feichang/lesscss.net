@@ -237,74 +237,87 @@
 
 ### 算数函数 (Math functions)
 
-ceil(@number)
+#### ceil
 
 向上取整。
 
-参数:
+参数：
 
-@number: 浮点数 (A floating point number.)
-返回值：整数 (integer)
+- 数字：浮点数
+
+返回值：向上取整后的整数
 
 例如：
 
-ceil(2.4)
+	ceil(2.4)
+
 输出：
 
-3
-floor(@number)
+	3
+
+#### floor
 
 向下取整。
 
-参数:
+参数：
 
-@number: 浮点数 (A floating point number.)
-返回值：整数 (integer)
-
-例如：
-
-floor(2.6)
-输出：
-
-2
-percentage(@number)
-
-将浮点数 (A floating point number) 转换为百分比字符串 (percentage string)。
-
-参数:
-
-@number: 浮点数 (A floating point number.)
-返回值：字符串 (string)
+- 数字：浮点数
+- 返回值：向下取整后的整数
 
 例如：
 
-percentage(0.5)
+	floor(2.6)
+
 输出：
 
-50%
-round(number, [places: 0])
+	2
+
+#### percentage
+
+将浮点数转换为百分比字符串。
+
+参数:
+
+- 数字：浮点数
+
+返回值：字符串
+
+例如：
+
+	percentage(0.5)
+
+输出：
+
+	50%
+
+#### round(number, [places: 0])
 
 四舍五入取整。
 
 参数:
 
-@number: 浮点数 (A floating point number.)
-@decimalPlaces: 可选：四舍五入取整的小数点位置，默认值 0。
+- 数字：浮点数
+- 小数位数：数字，可选，四舍五入取整的小数点位置，默认值为0。
+
 返回值：数字 (number)
 
 例如：
 
-round(1.67)
+	round(1.67)
+
 输出：
 
-2
+	2
+
 例如：
 
-round(1.67, 1)
+	round(1.67, 1)
+
 输出：
 
-1.7
-颜色函数 (Color functions)
+	1.7
+
+### 颜色函数 (Color functions)
 
 颜色解释 (Color definition)
 
@@ -1116,55 +1129,6 @@ Color 1 Color 2 Color 3
 
 
 
-
-Math functions
-
-ceil
-
-Rounds up to the next highest integer.
-
-Parameters:
-
-number: A floating point number.
-Returns: integer
-
-Example:
-
-ceil(2.4)
-Output:
-
-3
-floor
-
-Rounds down to the next lowest integer.
-
-Parameters:
-
-number: A floating point number.
-Returns: integer
-
-Example:
-
-floor(2.6)
-Output:
-
-2
-percentage
-
-Converts a floating point number into a percentage string.
-
-Parameters:
-
-number: A floating point number.
-Returns: string
-
-Example:
-
-percentage(0.5)
-Output:
-
-50%
-round
 
 Applies rounding.
 

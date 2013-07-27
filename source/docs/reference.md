@@ -1209,740 +1209,99 @@
 
 颜色混合的方式与图像编辑器 Photoshop, Firework 或者 GIMP 的图层混合模式 (layer blending modes) 相似，因此制作 .psd 文件时处理颜色的方法可以同样用在 CSS 中。
 
-multiply(@color1, @color2)
+#### multiply(@color1, @color2)
 
-分别将两种颜色的红绿蓝 (RGB) 三种值做乘法运算，然后再除以 255，输出结果是更深的颜色。
-
-参数:
-
-@color1: 颜色对象 (A color object to multiply against.)
-@color2: 颜色对象 (A color object to multiply against.)
-返回值：颜色 (color)
-
-例如：
-
-multiply(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-screen(@color1, @color2)
-
-与 multiply() 函数效果相反，输出结果是更亮的颜色。
+分别将两种颜色的红绿蓝 (RGB) 三种值做乘法运算，然后再除以 255，输出结果是更深的颜色。（译注：对应Photoshop中的“变暗/正片叠底”。）
 
 参数:
 
-@color1: 颜色对象 (A color object to screen against.)
-@color2: 颜色对象 (A color object to screen against.)
+- @color1: 颜色对象
+- @color2: 颜色对象
+
 返回值：颜色 (color)
 
-例如：
+#### screen(@color1, @color2)
 
-screen(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-overlay(@color1, @color2)
-
-结合 multiply() 与 screen() 两个函数的效果，令浅的颜色变得更浅，深的颜色变得更深。注意：输出结果由第一个颜色参数决定。
+与 multiply() 函数效果相反，输出结果是更亮的颜色。（译注：对应Photoshop中的“变亮/滤色”。）
 
 参数:
 
-@color1: 颜色对象 (A color object to overlay another. Also it is the determinant color to make the result lighter or darker.)
-@color2: 颜色对象 (A color object to be overlayed.)
+- @color1: 颜色对象
+- @color2: 颜色对象
+
 返回值：颜色 (color)
 
-例如：
+#### overlay(@color1, @color2)
 
-overlay(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-softlight(@color1, @color2)
-
-与 overlay() 函数效果相似，只是当纯黑色或纯白色作为参数时输出结果不会是纯黑色或纯白色。
+结合 multiply() 与 screen() 两个函数的效果，令浅的颜色变得更浅，深的颜色变得更深。（译注：对应Photoshop中的“叠加”。）注意：输出结果由第一个颜色参数决定。
 
 参数:
 
-@color1: 颜色对象 (A color object to soft light another.)
-@color2: 颜色对象 (A color object to be soft lighten.)
+- @color1: 颜色对象，是用于叠加的颜色，也是结果是更亮还是更暗的决定因素。
+@color2: 颜色对象，被叠加的颜色
+
 返回值：颜色 (color)
 
-例如：
+#### softlight(@color1, @color2)
 
-softlight(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-hardlight(@color1, @color2)
-
-与 overlay() 函数效果相似，不过由第二个颜色参数决定输出颜色的亮度或黑度，而不是第一个颜色参数决定。
+与 overlay() 函数效果相似，只是当纯黑色或纯白色作为参数时输出结果不会是纯黑色或纯白色。（译注：对应Photoshop中的“柔光”。）
 
 参数:
 
-@color1: 颜色对象 (A color object to overlay another.)
-@color2: 颜色对象 (A color object to be overlayed. Also it is the determinant color to make the result lighter or darker.)
+- @color1: 混合色（光源）
+- @color2: 被混合的颜色
+
 返回值：颜色 (color)
 
-例如：
+#### hardlight(@color1, @color2)
 
-hardlight(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-difference(@color1, @color2)
-
-从第一个颜色值中减去第二个（分别计算 RGB 三种颜色值），输出结果是更深的颜色。
+与 overlay() 函数效果相似，不过由第二个颜色参数决定输出颜色的亮度或黑度，而不是第一个颜色参数决定。（译注：对应Photoshop中的“强光/亮光/线性光/点光”。）
 
 参数:
 
-@color1: 颜色对象 (A color object to act as the minuend.)
-@color2: 颜色对象 (A color object to act as the subtrahend.)
+- @color1: 混合色（光源）
+- @color2: 被混合的颜色
+
 返回值：颜色 (color)
 
-例如：
+#### difference(@color1, @color2)
 
-difference(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-exclusion(@color1, @color2)
-
-效果与 difference() 函数效果相似，只是输出结果差别更小 (lower contrast)。
+从第一个颜色值中减去第二个（分别计算 RGB 三种颜色值），输出结果是更深的颜色。（译注：对应Photoshop中的“差值/排除”。）
 
 参数:
 
-@color1: 颜色对象 (A color object to act as the minuend.)
-@color2: 颜色对象 (A color object to act as the subtrahend.)
+- @color1: 被减的颜色对象
+- @color2: 减去的颜色对象
+
 返回值：颜色 (color)
 
-例如：
+#### exclusion(@color1, @color2)
 
-exclusion(#ff6600, #000000);
-Color 1 Color 2 Color 3
+效果与 difference() 函数效果相似，只是输出结果差别更小 (lower contrast)。（译注：对应Photoshop中的“差值/排除”。）
 
-exclusion(#ff6600, #333333);
-Color 1 Color 2 Color 3
+参数:
 
-exclusion(#ff6600, #666666);
-Color 1 Color 2 Color 3
+- @color1: 被减的颜色对象
+- @color2: 减去的颜色对象
 
-exclusion(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-average(@color1, @color2)
+#### average(@color1, @color2)
 
 分别对 RGB 的三种颜色值取平均值，然后输出结果。
 
 参数:
 
-@color1: 颜色对象 (A color object.)
-@color2: 颜色对象 (A color object.)
+- @color1: 颜色对象 (A color object.)
+- @color2: 颜色对象 (A color object.)
+
 返回值：颜色 (color)
 
-例如：
+#### negation(@color1, @color2)
 
-average(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-negation(@color1, @color2)
-
-与 difference() 函数效果相反，输出结果是更亮的颜色。请注意：效果相反不代表做加法运算。
+与 `difference()` 函数效果相反，输出结果是更亮的颜色。请注意：效果相反不代表做加法运算。
 
 参数:
 
-@color1: 颜色对象 (A color object to act as the minuend.)
-@color2: 颜色对象 (A color object to act as the subtrahend.)
+- @color1: 被减的颜色对象
+- @color2: 减去的颜色对象
+
 返回值：颜色 (color)
-
-例如：
-
-negation(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-
-
-
-
-contrast
-
-Choose which of two colors provides the greatest contrast with another. This is useful for ensuring that a color is readable against a background, which is also useful for accessibility compliance. This function works the same way as the contrast function in Compass for SASS. In accordance with WCAG 2.0, colors are compared using their luma value, not their lightness.
-
-The light and dark parameters can be supplied in either order - the function will calculate their luma values and assign light and dark appropriately.
-
-Parameters:
-
-color: A color object to compare against.
-dark: optional - A designated dark color (defaults to black).
-light: optional - A designated light color (defaults to white).
-threshold: optional - A percentage 0-100% specifying where the transition from “dark” to “light” is (defaults to 43%). This is used to bias the contrast one way or another, for example to allow you to decide whether a 50% grey background should result in black or white text. You would generally set this lower for ‘lighter’ palettes, higher for ‘darker’ ones. Defaults to 43%.
-Returns: color
-
-Example:
-
-contrast(#aaaaaa)
-contrast(#222222, #101010)
-contrast(#222222, #101010, #dddddd)
-contrast(hsl(90, 100%, 50%),#000000,#ffffff,40%);
-contrast(hsl(90, 100%, 50%),#000000,#ffffff,60%);
-Output:
-
-#000000 // black
-#ffffff // white
-#dddddd
-#000000 // black
-#ffffff // white
-Color blending
-
-These operations are similar as the blend modes found in image editors like Photoshop, Firework or GIMP, so you can use them to make your CSS colors match your images.
-
-multiply
-
-Multiply two colors. For each two colors their RGB channel are multiplied then divided by 255. The result is a darker color.
-
-Parameters:
-
-color1: A color object to multiply against.
-color2: A color object to multiply against.
-Returns: color
-
-Examples:
-
-multiply(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-multiply(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-screen
-
-Do the opposite effect from multiply. The result is a brighter color.
-
-Parameters:
-
-color1: A color object to screen against.
-color2: A color object to screen against.
-Returns: color
-
-Example:
-
-screen(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-screen(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-overlay
-
-Combines the effect from both multiply and screen. Conditionally make light channels lighter and dark channels darker. Note: The results of the conditions are determined by the first color parameter.
-
-Parameters:
-
-color1: A color object to overlay another. Also it is the determinant color to make the result lighter or darker.
-color2: A color object to be overlayed.
-Returns: color
-
-Example:
-
-overlay(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-overlay(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-softlight
-
-Similar to overlay but avoid pure black resulting in pure black, and pure white resulting in pure white.
-
-Parameters:
-
-color1: A color object to soft light another.
-color2: A color object to be soft lighten.
-Returns: color
-
-Example:
-
-softlight(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-softlight(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-hardlight
-
-Similar to overlay but use the second color to detect light and dark channels instead of using the first color.
-
-Parameters:
-
-color1: A color object to overlay another.
-color2: A color object to be overlayed. Also it is the determinant color to make the result lighter or darker.
-Returns: color
-
-Example:
-
-hardlight(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-hardlight(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-difference
-
-Substracts the second color from the first color. The operation is made per RGB channels. The result is a darker color.
-
-Parameters:
-
-color1: A color object to act as the minuend.
-color2: A color object to act as the subtrahend.
-Returns: color
-
-Example:
-
-difference(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-difference(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-exclusion
-
-Similar effect to difference with lower contrast.
-
-Parameters:
-
-color1: A color object to act as the minuend.
-color2: A color object to act as the subtrahend.
-Returns: color
-
-Example:
-
-exclusion(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-exclusion(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-average
-
-Compute the average of two colors. The operation is made per RGB channels.
-
-Parameters:
-
-color1: A color object.
-color2: A color object.
-Returns: color
-
-Example:
-
-average(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-average(#ff6600, #0000ff);
-Color 1 Color 2 Color 3
-
-negation
-
-Do the opposite effect from difference. The result is a brighter color. Note: The opposite effect doesn’t mean the inverted effect as resulting to an addition operation.
-
-Parameters:
-
-color1: A color object to act as the minuend.
-color2: A color object to act as the subtrahend.
-Returns: color
-
-Example:
-
-negation(#ff6600, #000000);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #333333);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #666666);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #999999);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #cccccc);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #ffffff);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #ff0000);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #00ff00);
-Color 1 Color 2 Color 3
-
-negation(#ff6600, #0000ff);
-Color 1 Color 2 Color 3

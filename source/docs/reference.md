@@ -317,6 +317,304 @@
 
 	1.7
 
+#### sqrt
+
+计算一个数的平方根，原样保持单位。
+
+参数：
+
+- 数字：浮点数
+
+返回值：数字，平方根
+
+例如：
+
+	sqrt(25cm)
+
+输出：
+
+	5cm
+
+例如：
+
+	sqrt(18.6%)
+
+输出：
+
+	4.312771730569565%;
+
+#### abs
+
+计算数字的绝对值，原样保持单位。
+
+参数：
+
+- 数字：浮点数
+
+返回值：数字，绝对值
+
+例如：
+
+	abs(25cm)
+
+输出：
+
+	25cm
+
+例如：
+
+	abs(-18.6%)
+
+输出：
+
+	18.6%
+
+#### sin
+
+正弦函数，处理时会将没有单位的数字认为是弧度值。
+
+参数：
+
+- 数字：浮点数，角度
+- 返回值：数字，角度对应的正弦值
+
+例如：
+
+	sin(1); // 1弧度角的正弦值
+	sin(1deg); // 1角度角的正弦值
+	sin(1grad); // 1百分度角的正弦值
+
+分别输出：
+
+	0.8414709848078965;
+	0.01745240643728351;
+	0.015707317311820675;
+
+> 百分度是将一个圆周分为400份，每份为一个百分度，英文gradian，简写grad。见<http://zh.wikipedia.org/zh/%E7%99%BE%E5%88%86%E5%BA%A6>。
+
+#### asin
+
+反正弦函数，返回以弧度为单位的角度，区间在 -PI/2 到 PI/2之间。
+
+参数：
+
+- 数字：浮点数，代表正弦值，范围为 [-1,1]
+- 返回值：数字，角度
+
+例如：
+
+	asin(-0.8414709848078965)
+	asin(0)
+	asin(2)
+
+分别输出：
+
+	-1rad
+	0rad
+	NaNrad
+
+> 有关反三角函数的知识可以参见<http://zh.wikipedia.org/zh/%E5%8F%8D%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0>，下同。
+
+#### cos
+
+余弦函数，处理时会将没有单位的数字认为是弧度值。
+
+参数：
+
+- 数字：浮点数，角度
+- 返回值：数字，角度对应的余弦值
+
+例如：
+
+	cos(1); // 1弧度角的余弦值
+	cos(1deg); // 1角度角的余弦值
+	cos(1grad); // 1百分度角的余弦值
+
+分别输出：
+
+	0.5403023058681398
+	0.9998476951563913
+	0.9998766324816606
+
+#### acos
+
+反余弦函数，返回以弧度为单位的角度，区间在 0 到 PI之间。
+
+参数：
+
+- 数字：浮点数，代表余弦值，范围为 [-1,1]
+- 返回值：数字，角度
+
+例如：
+
+	acos(0.5403023058681398)
+	acos(1) 
+	acos(2)
+
+分别输出：
+
+	1rad
+	0rad
+	NaNrad
+
+#### tan
+
+正切函数，处理时会将没有单位的数字认为是弧度值。
+
+参数：
+
+- 数字：浮点数，角度
+- 返回值：数字，角度对应的正切值
+
+例如：
+
+	sin(1); // 1弧度角的正切值
+	sin(1deg); // 1角度角的正切值
+	sin(1grad); // 1百分度角的正切值
+
+分别输出：
+
+	1.5574077246549023
+	0.017455064928217585
+	0.015709255323664916
+
+#### atan
+
+反正切函数，返回以弧度为单位的角度，区间在 -PI/2 到 PI/2之间。
+
+参数：
+
+- 数字：浮点数，代表正切值
+- 返回值：数字，角度
+
+例如：
+
+	atan(-1.5574077246549023)
+	atan(0)
+	round(atan(22), 6) // 四舍五入输出6位小数
+
+分别输出：
+
+	-1rad
+	0rad
+	1.525373rad;
+
+#### pi
+
+返回圆周率PI。
+
+参数：无
+
+返回值：数字，圆周率
+
+例如：
+
+	pi()
+
+输出：
+
+	3.141592653589793
+
+#### pow
+
+假设第一个参数为A，第二个参数为B，返回A的B次方。返回值与A有相同的单位，B的单位被忽略。
+
+参数：
+
+- 数字：浮点数，基数
+- 数字：浮点数，冪指数
+
+返回值：数字，基数的冪指数次方
+
+例如：
+
+	pow(0cm, 0px)
+	pow(25, -2)
+	pow(25, 0.5)
+	pow(-25, 0.5)
+	pow(-25%, -0.5)
+
+输出：
+
+	1cm
+	0.0016
+	5
+	NaN
+	NaN%
+
+#### mod
+
+返回第一个参数对第二参数取余的结果。返回值与第一个参数单位相同，第二个参数单位被忽略。这个函数也可以处理负数和浮点数。
+
+参数：
+
+- 数字：浮点数
+- 数字：浮点数
+
+返回值：数字，取余的结果
+
+例如：
+
+	mod(0cm, 0px)
+	mod(11cm, 6px);
+	mod(-26%, -5);
+
+输出：
+
+	NaNcm;
+	5cm
+	-1%;
+
+#### convert
+
+将数字从一种类型转换到另一种类型。第一个参数为带单位的数值，第二个参数为单位。如果两个参数的单位是兼容的，则数字的单位被转换。如果两个参数的单位不兼容，则原样返回第一个参数。
+
+兼容的单位组：
+
+- 长度：`m` / `cm` / `mm` / `in` / `pt` / `pc`
+- 时间：`s` / `ms`
+- 角度：`rad` / `deg` / `grad` / `turn`
+
+参数：
+
+- 数字：带单位的数值，浮点数
+- 单位
+
+返回值：转换单位后的数值
+
+例如：
+
+	convert(9s, "ms")
+	convert(14cm, mm)
+	convert(8, mm) // 不兼容的单位
+
+输出：
+
+	9000ms
+	140mm
+	8
+
+#### Unit
+
+返回带不同单位的数值。只有单位被改变，数值本身不会被转换。函数会假设第二个参数带上了合法单位。
+
+参数：
+
+- 数字：带单位的浮点数
+- 单位
+
+返回值：带单位的数值
+
+例如：
+
+	unit(9s, ~"ms")
+	unit(-9, m)
+
+输出：
+
+	9ms
+	-9m
+
 ### 颜色函数 (Color functions)
 
 颜色解释 (Color definition)
@@ -1127,284 +1425,6 @@ Color 1 Color 2 Color 3
 
 
 
-
-
-
-Applies rounding.
-
-Parameters:
-
-number: A floating point number.
-decimalPlaces: Optional: The number of decimal places to round to. Defaults to 0.
-Returns: number
-
-Example:
-
-round(1.67)
-Output:
-
-2
-Example:
-
-round(1.67, 1)
-Output:
-
-1.7
-sqrt
-
-Calculates square root of a number. Keeps units as they are.
-
-Parameters:
-
-number: A floating point number.
-Returns: number
-
-Example:
-
-sqrt(25cm)
-Output:
-
-5cm
-Example:
-
-sqrt(18.6%)
-Output:
-
-4.312771730569565%;
-abs
-
-Calculates absolute value of a number. Keeps units as they are.
-
-Parameters:
-
-number: A floating point number.
-Returns: number
-
-Example:
-
-abs(25cm)
-Output:
-
-25cm
-Example:
-
-abs(-18.6%)
-Output:
-
-18.6%;
-sin
-
-Calculates sine function. Assumes radians on numbers without units.
-
-Parameters:
-
-number: A floating point number.
-Returns: number
-
-Example:
-
-sin(1); // sine of 1 radian
-sin(1deg); // sine of 1 degree
-sin(1grad); // sine of 1 gradian
-Output:
-
-0.8414709848078965; // sine of 1 radian
-0.01745240643728351; // sine of 1 degree
-0.015707317311820675; // sine of 1 gradian
-asin
-
-Calculates arcsine (inverse of sine) function. Returns number in radians e.g. a number between -π/2 and π/2.
-
-Parameters:
-
-number: A floating point number from [-1, 1] interval.
-Returns: number
-
-Example:
-
-asin(-0.8414709848078965)
-asin(0) 
-asin(2)
-Output:
-
--1rad
-0rad
-NaNrad
-cos
-
-Calculates cosine function. Assumes radians on numbers without units.
-
-Parameters:
-
-number: A floating point number.
-Returns: number
-
-Example:
-
-cos(1) // cosine of 1 radian
-cos(1deg) // cosine of 1 degree
-cos(1grad) // cosine of 1 gradian
-Output:
-
-0.5403023058681398 // cosine of 1 radian
-0.9998476951563913 // cosine of 1 degree
-0.9998766324816606 // cosine of 1 gradian
-acos
-
-Calculates arccosine (inverse of cosine) function. Returns number in radians e.g. a number between 0 and π.
-
-Parameters:
-
-number: A floating point number from [-1, 1] interval.
-Returns: number
-
-Example:
-
-acos(0.5403023058681398)
-acos(1) 
-acos(2)
-Output:
-
-1rad
-0rad
-NaNrad
-tan
-
-Calculates tangent function. Assumes radians on numbers without units.
-
-Parameters:
-
-number: A floating point number.
-Returns: number
-
-Example:
-
-tan(1) // tangent of 1 radian
-tan(1deg) // tangent of 1 degree
-tan(1grad) // tangent of 1 gradian
-Output:
-
-1.5574077246549023 // tangent of 1 radian
-0.017455064928217585 // tangent of 1 degree
-0.015709255323664916 // tangent of 1 gradian
-atan
-
-Calculates arctangent (inverse of tangent) function. Returns number in radians e.g. a number between -π/2 and π/2.
-
-Parameters:
-
-number: A floating point number.
-Returns: number
-
-Example:
-
-atan(-1.5574077246549023)
-atan(0)
-round(atan(22), 6) // arctangent of 22 rounded to 6 decimal places
-Output:
-
--1rad
-0rad
-1.525373rad;
-pi
-
-Returns π (pi);
-
-Parameters:
-
-none
-Returns: number
-
-Example:
-
-pi()
-Output:
-
-3.141592653589793
-pow
-
-Returns the value of the first argument raised to the power of the second argument. Returned value has the same dimension as the first parameter and the dimension of the second parameter is ignored.
-
-Parameters:
-
-number: base -a floating point number.
-number: exponent - a floating point number.
-Returns: number
-
-Example:
-
-pow(0cm, 0px)
-pow(25, -2)
-pow(25, 0.5)
-pow(-25, 0.5)
-pow(-25%, -0.5)
-Output:
-
-1cm
-0.0016
-5
-NaN
-NaN%
-mod
-
-Returns the value of the first argument modulus second argument. Returned value has the same dimension as the first parameter, the dimension of the second parameter is ignored. The function is able to handle also negative and floating point numbers.
-
-Parameters:
-
-number: a floating point number.
-number: a floating point number.
-Returns: number
-
-Example:
-
-mod(0cm, 0px)
-mod(11cm, 6px);
-mod(-26%, -5);
-Output:
-
-NaNcm;
-5cm
--1%;
-convert
-
-Converts numbers from one type into another. First argument contains number with units and second argument contains units. If both units are compatible, the number is converted. If they are not compatible, function returns first argument without modifying it.
-
-Compatible unit groups: * lengths: m, cm, mm, in, pt and pc, * time: s and ms, * angle: rad, deg, grad and turn.
-
-Parameters:
-
-number: a floating point number with units.
-identifier, string or escaped value: units
-Returns: number
-
-Example:
-
-convert(9s, "ms")
-convert(14cm, mm)
-convert(8, mm) // incompatible unit types
-Output:
-
-9000ms
-140mm
-8
-Unit
-
-Returns number with different units. Only units are changed, number itself is not converted. The function assumes that second parameter contains valid unit type.
-
-Parameters:
-
-number: a floating point number with units.
-identifier or escaped value: units.
-Returns: number
-
-Example:
-
-unit(9s, ~"ms")
-unit(-9, m)
-Output:
-
-9ms
--9m
 Color
 
 Converts a string or escaped value into a color. The input must contain color in hexadecimal or shorthand representation.

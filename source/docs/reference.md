@@ -639,11 +639,11 @@
 
 例如：
 
-rgb(90, 129, 32)
+	rgb(90, 129, 32)
 
 输出：
 
-#5a8120
+	#5a8120
 
 #### rgba(@r, @g, @b, @a)
 
@@ -772,116 +772,189 @@ rgb(90, 129, 32)
 
 	rgba(64, 128, 0, 0.5)
 	
-颜色通道信息 (Color channel information)
+#### hue(@color)
 
-hue(@color)
+从颜色对象中提取色相值。
 
-从颜色对象中提取色相值 (hue channel)。
+参数：
 
-参数:
+- @color: 颜色对象 (A color object.)
 
-@color: 颜色对象 (A color object.)
-返回值：整数 0-360
+返回值：整数，范围从0-360
 
 例如：
 
-hue(hsl(90, 100%, 50%))
+	hue(hsl(90, 100%, 50%))
+
 输出：
 
-90
-saturation(@color)
+	90
 
-从颜色对象中提取饱和度值 (saturation channel)。
+#### saturation(@color)
+
+从颜色对象中提取饱和度值。
 
 参数:
 
-@color: 颜色对象 (A color object.)
+- @color: 颜色对象 (A color object.)
+
 返回值：百分比值 0-100
 
 例如：
 
-saturation(hsl(90, 100%, 50%))
+	saturation(hsl(90, 100%, 50%))
+
 输出：
 
-100%
-lightness(@color)
+	100%
 
-从颜色对象中提取亮度值 (lightness channel)。
+#### lightness(@color)
+
+从颜色对象中提取亮度值。
 
 参数:
 
-@color: 颜色对象 (A color object.)
+- @color: 颜色对象 (A color object.)
+
 返回值：百分比值 0-100
 
 例如：
 
-lightness(hsl(90, 100%, 50%))
+	lightness(hsl(90, 100%, 50%))
+
 输出：
 
-50%
-red(@color)
+	50%
+
+#### hsvhue
+
+以HSV色彩空间提取颜色中的色相值。
+
+参数：
+
+- 颜色
+
+返回：整数，范围为0-360
+
+例如：
+
+	hsvhue(hsv(90, 100%, 50%))
+
+输出：
+
+	90
+
+#### hsvsaturation
+
+以HSV色彩空间提取颜色中的饱和度值。
+
+参数：
+
+- 颜色
+
+返回值：百分比，范围0-100
+
+例如：
+
+	hsvsaturation(hsv(90, 100%, 50%))
+
+输出：
+
+	100%
+
+#### hsvvalue
+
+以HSV色彩空间提取颜色中的色调值。
+
+参数：
+
+- 颜色
+
+返回：百分比，范围为0-100
+
+例如：
+
+	hsvvalue(hsv(90, 100%, 50%))
+
+输出：
+
+	50%
+
+#### red(@color)
 
 从颜色对象中提取红色值。
 
 参数:
 
-@color: 颜色对象 (A color object.)
+- @color: 颜色对象 (A color object.)
+
 返回值：整数 0-255
 
 例如：
 
-red(rgb(10, 20, 30))
+	red(rgb(10, 20, 30))
+
 输出：
 
-10
-green(@color)
+	10
+
+#### green(@color)
 
 从颜色对象中提取绿色值。
 
 参数:
 
-@color: 颜色对象 (A color object.)
+- @color: 颜色对象 (A color object.)
+
 返回值：整数 0-255
 
 例如：
 
-green(rgb(10, 20, 30))
+	green(rgb(10, 20, 30))
+
 输出：
 
-20
-blue(@color)
+	20
+
+#### blue(@color)
 
 从颜色对象中提取蓝色值。
 
 参数:
 
-@color: 颜色对象 (A color object.)
+- @color: 颜色对象 (A color object.)
+
 返回值：整数 0-255
 
 例如：
 
-blue(rgb(10, 20, 30))
+	blue(rgb(10, 20, 30))
+
 输出：
 
-30
-alpha(@color)
+	30
+
+#### alpha(@color)
 
 从颜色对象中提取 alpha 值。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-返回值：介于 0-1 之间 (float 0-1)
+- @color: 颜色对象 (A color object.)
+
+返回值：浮点数，介于 0-1 之间
 
 例如：
 
-alpha(rgba(10, 20, 30, 0.5))
+	alpha(rgba(10, 20, 30, 0.5))
+
 输出：
 
-0.5
-luma(@color)
+	0.5
 
-计算颜色对象的 luma 值（亮度值：perceptual brightness）。Uses SMPTE C / Rec. 709 coefficients, as recommended in WCAG 2.0. 这个计算公式也用在 contrast() 函数中。
+#### luma(@color)
+
+计算颜色对象的 luma 值（亮度的百分比表示法）。使用在WCAG2.0中定义的SMPTE C / Rec. 709 coefficients。 这个计算公式也用在 `contrast()` 函数中。
 
 参数:
 
@@ -894,7 +967,8 @@ luma(rgb(100, 200, 30))
 输出：
 
 65%
-颜色值运算 (Color operations)
+
+### 颜色运算 (Color operations)
 
 颜色值运算有几点注意事项：参数必须单位/格式相同；百分比将作为绝对值处理，比如 10% 增加 10%，结果是 20% 而不是 11%；参数值只能在限定的范围内；they do not wrap around (这一句不清楚意思)。返回值时，除了十六进制的颜色值 (hex versions) 外将对其他格式做简化处理。
 

@@ -958,216 +958,254 @@
 
 参数:
 
-@color: 颜色对象 (A color object.)
+- @color: 颜色对象 (A color object.)
+
 返回值：百分比 0-100%
 
 例如：
 
-luma(rgb(100, 200, 30))
+	luma(rgb(100, 200, 30))
+
 输出：
 
-65%
+	65%
 
 ### 颜色运算 (Color operations)
 
-颜色值运算有几点注意事项：参数必须单位/格式相同；百分比将作为绝对值处理，比如 10% 增加 10%，结果是 20% 而不是 11%；参数值只能在限定的范围内；they do not wrap around (这一句不清楚意思)。返回值时，除了十六进制的颜色值 (hex versions) 外将对其他格式做简化处理。
+颜色值运算有几点注意事项：参数必须单位/格式相同；百分比将作为绝对值处理，比如 10% 增加 10%，结果是 20% 而不是 11%；参数值只能在限定的范围内；they do not wrap around (这一句不清楚意思，可能是指参数值不会在超过范围后自动从另一侧“穿越”回去。)。返回值时，除了十六进制的颜色值 (hex versions) 外将对其他格式做简化处理。
 
-saturate(@color, 10%)
+#### saturate(@color, 10%)
 
 增加一定数值的颜色饱和度。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-@amount: 百分比 0-100%
+- @color: 颜色对象 (A color object.)
+- @amount: 百分比 0-100%
+
 返回值：颜色 (color)
 
 例如：
 
-saturate(hsl(90, 90%, 50%), 10%)
+	saturate(hsl(90, 90%, 50%), 10%)
+
 输出：
 
-#80ff00 // hsl(90, 100%, 50%)
-desaturate(@color, 10%)
+	#80ff00 // hsl(90, 100%, 50%)
+
+#### desaturate(@color, 10%)
 
 降低一定数值的颜色饱和度。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-@amount: 百分比 0-100%
+- @color: 颜色对象 (A color object.)
+- @amount: 百分比 0-100%
+
 返回值：颜色 (color)
 
 例如：
 
-desaturate(hsl(90, 90%, 50%), 10%)
+	desaturate(hsl(90, 90%, 50%), 10%)
+
 输出：
 
-#80e51a // hsl(90, 80%, 50%)
-lighten(@color, 10%)
+	#80e51a // hsl(90, 80%, 50%)
+
+#### lighten(@color, 10%)
 
 增加一定数值的颜色亮度。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-@amount: 百分比 0-100%
+- @color: 颜色对象 (A color object.)
+- @amount: 百分比 0-100%
+
 返回值：颜色 (color)
 
 例如：
 
-lighten(hsl(90, 90%, 50%), 10%)
+	lighten(hsl(90, 90%, 50%), 10%)
+
 输出：
 
-#99f53d // hsl(90, 90%, 60%)
-darken(@color, 10%)
+	#99f53d // hsl(90, 90%, 60%)
+
+#### darken(@color, 10%)
 
 降低一定数值的颜色亮度。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-@amount: 百分比 0-100%
+- @color: 颜色对象 (A color object.)
+- @amount: 百分比 0-100%
+
 返回值：颜色 (color)
 
 例如：
 
-darken(hsl(90, 90%, 50%), 10%)
+	darken(hsl(90, 90%, 50%), 10%)
+
 输出：
 
-#66c20a // hsl(90, 90%, 40%)
-fadein(@color, 10%)
+	#66c20a // hsl(90, 90%, 40%)
 
-降低颜色的透明度（或增加不透明度），令其更不透明，对不透明的颜色无效。如果要增加颜色的透明度，使用 fadeout() 函数。
+#### fadein(@color, 10%)
+
+降低颜色的透明度（或增加不透明度），令其更不透明，对不透明的颜色无效。如果要增加颜色的透明度，使用 `fadeout()` 函数。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-@amount: 百分比 0-100%
+- @color: 颜色对象 (A color object.)
+- @amount: 百分比 0-100%
+
 返回值：颜色 (color)
 
 例如：
 
-fadein(hsla(90, 90%, 50%, 0.5), 10%)
+	fadein(hsla(90, 90%, 50%, 0.5), 10%)
+
 输出：
 
-rgba(128, 242, 13, 0.6) // hsla(90, 90%, 50%, 0.6)
-fadeout(@color, 10%)
+	rgba(128, 242, 13, 0.6) // hsla(90, 90%, 50%, 0.6)
+
+#### fadeout(@color, 10%)
 
 增加颜色的透明度（或降低不透明度），令其更透明，对不透明的颜色无效。如果要增加颜色的透明度，使用 fadein() 函数。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-@amount: 百分比 0-100%
+- @color: 颜色对象 (A color object.)
+- @amount: 百分比 0-100%
+
 返回值：颜色 (color)
 
 例如：
 
-fadeout(hsla(90, 90%, 50%, 0.5), 10%)
+	fadeout(hsla(90, 90%, 50%, 0.5), 10%)
+
 输出：
 
-rgba(128, 242, 13, 0.4) // hsla(90, 90%, 50%, 0.6)
-fade(@color, 50%)
+	rgba(128, 242, 13, 0.4) // hsla(90, 90%, 50%, 0.6)
+
+#### fade(@color, 50%)
 
 给颜色（包括不透明的颜色）设定一定数值的透明度。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-@amount: 百分比 0-100%
+- @color: 颜色对象 (A color object.)
+- @amount: 百分比 0-100%
+
 返回值：颜色 (color)
 
 例如：
 
-fade(hsl(90, 90%, 50%), 10%)
+	fade(hsl(90, 90%, 50%), 10%)
+
 输出：
 
-rgba(128, 242, 13, 0.1) //hsla(90, 90%, 50%, 0.1)
-spin(@color, 10)
+	rgba(128, 242, 13, 0.1) //hsla(90, 90%, 50%, 0.1)
+
+#### spin(@color, 10)
 
 向任意方向旋转颜色的色相角度 (hue angle)，旋转范围 0-360，超过一周后将从起点开始继续旋转（+ - 控制方向），比如旋转 360 度与 720 度是相同的结果。需要注意的是，颜色值会通过 RGB 格式转换，这个过程不能保留灰色的色相值（灰色没有饱和度，色相值也就没有意义了），因此要确定使用函数的方法能够保留颜色的色相值，例如不要这样使用函数：
 
-@c: saturate(spin(#aaaaaa, 10), 10%);
+	@c: saturate(spin(#aaaaaa, 10), 10%);
+
 而应该用这种方法代替：
 
-@c: spin(saturate(#aaaaaa, 10%), 10);
-因为颜色值永远输出为 RGB 格式，因此 spin() 函数对灰色无效。
+	@c: spin(saturate(#aaaaaa, 10%), 10);
+
+因为颜色值永远输出为 RGB 格式，因此 `spin()` 函数对灰色无效。
 
 参数:
 
-@color: 颜色对象 (A color object.)
-@angle: 任意数字表示角度 （+ 或 – 表示方向）
+- @color: 颜色对象 (A color object.)
+- @angle: 任意数字表示角度 （+ 或 – 表示方向）
+
 返回值：颜色 (color)
 
 例如：
 
-spin(hsl(10, 90%, 50%), 20)
-spin(hsl(10, 90%, 50%), -20)
+	spin(hsl(10, 90%, 50%), 20)
+	spin(hsl(10, 90%, 50%), -20)
+
 输出：
 
-#f27f0d // hsl(30, 90%, 50%)
-#f20d33 // hsl(350, 90%, 50%)
-mix(@color1, @color2, [@weight: 50%])
+	#f27f0d // hsl(30, 90%, 50%)
+	#f20d33 // hsl(350, 90%, 50%)
+
+#### mix(@color1, @color2, [@weight: 50%])
 
 根据比例混合两种颜色，包括计算不透明度。
 
 参数:
 
-@color1: 颜色对象 (A color object.)
-@color1: 颜色对象 (A color object.)
-@weight: 可选项：平衡两种颜色的百分比, 默认 50%。 (Optional, a percentage balance point between the two colors, defaults to 50%.)
+- @color1: 颜色对象 (A color object.)
+- @color2: 颜色对象 (A color object.)
+- @weight: 可选项：平衡两种颜色的百分比, 默认 50%。
+
 返回值：颜色 (color)
 
 例如：
 
-mix(#ff0000, #0000ff, 50%)
-mix(rgba(100,0,0,1.0), rgba(0,100,0,0.5), 50%)
+	mix(#ff0000, #0000ff, 50%)
+	mix(rgba(100,0,0,1.0), rgba(0,100,0,0.5), 50%)
+
 输出：
 
-#800080
-rgba(75, 25, 0, 0.75)
-greyscale(@color)
+	#800080
+	rgba(75, 25, 0, 0.75)
 
-完全移除颜色的饱和度，与 desaturate(@color, 100%) 函数效果相同。因为颜色的饱和度不受色相值影响，所以输出的颜色会稍显暗淡 (dull or muddy)；luma may provide a better result as it extracts perceptual rather than linear brightness, for example greyscale('#0000ff') will return the same value as greyscale('#00ff00'), though they appear quite different in brightness to the human eye.
-参数:
+#### greyscale(@color)
 
-@color: 颜色对象 (A color object.)
-返回值：颜色 (color)
-
-例如：
-
-greyscale(hsl(90, 90%, 50%))
-输出：
-
-#808080 // hsl(90, 0%, 50%)
-contrast(@background, [@darkcolor: black], [@lightcolor: white], [@threshold: 43%])
-
-这个函数对比 @background 的 luma 值与 @threshold 参数的大小，如果大于输出 @darkcolor, 小于则输出 @lightcolor，便于选择相对于背景更容易阅读的颜色，同时提高了使用颜色的灵活性，与 Compass 的 contrast() 函数 工作方式相同。根据 WCAG 2.0 应该对比颜色的 luma 值，而不是亮度值 (lightness)。
+完全移除颜色的饱和度，与 `desaturate(@color, 100%)` 函数效果相同。因为颜色的饱和度不受色相值影响，所以输出的颜色会稍显暗淡 (dull or muddy)；如果使用`luma`值可能会有更好的结果，因为它提取的是百分比亮度，而不是线性亮度。比如`greyscale('#0000ff')`与`greyscale('#00ff00')`会得出相同的结果，尽管对人眼来说，它们的亮度是不一样的。
 
 参数:
 
-@background: 需要对比的颜色对象 (A color object to compare against.)
-@darkcolor: 可选项 – 指定的黑色（默认 black）
-@lightcolor: 可选项 – 指定的白色（默认 white）
-@threshold: 可选项 – 百分比 0-100% 界定深色过渡到浅色的转变位置（默认 43%），这个数值决定了输出结果偏向于哪一方，比如判断 50% 的灰色背景应该显示白色还是黑色的文字。You would generally set this lower for ‘lighter’ palettes, higher for ‘darker’ ones.
+- @color: 颜色对象 (A color object.)
+
 返回值：颜色 (color)
 
 例如：
 
-contrast(#aaaaaa)
-contrast(#222222, #101010)
-contrast(#222222, #101010, #dddddd)
-contrast(hsl(90, 100%, 50%),#000000,#ffffff,40%);
-contrast(hsl(90, 100%, 50%),#000000,#ffffff,60%);
+	greyscale(hsl(90, 90%, 50%))
+
 输出：
 
-#000000 // black
-#ffffff // white
-#dddddd
-#000000 // black
-#ffffff // white
-颜色混合 (Color blending)
+	#808080 // hsl(90, 0%, 50%)
+
+#### contrast(@background, [@darkcolor: black], [@lightcolor: white], [@threshold: 43%])
+
+这个函数对比 @background 的 luma 值与 @threshold 参数的大小，如果大于输出 @darkcolor, 小于则输出 @lightcolor，便于选择相对于背景更容易阅读的颜色，同时提高了使用颜色的灵活性，与 Compass 的 `contrast()` 函数 工作方式相同。根据 WCAG 2.0 应该对比颜色的 luma 值，而不是亮度值 (lightness)。
+
+参数:
+
+- @background: 需要对比的颜色对象 (A color object to compare against.)
+- @darkcolor: 可选项 – 指定的黑色（默认 black）
+- @lightcolor: 可选项 – 指定的白色（默认 white）
+- @threshold: 可选项 – 百分比 0-100% 界定深色过渡到浅色的转变位置（默认 43%），这个数值决定了输出结果偏向于哪一方，比如判断 50% 的灰色背景应该显示白色还是黑色的文字。一般来说，如果本色方案偏浅，则应该设低一点，否则设高一点。
+
+返回值：颜色 (color)
+
+例如：
+
+	contrast(#aaaaaa)
+	contrast(#222222, #101010)
+	contrast(#222222, #101010, #dddddd)
+	contrast(hsl(90, 100%, 50%),#000000,#ffffff,40%);
+	contrast(hsl(90, 100%, 50%),#000000,#ffffff,60%);
+
+输出：
+
+	#000000 // black
+	#ffffff // white
+	#dddddd
+	#000000 // black
+	#ffffff // white
+
+### 颜色混合 (Color blending)
 
 颜色混合的方式与图像编辑器 Photoshop, Firework 或者 GIMP 的图层混合模式 (layer blending modes) 相似，因此制作 .psd 文件时处理颜色的方法可以同样用在 CSS 中。
 
@@ -1526,349 +1564,6 @@ Color 1 Color 2 Color 3
 
 
 
-
-
-Color channel information
-
-hue
-
-Extracts the hue channel of a color object.
-
-Parameters:
-
-color: A color object.
-Returns: integer 0-360
-
-Example:
-
-hue(hsl(90, 100%, 50%))
-Output:
-
-90
-saturation
-
-Extracts the saturation channel of a color object.
-
-Parameters:
-
-color: A color object.
-Returns: percentage 0-100
-
-Example:
-
-saturation(hsl(90, 100%, 50%))
-Output:
-
-100%
-lightness
-
-Extracts the lightness channel of a color object.
-
-Parameters:
-
-color: A color object.
-Returns: percentage 0-100
-
-Example:
-
-lightness(hsl(90, 100%, 50%))
-Output:
-
-50%
-hsvhue
-
-Extracts the hue channel of a color object in the HSV color space.
-
-Parameters:
-
-color: A color object.
-Returns: integer 0-360
-
-Example:
-
-hsvhue(hsv(90, 100%, 50%))
-Output:
-
-90
-hsvsaturation
-
-Extracts the saturation channel of a color object in the HSV color space.
-
-Parameters:
-
-color: A color object.
-Returns: percentage 0-100
-
-Example:
-
-hsvsaturation(hsv(90, 100%, 50%))
-Output:
-
-100%
-hsvvalue
-
-Extracts the value channel of a color object in the HSV color space.
-
-Parameters:
-
-color: A color object.
-Returns: percentage 0-100
-
-Example:
-
-hsvvalue(hsv(90, 100%, 50%))
-Output:
-
-50%
-red
-
-Extracts the red channel of a color object.
-
-Parameters:
-
-color: A color object.
-Returns: integer 0-255
-
-Example:
-
-red(rgb(10, 20, 30))
-Output:
-
-10
-green
-
-Extracts the green channel of a color object.
-
-Parameters:
-
-color: A color object.
-Returns: integer 0-255
-
-Example:
-
-green(rgb(10, 20, 30))
-Output:
-
-20
-blue
-
-Extracts the blue channel of a color object.
-
-Parameters:
-
-color: A color object.
-Returns: integer 0-255
-
-Example:
-
-blue(rgb(10, 20, 30))
-Output:
-
-30
-alpha
-
-Extracts the alpha channel of a color object.
-
-Parameters:
-
-color: A color object.
-Returns: float 0-1
-
-Example:
-
-alpha(rgba(10, 20, 30, 0.5))
-Output:
-
-0.5
-luma
-
-Calculates the luma) (perceptual brightness) of a color object. Uses SMPTE C / Rec. 709 coefficients, as recommended in WCAG 2.0. This calculation is also used in the contrast function.
-
-Parameters:
-
-color: A color object.
-Returns: percentage 0-100%
-
-Example:
-
-luma(rgb(100, 200, 30))
-Output:
-
-65%
-Color operations
-
-Color operations generally take parameters in the same units as the values they are changing, and percentage are handled as absolutes, so increasing a 10% value by 10% results in 20%, not 11%, and values are clamped to their allowed ranges; they do not wrap around. Where return values are shown, we’ve also shown formats that make it clear what each function has done, in addition to the hex versions that you will usually be be working with.
-
-saturate
-
-Increase the saturation of a color by an absolute amount.
-
-Parameters:
-
-color: A color object.
-amount: A percentage 0-100%.
-Returns: color
-
-Example:
-
-saturate(hsl(90, 90%, 50%), 10%)
-Output:
-
-#80ff00 // hsl(90, 100%, 50%)
-desaturate
-
-Decrease the saturation of a color by an absolute amount.
-
-Parameters:
-
-color: A color object.
-amount: A percentage 0-100%.
-Returns: color
-
-Example:
-
-desaturate(hsl(90, 90%, 50%), 10%)
-Output:
-
-#80e51a // hsl(90, 80%, 50%)
-lighten
-
-Increase the lightness of a color by an absolute amount.
-
-Parameters:
-
-color: A color object.
-amount: A percentage 0-100%.
-Returns: color
-
-Example:
-
-lighten(hsl(90, 90%, 50%), 10%)
-Output:
-
-#99f53d // hsl(90, 90%, 60%)
-darken
-
-Decrease the lightness of a color by an absolute amount.
-
-Parameters:
-
-color: A color object.
-amount: A percentage 0-100%.
-Returns: color
-
-Example:
-
-darken(hsl(90, 90%, 50%), 10%)
-Output:
-
-#66c20a // hsl(90, 90%, 40%)
-fadein
-
-Decrease the transparency (or increase the opacity) of a color, making it more opaque. Has no effect on opaque colours. To fade in the other direction use fadeout.
-
-Parameters:
-
-color: A color object.
-amount: A percentage 0-100%.
-Returns: color
-
-Example:
-
-fadein(hsla(90, 90%, 50%, 0.5), 10%)
-Output:
-
-rgba(128, 242, 13, 0.6) // hsla(90, 90%, 50%, 0.6)
-fadeout
-
-Increase the transparency (or decrease the opacity) of a color, making it less opaque. To fade in the other direction use fadein.
-
-Parameters:
-
-color: A color object.
-amount: A percentage 0-100%.
-Returns: color
-
-Example:
-
-fadeout(hsla(90, 90%, 50%, 0.5), 10%)
-Output:
-
-rgba(128, 242, 13, 0.4) // hsla(90, 90%, 50%, 0.6)
-fade
-
-Set the absolute transparency of a color. Can be applied to colors whether they already have an opacity value or not.
-
-Parameters:
-
-color: A color object.
-amount: A percentage 0-100%.
-Returns: color
-
-Example:
-
-fade(hsl(90, 90%, 50%), 10%)
-Output:
-
-rgba(128, 242, 13, 0.1) //hsla(90, 90%, 50%, 0.1)
-spin
-
-Rotate the hue angle of a color in either direction. While the angle range is 0-360, it applies a mod 360 operation, so you can pass in much larger (or negative) values and they will wrap around e.g. angles of 360 and 720 will produce the same result. Note that colours are passed through an RGB conversion, which doesn’t retain hue value for greys (because hue has no meaning when there is no saturation), so make sure you apply functions in a way that preserves hue, for example don’t do this:
-
-@c: saturate(spin(#aaaaaa, 10), 10%);
-Do this instead:
-
-@c: spin(saturate(#aaaaaa, 10%), 10);
-Colors are always returned as RGB values, so applying spin to a grey value will do nothing.
-
-Parameters:
-
-color: A color object.
-angle: A number of degrees to rotate (+ or -).
-Returns: color
-
-Example:
-
-spin(hsl(10, 90%, 50%), 20)
-spin(hsl(10, 90%, 50%), -20)
-Output:
-
-#f27f0d // hsl(30, 90%, 50%)
-#f20d33 // hsl(350, 90%, 50%)
-mix
-
-Mix two colors together in variable proportion. Opacity is included in the calculations.
-
-Parameters:
-
-color1: A color object.
-color1: A color object.
-weight: Optional, a percentage balance point between the two colors, defaults to 50%.
-Returns: color
-
-Example:
-
-mix(#ff0000, #0000ff, 50%)
-mix(rgba(100,0,0,1.0), rgba(0,100,0,0.5), 50%)
-Output:
-
-#800080
-rgba(75, 25, 0, 0.75)
-greyscale
-
-Remove all saturation from a color; the same as calling desaturate(@color, 100%). Because the saturation is not affected by hue, the resulting color mapping may be somewhat dull or muddy; luma may provide a better result as it extracts perceptual rather than linear brightness, for example greyscale('#0000ff') will return the same value as greyscale('#00ff00'), though they appear quite different in brightness to the human eye.
-
-Parameters:
-
-color: A color object.
-Returns: color
-
-Example:
-
-greyscale(hsl(90, 90%, 50%))
-Output:
-
-#808080 // hsl(90, 0%, 50%)
 contrast
 
 Choose which of two colors provides the greatest contrast with another. This is useful for ensuring that a color is readable against a background, which is also useful for accessibility compliance. This function works the same way as the contrast function in Compass for SASS. In accordance with WCAG 2.0, colors are compared using their luma value, not their lightness.

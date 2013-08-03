@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>使用说明 - LESSCSS中文官网</title>
+    <meta name="description" content="LESSCSS中文官网">
+    <meta name="keywords" content="LESS,LESSCSS,CSS,样式表,预处理">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet/less" href="../css/main.less">
+    <script src="../js/less.js"></script>
+  </head>
+  <body>
+    <section id="menu">
+      <div class="content">
+        <nav><a href="./home.html">首页</a><a href="./usage.html">使用说明</a><a href="./document.html">语言特性</a><a href="./reference.html">函数手册</a><a href="./changelog.html">更新日志</a><a href="https://github.com/cloudhead/less.js" target="_blank">Github(源)</a><a href="https://github.com/feichang/lesscss.net" target="_blank">Github(中文)</a><a href="http://less.cnodejs.net/" target="_blank">工具汇总</a><a href="http://veryless.org/" target="_blank">VeryLess</a></nav>
+      </div>
+    </section>
+    <section id="docs" class="page page-light">
+      <div class="content"><h2>基本使用方式</h2>
+
+<p>浏览器端使用是在使用LESS开发时最直观的一种方式。如果是在生产环境中，尤其是对性能要求比较高的场合，建议使用node或者其它第三方工具先编译成CSS再上线使用。</p>
+
+<p>浏览器端使用方法：</p>
+
+<ol>
+<li><p>使用<code>link</code>引入.less文件，注意将<code>rel</code>设为<code>stylesheet/less</code>:</p>
+
+<pre><code>&lt;link rel="stylesheet/less" type="text/css" href="styles.less" /&gt;
+</code></pre></li>
+<li><p>在本站下载less.js，将它引入页面的<code>&lt;head&gt;</code>元素中，像这样：</p>
+
+<pre><code>&lt;script src="less.js" type="text/javascript"&gt;&lt;/script&gt;
+</code></pre></li>
+</ol>
+
+<p>需要注意.less文件要在脚本文件之前引入。</p>
+
+<h3>特别注意</h3>
+
+<ol>
+<li>由于less.js会通过ajax拉取.less文件，故<strong>必须在http(s)协议下使用</strong>，即直接双击打开是无法生效的</li>
+<li>由于less.js会通过ajax拉取.less文件，故<strong>.less文件不可以跨域使用</strong>，否则会无法生效（当然，可以通过在服务端设置CORS来解决）</li>
+<li>由于.less对于IIS来说是一个陌生的后缀，高版本IIS会阻止访问，返回404，解决方案是<strong>为.less文件添加MIME为<code>text/css</code></strong>，或者更简单，改后缀为.css即可</li>
+</ol>
+
+<h2>高级设置</h2>
+
+<p>你可以引入less.js之前通过创建一个全局<code>less</code>对象的方式来指定参数，例如：</p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    less = {
+        env: "development", // 或者"production"
+        async: false,       // 异步加载导入的文件
+        fileAsync: false,   // 使用文件协议访问页面时异步加载导入的文件
+        poll: 1000,         // 在监视模式下，每两次请求之间的时间间隔（ms）
+        functions: {},      // user functions, keyed by name
+        dumpLineNumbers: "comments", // 或者"mediaQuery"，或者"all"
+        relativeUrls: false,// 是否调整相对路径
+                            // 如果为false，则url已经是相对入口less文件的
+                            // entry less file
+        rootpath: ":/a.com/"// 添加到每个url开始处的路径
+    };
+&lt;/script&gt;
+&lt;script src="less.js" type="text/javascript"&gt;&lt;/script&gt;
+</code></pre>
+
+<h2>监视模式</h2>
+
+<p>监视模式是一种在客户端（浏览器）使用时的特性，它会在样式文件有更新时自动刷新页面。</p>
+
+<p>在URL中加入<code>#!watch</code>并刷新页面即可开启监视模式。你也可以通过在console中运行<code>less.watch()</code>来开启监视模式。</p>
+
+<h2>修改变量</h2>
+
+<p>使用<code>modifyVars</code>可以在运行时修改LESS变量。当用新的变量值调用了这个函数时，LESS文件将会被重新编译，但不会被重新加载。一个基本的用法示例：</p>
+
+<pre><code>less.modifyVars({
+    '@buttonFace': '#5B83AD',
+    '@buttonText': '#D9EEF2'
+});
+</code></pre>
+
+<h2>调试</h2>
+
+<p>我们在生成的CSS中带上一些额外的信息，以便一些调试工具可以定位到LESS文件中的行数。</p>
+
+<p>可以通过<code>dumpLineNumbers</code>选项或者在url中添加<code>!dumpLineNumbers:mediaQuery</code>来开启这个功能。</p>
+
+<p>你可以选择“注释”方式，使用FireLESS来调，或者选择“mediaQuery”方式，使用FireBug/Chrome开发者工具（被识别为SCSS media query调试格式）来调试。</p>
+
+<h2>Node.js</h2>
+
+<h3>安装</h3>
+
+<p>在Node.js中安装LESS最简单的方式就是使用Node包管理工具npm来安装：</p>
+
+<pre><code>npm install -g less
+</code></pre>
+
+<p>如果你使用Mac或者Linux，可能需要使用管理员身份安装：</p>
+
+<pre><code>sudo npm install -g less
+</code></pre>
+
+<h3>在命令行中使用</h3>
+
+<p>一旦安装完成，就可以在命令行中调用，例如：</p>
+
+<pre><code>lessc styles.less
+</code></pre>
+
+<p>这样的话编译后的CSS将会输出到stdout中，你可以选择将这个输出重定向到文件中：</p>
+
+<pre><code>lessc styles.less &gt; styles.css
+</code></pre>
+
+<p>如果你想输出一个压缩后的CSS，只要加到<code>-x</code>选项即可。如果你想要更NB的压缩，你也可以选择使用YUI CSS压缩器，只要加上<code>--yui-compress</code>选项即可。</p>
+
+<p>直接运行lessc，不带任何参数将可以看到所有的命令行参数。</p>
+
+<h2>在代码中使用</h2>
+
+<p>你可以在Node中调用编译器，例如：</p>
+
+<pre><code>var less = require('less');
+
+less.render('.class { width: (1 + 1) }', function (e, css) {
+    console.log(css);
+});
+</code></pre>
+
+<p>将会输出</p>
+
+<pre><code>.class {
+    width: 2;
+}
+</code></pre>
+
+<p>你也可以手工调用解析器和编译器：</p>
+
+<pre><code>var parser = new(less.Parser);
+
+parser.parse('.class { width: (1 + 1) }', function (err, tree) {
+    if (err) { return console.error(err) }
+    console.log(tree.toCSS());
+});
+</code></pre>
+
+<h3>设置</h3>
+
+<p>你可以给编译器传入一些参数：</p>
+
+<pre><code>var parser = new(less.Parser)({
+    paths: ['.', './lib'], // 指定@import搜索的目录
+    filename: 'style.less' // 为了更好地输出错误信息，可以指定一个文件名
+});
+
+parser.parse('.class { width: (1 + 1) }', function (e, tree) {
+    tree.toCSS({ compress: true }); // 压缩输出的CSS
+});
+</code></pre></div>
+    </section>
+    <section class="page page-dark">
+      <div class="content">
+        <h2>About</h2>
+        <p><a href="http://cloudhead.io">Alexis Sellier(LESS作者)</a><span>&nbsp|&nbsp</span><a href="http://veryued.org">飞长(LESS中国官网发起人)</a>
+          <!--span &nbsp|&nbsp-->
+          <!--a(href='http://ued.taobao.com', target='_blank') TaoBao UED-->
+        </p>
+        <p>QQ交流群：248796244</p>
+        <p>贡献者：<a href="http://veryued.org">飞长</a><span>&nbsp|&nbsp</span><a href="http://www.toobug.net">TooBug</a><span>&nbsp|&nbsp</span><a href="https://github.com/yuyucongcong">郁郁葱葱</a><span>&nbsp|&nbsp</span><a href="http://peters-playground.com/">Peter</a><span>&nbsp|&nbsp</span><a href="http://weibo.com/iwillwen">小问</a></p>
+        <p><a href="https://me.alipay.com/lesscss" target="_blank">赞助</a><span>(感谢赞助：星星、*海经、*德文 )</span><span>&nbsp|&nbsp</span><a href="https://github.com/feichang/lesscss.net">参与中文官网建设</a></p>
+        <footer></footer>
+      </div>
+    </section>
+    <script src="/js/hiless.js"></script>
+    <script type="text/javascript" src="http://js.tongji.linezing.com/2707131/tongji.js"></script>
+    <noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/2707131/tongji.gif"></a></noscript>
+  </body>
+</html>

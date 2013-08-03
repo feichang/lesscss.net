@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>语言特性 - LESSCSS中文官网</title>
+    <meta name="description" content="LESSCSS中文官网">
+    <meta name="keywords" content="LESS,LESSCSS,CSS,样式表,预处理">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet/less" href="../css/main.less">
+    <script src="../js/less.js"></script>
+  </head>
+  <body>
+    <section id="menu">
+      <div class="content">
+        <nav><a href="./home.html">首页</a><a href="./usage.html">使用说明</a><a href="./document.html">语言特性</a><a href="./reference.html">函数手册</a><a href="./changelog.html">更新日志</a><a href="https://github.com/cloudhead/less.js" target="_blank">Github(源)</a><a href="https://github.com/feichang/lesscss.net" target="_blank">Github(中文)</a><a href="http://less.cnodejs.net/" target="_blank">工具汇总</a><a href="http://veryless.org/" target="_blank">VeryLess</a></nav>
+      </div>
+    </section>
+    <section id="docs" class="page page-light">
+      <div class="content"><p>作为CSS的一种扩展，LESSCSS不仅向下兼容CSS的语法，而且连新增的特性也是使用CSS的语法。这样的设计使得学习LESS很轻松，而且你可以在任何时候回退到CSS。</p>
+
+<h2>变量</h2>
+
+<p>很容易理解：</p>
+
+<pre><code>@nice-blue: #5B83AD;
+@light-blue: @nice-blue + #111;
+
+#header { color: @light-blue; }
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>#header { color: #6c94be; }
+</code></pre>
+
+<p>甚至可以在定义变量值时使用其它的变量：</p>
+
+<pre><code>@fnord: "I am fnord.";
+@var: 'fnord';
+content: @@var;
+</code></pre>
+
+<p>解析后：</p>
+
+<pre><code>content: "I am fnord.";
+</code></pre>
+
+<p>如果对同一个变量定义两次的话，在当前作用域中最后一次定义的将被使用。这与CSS的机制类似，最后一次定义的值会成为这个属性的值。</p>
+
+<p>比如：</p>
+
+<pre><code>@var: 0;
+.class1 {
+    @var: 1;
+    .class {
+        @var: 2;
+        three: @var;
+        @var: 3;
+    }
+    one: @var;
+}
+</code></pre>
+
+<p>会编译成：</p>
+
+<pre><code>.class1 .class {
+    three: 3;
+}
+.class {
+    one: 1;
+}
+</code></pre>
+
+<p>变量是“按需加载”（lazy loaded）的，因此不必强制在使用之前声明。</p>
+
+<p>下面是一个有效的LESS代码片段：</p>
+
+<pre><code>lazy-eval {
+    width: @var;
+}
+
+@var: @a;
+@a: 9%;
+</code></pre>
+
+<p>下面这个片段也是有效的：</p>
+
+<pre><code>.lazy-eval-scope {
+    width: @var;
+    @a: 9%;
+}
+
+@var: @a;
+@a: 100%;
+</code></pre>
+
+<p>这两个片段都会编译成：</p>
+
+<pre><code>.lazy-eval-scope {
+    width: 9%;
+}
+</code></pre>
+
+<h2>混合（Mixins）</h2>
+
+<p>在 LESS 中我们可以定义一些通用的属性集为一个 class，然后在另一个 class 中去调用这些属性，下面有这样一个 class：</p>
+
+<pre><code>.bordered {
+    border-top: dotted 1px black;
+    border-bottom: solid 2px black;
+}
+</code></pre>
+
+<p>那如果我们现在需要在其他 class 中引入那些通用的属性集，那么我们只需要在任何 class 中像下面这样调用就可以了：</p>
+
+<pre><code>#menu a {
+    color: #111;
+    .bordered;
+}
+.post a {
+    color: red;
+    .bordered;
+}
+</code></pre>
+
+<p><code>.bordered</code> class 里面的属性样式都会在 <code>#menu a</code> 和 <code>.post a</code> 中体现出来：</p>
+
+<pre><code>#menu a {
+    color: #111;
+    border-top: dotted 1px black;
+    border-bottom: solid 2px black;
+}
+.post a {
+    color: red;
+    border-top: dotted 1px black;
+    border-bottom: solid 2px black;
+}
+</code></pre>
+
+<p>任何 CSS class, id 或者 元素 属性集都可以以同样的方式引入。</p>
+
+<blockquote>
+  <p>注意：变量也会被混合，也就是说变量会被带到当前的作用域。这个特性还有争议，也许在未来会有变化。</p>
+</blockquote>
+
+<h3>带参数混合</h3>
+
+<p>在 LESS 中，你还可以像函数一样定义一个带参数的属性集合：</p>
+
+<pre><code>.border-radius (@radius) {
+    border-radius: @radius;
+    -moz-border-radius: @radius;
+    -webkit-border-radius: @radius;
+}
+</code></pre>
+
+<p>然后在其他 class 中像这样调用它：</p>
+
+<pre><code>#header {
+    .border-radius(4px);
+}
+.button {
+    .border-radius(6px);
+}
+</code></pre>
+
+<p>我们还可以像这样给参数设置默认值：</p>
+
+<pre><code>.border-radius (@radius: 5px) {
+    border-radius: @radius;
+    -moz-border-radius: @radius;
+    -webkit-border-radius: @radius;
+}
+</code></pre>
+
+<p>所以现在如果我们像这样调用它的话：</p>
+
+<pre><code>#header {
+    .border-radius;
+}
+</code></pre>
+
+<p><code>radius</code> 的值就会是 5px。</p>
+
+<p>你也可以定义不带参数属性集合，如果你想隐藏这个属性集合，不让它暴露到 CSS 中去，但是你还想在其他的属性集合中引用，你会发现这个方法非常的好用：</p>
+
+<pre><code>.wrap () {
+    text-wrap: wrap;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    word-wrap: break-word;
+}
+
+pre { .wrap }
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>pre {
+    text-wrap: wrap;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    word-wrap: break-word;
+}
+</code></pre>
+
+<h3>多参数混合</h3>
+
+<p>多个参数可以使用分号或者逗号分隔，推荐使用分号分隔，因为逗号有两重含义：它既可以表示混合的参数，也可以表示一个参数中一组值的分隔符。</p>
+
+<p>使用逗号作为参数分隔符意味着可以将逗号分隔的一组值作为一个变量处理。换句话说，如果编译器在混合的定义或者是调用中找到至少一个分号，就会假设参数是使用分号分隔的，所有的逗号都属于参数中的一组值的分隔符。</p>
+
+<p>2个参数，每个参数都含有通过逗号分隔的一组值的情况：<code>.name(1, 2, 3; something, else)</code>。</p>
+
+<p>3个参数，每个参数只含一个数字的情况：<code>.name(1, 2, 3)</code>。</p>
+
+<p>使用一个象征性的分号可以创建一个只含一个参数，但参数包含一组值的混合：<code>.name(1, 2, 3;)</code>。</p>
+
+<p>逗号分隔的一组值参数的默认值：<code>.name(@param1: red, blue;)</code>。</p>
+
+<p>使用同样的名字和同样数量的参数定义多个混合是合法的。在被调用时，LESS会应用到所有可以应用的混合上。比如你调用混合时只传了一个参数<code>.mixin(green)</code>，那么所有只强制要求一个参数的混合都会被调用：</p>
+
+<pre><code>.mixin(@color) {
+    color-1: @color;
+}
+.mixin(@color; @padding:2) {
+    color-2: @color;
+    padding-2: @padding;
+}
+.mixin(@color; @padding; @margin: 2) {
+    color-3: @color;
+    padding-3: @padding;
+    margin: @margin @margin @margin @margin;
+}
+.some .selector div {
+    .mixin(#008000);
+}
+</code></pre>
+
+<p>编译结果：</p>
+
+<pre><code>.some .selector div {
+    color-1: #008000;
+    color-2: #008000;
+    padding-2: 2;
+}
+</code></pre>
+
+<h3>@arguments 变量</h3>
+
+<p>@arguments包含了所有传递进来的参数。 如果你不想单独处理每一个参数的话就可以像这样写：</p>
+
+<pre><code>.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
+    box-shadow: @arguments;
+    -moz-box-shadow: @arguments;
+    -webkit-box-shadow: @arguments;
+}
+.box-shadow(2px, 5px);
+</code></pre>
+
+<p>将会输出：</p>
+
+<pre><code>box-shadow: 2px 5px 1px #000;
+-moz-box-shadow: 2px 5px 1px #000;
+ -webkit-box-shadow: 2px 5px 1px #000;
+</code></pre>
+
+<h3>高级参数用法与 <code>@rest</code> 变量</h3>
+
+<p>如果需要在 mixin 中不限制参数的数量，可以在变量名后添加 ...，表示这里可以使用 N 个参数。</p>
+
+<pre><code>.mixin (...) {        // 接受 0-N 个参数
+.mixin () {           // 不接受任何参数
+.mixin (@a: 1) {      // 接受 0-1 个参数
+.mixin (@a: 1, ...) { // 接受 0-N 个参数
+.mixin (@a, ...) {    // 接受 1-N 个参数
+</code></pre>
+
+<p>此外：</p>
+
+<pre><code>.mixin (@a, @rest...) {
+    // @rest 表示 @a 之后的参数
+    // @arguments 表示所有参数
+}
+</code></pre>
+
+<h3>　<code>!important</code>关键字</h3>
+
+<p>调用时在混合后面加上<code>!important</code>关键字表示将混合带来的所有属性标记为<code>!important</code>：</p>
+
+<pre><code>.mixin (@a: 0) {
+    border: @a;
+    boxer: @a;
+}
+.unimportant {
+    .mixin(1); 
+}
+.important {
+    .mixin(2) !important; 
+}
+</code></pre>
+
+<p>编译成：</p>
+
+<pre><code>.unimportant {
+    border: 1;
+    boxer: 1;
+}
+.important {
+    border: 2 !important;
+    boxer: 2 !important;
+}
+</code></pre>
+
+<h3>模式匹配与Guard表达式</h3>
+
+<p>LESS 提供了通过参数值控制 mixin 行为的功能，让我们先从最简单的例子开始：</p>
+
+<pre><code>.mixin (@s, @color) { ... }
+
+.class {
+    .mixin(@switch, #888);
+}
+</code></pre>
+
+<p>如果要根据 <code>@switch</code> 的值控制 <code>.mixin</code> 行为，只需按照下面的方法定义 <code>.mixin</code>：</p>
+
+<pre><code>.mixin (dark, @color) {
+    color: darken(@color, 10%);
+}
+.mixin (light, @color) {
+    color: lighten(@color, 10%);
+}
+.mixin (@_, @color) {
+    display: block;
+}
+</code></pre>
+
+<p>然后调用：</p>
+
+<pre><code>@switch: light;
+
+.class {
+    .mixin(@switch, #888);
+}
+</code></pre>
+
+<p>将会得到以下 CSS：</p>
+
+<pre><code>.class {
+    color: #a2a2a2;
+    display: block;
+}
+</code></pre>
+
+<p>传给 <code>.mixin</code> 的颜色将执行 <code>lighten</code> 函数，如果 <code>@switch</code> 的值是 <code>dark</code>，那么则会执行 <code>darken</code> 函数输出颜色。</p>
+
+<p>以下是整个过程如何发生的：</p>
+
+<ul>
+<li>第一个 <code>.mixin</code> 没有匹配，因为不满足 <code>dark</code> 条件；</li>
+<li>第二个 <code>.mixin</code> 可以被匹配，因为它满足了 <code>light</code> 条件；</li>
+<li>第三个 <code>.mixin</code> 也可以被匹配，因为它接受任何参数。</li>
+</ul>
+
+<p>只有满足匹配要求的混合才会被使用。混合中的变量可以匹配任何值，非变量形式的值只有与传入的值完全相等时才可以匹配成功。</p>
+
+<p>我们也可以根据参数的数量进行匹配，比如：</p>
+
+<pre><code>.mixin (@a) {
+    color: @a;
+}
+.mixin (@a, @b) {
+    color: fade(@a, @b);
+}
+</code></pre>
+
+<p>调用 <code>.mixin</code> 时，如果使用了一个参数，输出第一个 <code>.mixin</code>，使用了两个参数，则输出第二个。</p>
+
+<h4>Guards</h4>
+
+<p>与上面匹配值或者匹配参数数量的情况不同，Guards 被用来匹配表达式 (expressions)。如果你很熟悉编程函数的用法，那么很可能你已经掌握它的用法了。</p>
+
+<p>为了尽可能地符合 CSS 的语言结构，LESS 选择使用 guard混合（guarded mixins）（类似于 <code>@media</code> 的工作方式）执行条件判断，而不是加入 <code>if/else</code> 声明。</p>
+
+<p>首先通过下面的例子开始介绍：</p>
+
+<pre><code>.mixin (@a) when (lightness(@a) &gt;= 50%) {
+    background-color: black;
+}
+.mixin (@a) when (lightness(@a) &lt; 50%) {
+    background-color: white;
+}
+.mixin (@a) {
+    color: @a;
+}
+</code></pre>
+
+<p>要点在于关键词 <code>when</code>，它引入了一个 guard 条件 （这里只用到一个 guard）。现在如果运行下面的代码：</p>
+
+<pre><code>.class1 { .mixin(#ddd) }
+.class2 { .mixin(#555) }
+</code></pre>
+
+<p>将会得到以下输出结果：</p>
+
+<pre><code>.class1 {
+    background-color: black;
+    color: #ddd;
+}
+.class2 {
+    background-color: white;
+    color: #555;
+}
+</code></pre>
+
+<p>Guards 支持的运算符包括：<code>&gt;</code> <code>&gt;=</code> <code>=</code> <code>=&lt;</code> <code>&lt;</code>。说明一下，<code>true</code>关键字是唯一被判断为真的值，也就是这两个混合是相等的：</p>
+
+<pre><code>.truth (@a) when (@a) { ... }
+.truth (@a) when (@a = true) { ... }
+</code></pre>
+
+<p>其他不为 <code>true</code> 的值都判为假：</p>
+
+<pre><code>.class {
+    .truth(40); // 不会匹配上面的 mixin
+}
+</code></pre>
+
+<p>多个Guards可以通过逗号表示分隔，如果其中任意一个结果为 <code>true</code>，则匹配成功：</p>
+
+<pre><code>.mixin (@a) when (@a &gt; 10), (@a &lt; -10) { ... }
+</code></pre>
+
+<p>值得注意的是不同的参数之间也可以比较，而参与比较的也可以一个参数都没有：</p>
+
+<pre><code>@media: mobile;
+
+.mixin (@a) when (@media = mobile) { ... }
+.mixin (@a) when (@media = desktop) { ... }
+
+.max (@a, @b) when (@a &gt; @b) { width: @a }
+.max (@a, @b) when (@a &lt; @b) { width: @b }
+</code></pre>
+
+<p>如果需要根据值的类型匹配混合，可以使用 <code>is*</code> 函数：</p>
+
+<pre><code>.mixin (@a, @b: 0) when (isnumber(@b)) { ... }
+.mixin (@a, @b: black) when (iscolor(@b)) { ... }
+</code></pre>
+
+<p>几个检查基本类型的函数：</p>
+
+<ul>
+<li><code>iscolor</code></li>
+<li><code>isnumber</code></li>
+<li><code>isstring</code></li>
+<li><code>iskeyword</code></li>
+<li><code>isurl</code></li>
+</ul>
+
+<p>如果需要检查一个值（数字）使用了哪个单位，可以使用下面三个函数：</p>
+
+<ul>
+<li><code>ispixel</code></li>
+<li><code>ispercentage</code></li>
+<li><code>isem</code></li>
+</ul>
+
+<p>最后，你可以使用关键词 <code>and</code> 在 <code>guard</code> 中加入额外的条件:</p>
+
+<p>.mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }</p>
+
+<p>或者，使用关键词 <code>not</code> 否定条件：</p>
+
+<p>.mixin (@b) when not (@b > 0) { ... }</p>
+
+<h2>嵌套规则</h2>
+
+<p>LESS 可以让我们以嵌套的方式编写层叠样式。 让我们先看下下面这段 CSS：</p>
+
+<pre><code>#header { color: black; }
+
+#header .navigation {
+font-size: 12px;
+}
+
+#header .logo {
+width: 300px;
+}
+
+#header .logo:hover {
+text-decoration: none;
+}
+</code></pre>
+
+<p>在 LESS 中, 我们就可以这样写：</p>
+
+<pre><code>#header {
+    color: black;
+
+    .navigation {
+        font-size: 12px;
+    }
+
+    .logo {
+        width: 300px;
+        &amp;:hover { text-decoration: none }
+    }
+}
+</code></pre>
+
+<p>或者这样写：</p>
+
+<pre><code>#header { color: black;
+    .navigation { font-size: 12px }
+    .logo { width: 300px;
+        &amp;:hover { text-decoration: none }
+    }
+}
+</code></pre>
+
+<p>代码更简洁了，而且感觉跟 DOM 结构格式有点像。</p>
+
+<p>注意 <code>&amp;</code> 符号的使用 — 如果你想写串联选择器，而不是写后代选择器，就可以用到 <code>&amp;</code> 了。这点对伪类尤其有用如 <code>:hover</code> 和 <code>:focus</code>。</p>
+
+<p>例如：</p>
+
+<pre><code>.bordered {
+    &amp;.float {
+        float: left;
+    }
+    .top {
+        margin: 5px;
+    }
+}
+</code></pre>
+
+<p>会输出：</p>
+
+<pre><code>.bordered.float {
+    float: left;
+}
+.bordered .top {
+    margin: 5px;
+}
+</code></pre>
+
+<h3>嵌套 Media Queries</h3>
+
+<p>Media query也可以使用同样的方式进行嵌套。</p>
+
+<pre><code>.one {
+    @media (width: 400px) {
+        font-size: 1.2em;
+        @media print and color {
+            color: blue;
+        }
+    }
+}
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>@media (width: 400px) {
+    .one {
+        font-size: 1.2em;
+    }
+}
+@media (width: 400px) and print and color {
+    .one {
+        color: blue;
+        }
+}
+</code></pre>
+
+<h3><code>&amp;</code> 的高级用法</h3>
+
+<p>用在选择器中的<code>&amp;</code>还可以反转嵌套的顺序并且可以应用到多个类名上。</p>
+
+<p>例如：</p>
+
+<pre><code>.child, .sibling {
+    .parent &amp; {
+        color: black;
+    }
+    &amp; + &amp; {
+        color: red;
+    }
+}
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>.parent .child,
+.parent .sibling {
+    color: black;
+}
+.child + .child,
+.child + .sibling,
+.sibling + .child,
+.sibling + .sibling {
+    color: red;
+}
+</code></pre>
+
+<p><code>&amp;</code>也可以用在混合中用于指示嵌套这个混合的父选择器。</p>
+
+<h2>运算</h2>
+
+<p>任何数字、颜色或者变量都可以参与运算，运算应该被包裹在括号中。来看一组例子：</p>
+
+<pre><code>@base: 5%;
+@filler: (@base * 2);
+@other: (@base + @filler);
+
+color: (#888 / 4);
+background-color: (@base-color + #111);
+height: (100% / 2 + @filler);
+</code></pre>
+
+<p>LESS 的运算已经超出了我们的期望，如果像下面这样的话，它能够分辨出颜色和单位：</p>
+
+<pre><code>@var: (1px + 5);
+</code></pre>
+
+<p>LESS 将会使用出现的单位，最终输出 <code>6px</code>。</p>
+
+<p>也可以使用括号：</p>
+
+<pre><code>width: ((@var + 5) * 2);
+</code></pre>
+
+<h2>函数</h2>
+
+<p>LESS 提供了多种函数用于控制颜色变化、处理字符串、算术运算等等。这些函数在<a href="./reference.html">函数手册</a>中有详细介绍。</p>
+
+<p>函数的用法非常简单，下面这个例子将介绍如何将 <code>0.5</code> 转换为 <code>50%</code>，将颜色饱和度增加 <code>5%</code>,以及颜色亮度降低 <code>25%</code> 色相值增加 <code>8</code> 等用法：</p>
+
+<pre><code>@base: #f04615;
+@width: 0.5;
+
+.class {
+    width: percentage(0.5); // returns `50%`
+    color: saturate(@base, 5%);
+    background-color: spin(lighten(@base, 25%), 8);
+}
+</code></pre>
+
+<h2>命名空间</h2>
+
+<p>有时候，你可能为了更好组织 CSS 或者单纯是为了更好的封装，将一些变量或者混合模块打包起来，你可以像下面这样在 <code>#bundle</code> 中定义一些属性集之后可以重复使用：</p>
+
+<pre><code>#bundle {
+    .button () {
+        display: block;
+        border: 1px solid black;
+        background-color: grey;
+        &amp;:hover { background-color: white }
+    }
+    .tab { ... }
+    .citation { ... }
+}
+</code></pre>
+
+<p>你只需要在 <code>#header a</code> 中像这样引入 <code>.button</code>：</p>
+
+<pre><code>#header a {
+    color: orange;
+    #bundle &gt; .button;
+}
+</code></pre>
+
+<h2>作用域</h2>
+
+<p>LESS 中的作用域跟其他编程语言非常类似，首先会从本地查找变量或者混合模块，如果没找到的话会去父级作用域中查找，直到找到为止。</p>
+
+<pre><code>@var: red;
+
+#page {
+    @var: white;
+    #header {
+        color: @var; // white
+    }
+}
+
+#footer {
+    color: @var; // red
+}
+</code></pre>
+
+<h2>注释</h2>
+
+<p>CSS 的注释格式在 LESS 中依然有效：</p>
+
+<pre><code>/* Hello, I'm a CSS-style comment */
+.class { color: black }
+</code></pre>
+
+<p>LESS 同样也支持双斜线的注释，但是编译成 CSS 的时候自动过滤掉：</p>
+
+<pre><code>// Hi, I'm a silent comment, I won't show up in your CSS
+.class { color: white }
+</code></pre>
+
+<h2>导入（Import）</h2>
+
+<p>在LESS中，你既可以导入CSS文件，也可以导入LESS文件。但只有导入的LESS文件才会被处理（编译），导入的CSS文件会保持原样。如果你希望导入一个CSS文件，保留<code>.css</code>后缀即可：</p>
+
+<pre><code>@import "lib.css";
+</code></pre>
+
+<p>编译过程中，对导入CSS文件只做一处处理：将导入的语句提到最前，紧跟在<code>@charset</code>之后。</p>
+
+<p>例如输入的文件有导入语句：</p>
+
+<pre><code>h1 { color: green; }
+@import "import/official-branding.css?urlParameter=23";
+</code></pre>
+
+<p>导入语句将被提到最前：</p>
+
+<pre><code>@import "import/official-branding.css?urlParameter=23";
+h1 { color: green; }
+</code></pre>
+
+<p>被导入的LESS文件会被复制到含导入语句的文件中，然后一起编译。导入和被导入的文件共享所有的混合、命名空间、变量以及其它结构。</p>
+
+<p>另外，如果导入语句是通过media query指定的，那么导入的语句编译之后会被包裹在@Media声明中。</p>
+
+<p>例如有被导入的文件<code>library.less</code>：</p>
+
+<pre><code>@imported-color: red;
+h1 { color: green; }
+</code></pre>
+
+<p>主样式文件导入了上面的<code>library.less</code>：</p>
+
+<pre><code>@import "library.less" screen and (max-width: 400px); // 通过media query指定的import
+@import "library.less"; // 无media query的import
+
+.class {
+    color: @importedColor; // 使用导入的变量
+}
+</code></pre>
+
+<p>将会编译出：</p>
+
+<pre><code>// 对应通过media query指定的import
+@media screen and (max-width: 400px) {
+    h1 { color: green; }
+}
+
+// 对应无media query的import
+h1 { color: green; }
+.class {
+    // 使用导入的变量
+    color: #ff0000;
+}
+</code></pre>
+
+<p>LESS文件的导入语句并不强制要求在顶部，它可以被入在规则内部、混合中或者其它的结构中。</p>
+
+<p>例如放在规则内部：</p>
+
+<pre><code>pre {
+    @import "library.less";
+    color: @importedColor;
+}
+</code></pre>
+
+<p>在<code>library.less</code>中定义的变量和规则都会被投篮到<code>pre</code>的规则中：</p>
+
+<pre><code>pre {
+    color: #ff0000; // 定义在library.less中的变量可用
+}
+pre h1 { // 定义在library.less中的样式规则被嵌套到pre中
+    color: green;
+}
+</code></pre>
+
+<p>在v1.3.0 - v1.3.3中，<code>@import</code>允许多次导入同一个文件，可以使用<code>@import-once</code>让同一文件只导入一次。</p>
+
+<p>在v1.4.0中，移除了<code>@import-once</code>，<code>@import</code>的行为就是同一文件只导入一次了。这意味着，如果代码是这样的：</p>
+
+<pre><code>@import “file.less”; @import “file.less”;
+</code></pre>
+
+<p>那么第二个文件将被忽略。</p>
+
+<p>任何不以<code>.css</code>结尾的文件都被认为是less文件，将被处理。另外，如果文件名没有后缀，LESS会自动在结尾加上<code>.less</code>。下面两种写法是等价的：</p>
+
+<pre><code>@import "lib.less";
+@import "lib";
+</code></pre>
+
+<p>在v1.4.0中，你可以强制某个文件使用特写的方式来处理，比如：</p>
+
+<pre><code>@import (css) "lib";
+</code></pre>
+
+<p>将会输出：</p>
+
+<pre><code>@import "lib";
+</code></pre>
+
+<p>而</p>
+
+<pre><code>@import (less) "lib.css";
+</code></pre>
+
+<p>会将<code>lib.css</code>引入，并当作LESS文件处理。如果你指定了某个文件是less但是没有包含后缀名，LESS将不会自动添加后缀。</p>
+
+<h2>字符串插值</h2>
+
+<p>变量可以用像 <code>@{name}</code> 这样的结构，以类似 ruby 和 php 的方式嵌入到字符串中：</p>
+
+<pre><code>@base-url: "http://assets.fnord.com";
+background-image: url("@{base-url}/images/bg.png");
+</code></pre>
+
+<h2>避免编译</h2>
+
+<p>有时候我们需要输出一些不正确的 CSS 语法或者使用一些 LESS 不认识的专有语法。</p>
+
+<p>要输出这样的值我们可以在字符串前加上一个 ~，例如：</p>
+
+<pre><code>.class {
+    filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";
+}
+</code></pre>
+
+<p>这叫作“避免编译”，输出结果为：</p>
+
+<pre><code>.class {
+    filter: ms:alwaysHasItsOwnSyntax.For.Stuff();
+}
+</code></pre>
+
+<p>在避免编译的值中间也可以像字符串一样插入变量：</p>
+
+<pre><code>.class {
+    @what: "Stuff";
+    filter: ~"ms:alwaysHasItsOwnSyntax.For.@{what}()";
+}
+</code></pre>
+
+<h2>选择器插值</h2>
+
+<p>如果需要在选择器中使用 LESS 变量，只需通过使用和字符串插件一样的 <code>@{selector}</code> 即可，例如：</p>
+
+<pre><code>@name: blocked;
+.@{name} {
+    color: black;
+}
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>.blocked {
+    color: black;
+}
+</code></pre>
+
+<p>注意：<code>(~"@{name}")</code> 语句可以在 LESS 1.3.1 等之前版本中使用，但 1.4.0 版将不再支持这种用法。</p>
+
+<h2>media query作为变量</h2>
+
+<p>如果你希望在media query中使用LESS变量，你可以直接使用普通的变量方式。例如：</p>
+
+<pre><code>@singleQuery: ~"(max-width: 500px)";
+@media screen, @singleQuery {
+    set {
+        padding: 3 3 3 3;
+    }
+}
+</code></pre>
+
+<p>被编译为：</p>
+
+<pre><code>@media screen, (max-width: 500px) {
+    set {
+        padding: 3 3 3 3;
+    }
+}
+</code></pre>
+
+<p>变量必须包含完整的media query。这样写会导致报错：<code>@media screen and @partial {</code>。</p>
+
+<p>在1.4.0中，在开启严格运算模式的情况下，你也可以在media query的条件中插入变量。如<code>@media screen, (max-width: @width) {</code>。</p>
+
+<h2>JavaScript求值</h2>
+
+<p>在LESS中还可以使用JavaScript表达式来求值。我们不建议谨慎使用这个特性，因为它会使得LESS在其它平台的可编译性变低，也会使得LESS更难维护。如果可能，试着想想能否用一个函数来完成相同的事情，在github上这样的库很多。我们有计划开放对函数的扩展。但，如果你仍然想用的话，你可以通过反引号的方式使用：</p>
+
+<pre><code>@var: `"hello".toUpperCase() + '!'`;
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>@var: "HELLO!";
+</code></pre>
+
+<p>注意你也可以同时使用字符串插值和避免编译：</p>
+
+<pre><code>@str: "hello";
+@var: ~`"@{str}".toUpperCase() + '!'`;
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>@var: HELLO!;
+</code></pre>
+
+<p>它也可以访问 JavaScript 环境：</p>
+
+<pre><code>@height: `document.body.clientHeight`;
+</code></pre>
+
+<p>如果你想将一个 JavaScript 字符串解析成16进制的颜色值，你可以使用 color 函数：</p>
+
+<pre><code>@color: color(`window.colors.baseColor`);
+@darkcolor: darken(@color, 10%);
+</code></pre></div>
+    </section>
+    <section class="page page-dark">
+      <div class="content">
+        <h2>About</h2>
+        <p><a href="http://cloudhead.io">Alexis Sellier(LESS作者)</a><span>&nbsp|&nbsp</span><a href="http://veryued.org">飞长(LESS中国官网发起人)</a>
+          <!--span &nbsp|&nbsp-->
+          <!--a(href='http://ued.taobao.com', target='_blank') TaoBao UED-->
+        </p>
+        <p>QQ交流群：248796244</p>
+        <p>贡献者：<a href="http://veryued.org">飞长</a><span>&nbsp|&nbsp</span><a href="http://www.toobug.net">TooBug</a><span>&nbsp|&nbsp</span><a href="https://github.com/yuyucongcong">郁郁葱葱</a><span>&nbsp|&nbsp</span><a href="http://peters-playground.com/">Peter</a><span>&nbsp|&nbsp</span><a href="http://weibo.com/iwillwen">小问</a></p>
+        <p><a href="https://me.alipay.com/lesscss" target="_blank">赞助</a><span>(感谢赞助：星星、*海经、*德文 )</span><span>&nbsp|&nbsp</span><a href="https://github.com/feichang/lesscss.net">参与中文官网建设</a></p>
+        <footer></footer>
+      </div>
+    </section>
+    <script src="/js/hiless.js"></script>
+    <script type="text/javascript" src="http://js.tongji.linezing.com/2707131/tongji.js"></script>
+    <noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/2707131/tongji.gif"></a></noscript>
+  </body>
+</html>

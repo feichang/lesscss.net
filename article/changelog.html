@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>更新日志 - LESSCSS中文官网</title>
+    <meta name="description" content="LESSCSS中文官网">
+    <meta name="keywords" content="LESS,LESSCSS,CSS,样式表,预处理">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet/less" href="../css/main.less">
+    <script src="../js/less.js"></script>
+  </head>
+  <body>
+    <section id="menu">
+      <div class="content">
+        <nav><a href="./home.html">首页</a><a href="./usage.html">使用说明</a><a href="./document.html">语言特性</a><a href="./reference.html">函数手册</a><a href="./changelog.html">更新日志</a><a href="https://github.com/cloudhead/less.js" target="_blank">Github(源)</a><a href="https://github.com/feichang/lesscss.net" target="_blank">Github(中文)</a><a href="http://less.cnodejs.net/" target="_blank">工具汇总</a><a href="http://veryless.org/" target="_blank">VeryLess</a></nav>
+      </div>
+    </section>
+    <section id="docs" class="page page-light">
+      <div class="content"><h2>1.4.2（2013-07-20）</h2>
+
+<ul>
+<li>如果不传入“严格运算模式”参数，<code>font-size</code>/<code>line-height</code>又可以正确计算了</li>
+<li>npmignore中包含了<code>.gitattributes</code></li>
+<li>属性名可以包含大写字母</li>
+<li>一些windows路径处理的bug修复（大写字母，路径中有多个<code>//</code>等）</li>
+</ul>
+
+<h2>1.4.1（2013-07-05）</h2>
+
+<ul>
+<li>修复<code>syncImports</code>和<code>yui-compress</code>选项，之前它们是被忽略的</li>
+<li>修复一些全局变量污染的问题</li>
+<li>处理参数对象为<code>null</code>或者<code>undefined</code>的情况</li>
+</ul>
+
+<h2>1.4.0（2013-06-05）</h2>
+
+<ul>
+<li>修复传入“严格运算模式”参数的bug</li>
+</ul>
+
+<h2>1.4.0 Beta 4（2013-05-04）</h2>
+
+<ul>
+<li>将<code>strictMaths</code>修改为<code>strictMath</code>。可通过在lessc中使用<code>--strict-math=on</code>或者在JavaScript中使用<code>strictMath:true</code>来开启。</li>
+<li>将lessc使用的“严格单位模式”选项改为<code>--strict-units=off</code></li>
+</ul>
+
+<h2>1.4.0 Beta 3（2013-04-30）</h2>
+
+<ul>
+<li>“严格单位模式”默认关闭，在开启的情况下会给出更有用但正确性稍低的结果，如<code>2px/1px = 2px</code></li>
+<li>处理相对路径中的<code>./</code></li>
+<li>为混合的guards表达式和非基本单位的情况添加<code>isunit</code>函数</li>
+<li>扩充了可识别的属性集合</li>
+<li>错误继承自JavaScript中的Error</li>
+<li>在浏览器中移除es-5-shim</li>
+<li>修复在windows/linux中处理本地路径的bug</li>
+</ul>
+
+<h2>1.4.0 Beta 1 &amp; 2（2013-03-07）</h2>
+
+<ul>
+<li>在选择器中支持<code>:extend()</code>（如<code>input:extend(.button) {}</code>），在规则中支持<code>&amp;:extend();</code>（如<code>input { &amp;:extend(.button all); }</code>）。</li>
+<li>只有在括号中的表达式才算是运算，这意味着<code>font: statements</code>、media query以及<code>calc</code>函数可以不用使用“避免编译”格式。可以在lessc中通过<code>--strict-maths-off</code>或者在JavaScript中通过<code>strictMaths:false</code>来关闭这个特性。</li>
+<li>单位会参与运算，如<code>200cm+1m = 3m</code>、<code>3px/1px = 3</code>。如果单位无法正确运算的话，将会得到错误。可以通过在lessc中使用<code>--strict-units-off</code>或者在JavaScript中通过<code>strictUnits:false</code>来关闭这个错误。</li>
+<li>选择器中使用<code>(~"@var")</code>插值的方式被移除了，请使用<code>@{var}</code>。</li>
+<li>导入的默认行为即是对每个文件只导入一次，<code>@import-once</code>被移除。</li>
+<li>可以通过给导入语句指定参数来指定导入的文件是CSS还是LESS，<code>@import (less) "file.css"</code>会将<code>file.css</code>当作LESS处理</li>
+<li>混合中的变量不再“泄露”到调用它的作用域中</li>
+<li>添加了<code>data-uri</code>函数，它会将图片通过BASE64编码直接输出到CSS中，如果<code>ieCompat</code>选项为<code>true</code>，并且文件过大的话，将会回退为<code>url()</code></li>
+<li>修复debug选项的明显bug</li>
+<li>在混合中可以使用其它参数作为参数的默认值，例如<code>.a(@a, @b:@a)</code></li>
+<li>如果在规则范围（即大括号）之外使用CSS属性，会产生一个错误</li>
+<li>添加<code>extract</code>函数用于从一组值中取中一个值，如<code>extract(12 13 14, 3)</code> => <code>3</code></li>
+<li>添加<code>luma</code>、<code>hsvhue</code>、<code>hsvsaturation</code>、<code>hsvvalue</code>函数</li>
+<li>添加<code>pow</code>、<code>pi</code>、<code>mod</code>、<code>tan</code>、<code>sin</code>、<code>cos</code>、<code>atan</code>、<code>asin</code>、<code>acos</code>和<code>sqrt</code>数学函数</li>
+<li>添加转换函数，如<code>convert(1rad, deg)</code> => 角度值</li>
+<li>lessc 在输出时如果目标目录不存在会自动创建</li>
+<li>lessc <code>@import</code>支持https和301跳转跟踪</li>
+<li>lessc <code>-depends</code>选项会以makefile格式输出导入的文件列表</li>
+<li>lessc <code>-lint</code>选项只报告错误</li>
+<li>在属性中以及选择器插值中支持命名空间</li>
+<li>其它bug修复</li>
+</ul>
+
+<h2>1.3.3（2012-12-30）</h2>
+
+<ul>
+<li>修复使用多个括号调用混合时的bug</li>
+<li>使用<code>contrast</code>函数时， 如果第一个参数不是颜色，将会跳过</li>
+</ul>
+
+<h2>1.3.2（2012-12-28）</h2>
+
+<ul>
+<li>浏览器和服务端都不再重写（re-write）url路径（之前是lessc的行为）</li>
+<li>可以通过<code>relative-urls</code>（<code>less.relativeUrls</code>）选项来使得url路径相对入口文件</li>
+<li>可以使用<code>rootpath</code>选项来给url路径添加一个base路径</li>
+<li>支持使用分号分隔参数，这样可以传递使用逗号分隔的值，如<code>mixin(23px,12px;);</code></li>
+<li>修复了很多极端情况下参数名处理上的问题</li>
+<li><code>hsv</code>、<code>hsva</code>、<code>unit</code>函数</li>
+<li>修复了很多不正确的报错信息</li>
+<li>修复<code>@import-once</code>的工作方式，现在使用全路径来判断是否重复引入，而不是通过相对路径</li>
+<li>支持<code>:not(:nth-child(3))</code></li>
+<li>混合中的guards表达式会考虑单位</li>
+<li>支持unicode描述(U+00A1-00A9)</li>
+<li>支持通过<code>&amp;</code>使用带栈（stack）的混合调用方式（1.3.1中失效了）</li>
+<li>支持<code>@namespace</code>和命名空间联合</li>
+<li>在颜色函数中使用<code>%</code>时，考虑颜色超过256的情况</li>
+<li>与带<code>%</code>的值运算时不除以100，并保持原来的单位</li>
+<li>允许URL包含<code>%</code>（如<code>%20</code>表示空格）</li>
+<li>当含有guards表达式的混合不匹配时不再强制要求一个默认的混合</li>
+<li>使用字符串输出单位（如果你需要获取不带单位的值，请使用<code>unit</code>函数）</li>
+<li>当混合调用与自己同名的混合时不再死循环</li>
+<li>修复带<code>!important</code>调用混合时的bug</li>
+<li>修复处理多个注释的bug</li>
+<li>在规则中允许存在多个分号</li>
+<li>忽略跟在<code>@charset</code>后的东西</li>
+<li><code>syncImport</code>选项会使node.js使用同步方式读取文件</li>
+<li>如果输出目录不存在会自动建立</li>
+<li>将依赖的cssmin换成了ycssmin</li>
+<li>lessc可以http加载文件</li>
+<li>允许在非开发模式中调用<code>less.watch()</code></li>
+<li>在开发模式下不缓存</li>
+<li>可以更好地处理后面带有查询参数（如时间戳）的less文件</li>
+<li>sass调试语句现在与chrome兼容</li>
+<li>可使用<code>modifyVars</code>函数来改变全局变量并重新渲染</li>
+</ul>
+
+<h2>1.3.1（2012-10-18）</h2>
+
+<ul>
+<li>支持注释方式和<code>@media</code>方式的调试语句</li>
+<li>修复在chrome插件中异步调用的bug</li>
+<li>新函数<code>tint</code>、 <code>shade</code>、 <code>multiply</code>、 <code>screen</code>、 <code>overlay</code>、 <code>hardlight</code>、 <code>difference</code>、 <code>exclusion</code>、 <code>average</code>、 <code>negation</code>、 <code>softlight</code>、 <code>red</code>、 <code>green</code>、 <code>blue</code>、 <code>contrast</code></li>
+<li>允许在属性名中“避免编译”</li>
+<li>允许在选择器中直接使用<code>@{a}</code>，如<code>.a.@{a} { color: black; }</code></li>
+<li><code>round</code>函数直接小数参数</li>
+<li>对<code>&amp; selector</code>提供更好支持</li>
+<li>客户端使用时保持<code>link</code>语句的顺序</li>
+<li>lessc帮助更友好</li>
+<li>rhino版本修复</li>
+<li>修复客户端错误处理的bug</li>
+<li>支持<code>dpi</code>、<code>vmin</code>、<code>vm</code>、<code>dppx</code>、<code>dpcm</code>单位</li>
+<li>修复media query中的<code>ratio</code></li>
+<li>允许在混合的guards表达式中比较颜色和字符串</li>
+<li>支持<code>-*-keyframes</code>（为<code>-khtml</code>而生，但现在支持任何前缀）</li>
+<li>在混合中，<code>weight</code>默认值设为<code>50%</code></li>
+<li>支持<code>@import-once</code></li>
+<li>输出时移除重复的规则</li>
+<li>在调用混合时支持命名参数</li>
+<li>很多bug修复</li>
+</ul>
+
+<h2>1.3.0（2012-03-10）</h2>
+
+<ul>
+<li>支持<code>@media</code>代码段</li>
+<li>支持在选择器中使用任何实体（entities）</li>
+<li>支持可变参数</li>
+<li>无参数混合和行为有改变</li>
+<li>允许在任何选择器中使用<code>@import</code></li>
+<li>media query的查询条件可以是变量</li>
+<li>自然合并media query的条件</li>
+<li>修复全局变量泄露</li>
+<li>修复参数不对的情况下调用时的错误提示</li>
+<li>修复一个<code>@arguments</code>参数相关的bug</li>
+<li>修复<code>:: selector</code>的输出</li>
+<li>修复在混合中使用<code>@media</code>的一个bug</li>
+</ul>
+
+<h2>1.2.1（2012-01-15）</h2>
+
+<ul>
+<li>修复浏览器中的导入功能</li>
+<li>改进浏览器中的错误报告</li>
+<li>修复导入文件中运行时错误报告</li>
+<li>修复导入时文件没找到的错误报告</li>
+</ul>
+
+<h2>1.2.0（2012-01-07）</h2>
+
+<ul>
+<li>支持混合的guards表达式</li>
+<li><code>percentage</code>函数</li>
+<li>新的解析十六进制颜色值字符串的函数</li>
+<li>新的样式类型检查函数</li>
+<li>修复对rhino的支持</li>
+<li>修复调用混合时的字符串参数bug</li>
+<li>修复当<code>index</code>为<code>0</code>时的错误报告</li>
+<li>修复在Webkit和IE浏览器中支持</li>
+<li>修复变量为空时的字符串插值bug</li>
+<li>支持在混合调用时加上<code>!important</code></li>
+<li>支持<code>@keyframes</code></li>
+<li>支持在特写的选择器中使用变量，如<code>nth-child</code></li>
+<li>正确地支持<code>@media</code>和<code>@import</code>特性</li>
+<li>改进使用media query指定的<code>@import</code>的支持</li>
+<li>改进导入文件中产生的错误的报告</li>
+<li>改进函数调用错误报告</li>
+<li>改进错误报告</li>
+</ul></div>
+    </section>
+    <section class="page page-dark">
+      <div class="content">
+        <h2>About</h2>
+        <p><a href="http://cloudhead.io">Alexis Sellier(LESS作者)</a><span>&nbsp|&nbsp</span><a href="http://veryued.org">飞长(LESS中国官网发起人)</a>
+          <!--span &nbsp|&nbsp-->
+          <!--a(href='http://ued.taobao.com', target='_blank') TaoBao UED-->
+        </p>
+        <p>QQ交流群：248796244</p>
+        <p>贡献者：<a href="http://veryued.org">飞长</a><span>&nbsp|&nbsp</span><a href="http://www.toobug.net">TooBug</a><span>&nbsp|&nbsp</span><a href="https://github.com/yuyucongcong">郁郁葱葱</a><span>&nbsp|&nbsp</span><a href="http://peters-playground.com/">Peter</a><span>&nbsp|&nbsp</span><a href="http://weibo.com/iwillwen">小问</a></p>
+        <p><a href="https://me.alipay.com/lesscss" target="_blank">赞助</a><span>(感谢赞助：星星、*海经、*德文 )</span><span>&nbsp|&nbsp</span><a href="https://github.com/feichang/lesscss.net">参与中文官网建设</a></p>
+        <footer></footer>
+      </div>
+    </section>
+    <script src="/js/hiless.js"></script>
+    <script type="text/javascript" src="http://js.tongji.linezing.com/2707131/tongji.js"></script>
+    <noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/2707131/tongji.gif"></a></noscript>
+  </body>
+</html>

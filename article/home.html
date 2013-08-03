@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>首页 - LESSCSS中文官网</title>
+    <meta name="description" content="LESSCSS中文官网">
+    <meta name="keywords" content="LESS,LESSCSS,CSS,样式表,预处理">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet/less" href="../css/main.less">
+    <script src="../js/less.js"></script>
+  </head>
+  <body>
+    <section id="menu">
+      <div class="content">
+        <nav><a href="./home.html">首页</a><a href="./usage.html">使用说明</a><a href="./document.html">语言特性</a><a href="./reference.html">函数手册</a><a href="./changelog.html">更新日志</a><a href="https://github.com/cloudhead/less.js" target="_blank">Github(源)</a><a href="https://github.com/feichang/lesscss.net" target="_blank">Github(中文)</a><a href="http://less.cnodejs.net/" target="_blank">工具汇总</a><a href="http://veryless.org/" target="_blank">VeryLess</a></nav>
+      </div>
+    </section>
+    <section>
+      <header id="main">
+        <div class="content">
+          <section id="intro" class="page">
+            <div id="logo"> is More , Than CSS</div>
+            <div id="download_wrapper"><a id="download_less" href="https://github.com/less/less.js/raw/master/dist/less-1.4.2.min.js">下载 less.js</a><a id="download_koala" href="http://koala-app.com/index-zh.html">下载 koala</a></div>
+            <div id="download-info"><span>最新版本：1.4.2<span><span> | </span><a href="https://github.com/feichang/lesscss.net/blob/master/source/docs/changelog.md">升级变更说明</a></span></span></div>
+          </section>
+          <section id="example"></section>
+        </div>
+        <div style="clear: both"></div>
+      </header>
+    </section>
+    <section id="synopsis" class="page page-dark">
+      <div class="content"><h2>什么是LESSCSS</h2>
+
+<p>LESSCSS是一种动态样式语言，属于CSS预处理语言的一种，它使用类似CSS的语法，为CSS的赋予了动态语言的特性，如变量、继承、运算、函数等，更方便CSS的编写和维护。</p>
+
+<p>LESSCSS可以在多种语言、环境中使用，包括浏览器端、桌面客户端、服务端。</p>
+
+<p>语言特性快速预览：</p>
+
+<h3>变量：</h3>
+
+<p>变量允许我们单独定义一系列通用的样式，然后在需要的时候去调用。所以在做全局样式调整的时候我们可能只需要修改几行代码就可以了。</p>
+
+<p>LESS源码：</p>
+
+<pre><code>@color: #4D926F;
+
+#header {
+    color: @color;
+}
+h2 {
+    color: @color;
+}
+</code></pre>
+
+<p>编译后的CSS：</p>
+
+<pre><code>#header {
+    color: #4D926F;
+}
+h2 {
+    color: #4D926F;
+}
+</code></pre>
+
+<h3>混合（Mixins）</h3>
+
+<p>混合可以将一个定义好的class A轻松的引入到另一个class B中，从而简单实现class B继承class A中的所有属性。我们还可以带参数地调用，就像使用函数一样。</p>
+
+<p>LESS源码：</p>
+
+<pre><code>.rounded-corners (@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    -ms-border-radius: @radius;
+    -o-border-radius: @radius;
+    border-radius: @radius;
+}
+
+#header {
+    .rounded-corners;
+}
+#footer {
+    .rounded-corners(10px);
+}
+</code></pre>
+
+<p>编译后的CSS：</p>
+
+<pre><code>#header {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+#footer {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+}
+</code></pre>
+
+<h3>嵌套</h3>
+
+<p>我们可以在一个选择器中嵌套另一个选择器来实现继承，这样很大程度减少了代码量，并且代码看起来更加的清晰。</p>
+
+<p>LESS源码：</p>
+
+<pre><code>#header {
+    h1 {
+        font-size: 26px;
+        font-weight: bold;
+    }
+    p {
+        font-size: 12px;
+        a {
+            text-decoration: none;
+            &amp;:hover {
+                border-width: 1px
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>编译后的CSS：</p>
+
+<pre><code>#header h1 {
+    font-size: 26px;
+    font-weight: bold;
+}
+#header p {
+    font-size: 12px;
+}
+#header p a {
+    text-decoration: none;
+}
+#header p a:hover {
+    border-width: 1px;
+}
+</code></pre>
+
+<h3>函数和运算</h3>
+
+<p>运算提供了加，减，乘，除操作；我们可以做属性值和颜色的运算，这样就可以实现属性值之间的复杂关系。LESS中的函数一一映射了JavaScript代码，如果你愿意的话可以操作属性值。</p>
+
+<p>LESS源码：</p>
+
+<pre><code>@the-border: 1px;
+@base-color: #111;
+@red:        #842210;
+
+#header {
+    color: (@base-color * 3);
+    border-left: @the-border;
+    border-right: (@the-border * 2);
+}
+#footer {
+    color: (@base-color + #003300);
+    border-color: desaturate(@red, 10%);
+}
+</code></pre>
+
+<p>编译后的CSS：</p>
+
+<pre><code>#header {
+    color: #333;
+    border-left: 1px;
+    border-right: 2px;
+}
+#footer {
+    color: #114411;
+    border-color: #7d2717;
+}
+</code></pre>
+
+<h3>更多说明</h3>
+
+<p>更多更详细的语法特性请参见<a href="./document.html">语言文档</a></p>
+
+<h2>快速上手</h2>
+
+<p>LESSCSS的使用是很容易的，首先，使用你最常使用的代码编辑器，按LESSCSS的语法规则写好.less文件，接下来，使用编译工具它编译成.css，最后再引入页面即可。</p>
+
+<h3>GUI编译工具</h3>
+
+<p>为方便起见，建议初学者使用GUI编译工具来编译.less文件，以下是一些可选GUI编译工具：</p>
+
+<ol>
+<li><p>koala(Win/Mac/Linux)</p>
+
+<p>国人开发的LESSCSS/SASS编译工具。下载地址：<a href="http://koala-app.com/index-zh.html">http://koala-app.com/index-zh.html</a></p></li>
+<li><p>Codekit(Mac)</p>
+
+<p>一款自动编译Less/Sass/Stylus/CoffeeScript/Jade/Haml的工具，含语法检查、图片优化、自动刷新等附加功能。下载地址<a href="http://incident57.com/codekit/">http://incident57.com/codekit/</a></p></li>
+<li><p>WinLess(Win)</p>
+
+<p>一款LESS编译软件。下载地址<a href="http://winless.org/">http://winless.org/</a></p></li>
+<li><p>SimpleLess(Win/Mac/Linux)</p>
+
+<p>一款LESS编译软件。下载地址<a href="http://wearekiss.com/simpless">http://wearekiss.com/simpless</a></p></li>
+</ol>
+
+<h3>Node.js库</h3>
+
+<p>LESSCSS官方有一款基于Node.js的库，用于编译.less文件。</p>
+
+<p>使用时，首先全局安装less（部分系统下可能需要在前面加上sudo切换为超级管理员权限）：</p>
+
+<pre><code>npm install -g less
+</code></pre>
+
+<p>接下来就可以使用lessc来编译.less文件了：</p>
+
+<pre><code>lessc example/example.less example/example.css
+</code></pre>
+
+<p>更多选项可以直接运行lessc查看说明。</p>
+
+<h3>浏览器端使用</h3>
+
+<p>LESSCSS也可以不经编译，直接在浏览器端使用。</p>
+
+<p>使用方法：</p>
+
+<ol>
+<li>下载LESSCSS的.js文件，例如lesscss-1.4.0.min.js。</li>
+<li><p>在页面中引入.less文件</p>
+
+<pre><code>&lt;link rel="stylesheet/less" href="example.less" /&gt;
+</code></pre>
+
+<p>需要注意<code>rel</code>属性的值是<code>stylesheet/less</code>，而不是<code>stylesheet</code>。</p></li>
+<li><p>引入第1步下载的.js文件</p>
+
+<pre><code>&lt;script src="lesscss-1.4.0.min.js"&gt;&lt;/script&gt;
+</code></pre></li>
+</ol>
+
+<p>需要特别注意的是，由于浏览器端使用时是使用ajax来拉取.less文件，因此直接在本机文件系统打开（即地址是<code>file://</code>开头）或者是有跨域的情况下会拉取不到.less文件，导致样式无法生效。</p>
+
+<p>还有一种情况容易导致样式无法生效，就是部分服务器（以IIS居多）会对未知后缀的文件返回404，导致无法正常读取.less文件。解决方案是在服务器中为.less文件配置MIME值为<code>text/css</code>（具体方法请搜索）。或者还有一种更简单的方法，即是直接将.less文件改名为.css文件即可。</p>
+
+<h3>更多说明</h3>
+
+<p>更多使用上的说明请参见<a href="./usage.html">使用说明</a>。</p>
+
+<h2>更新说明</h2>
+
+<h3>1.4.0</h3>
+
+<p>1.4.0已经正式发布，这个版本引入了一些新特性，如派生（extends）、<code>data-uri</code>函数以及更多的数学函数。详细的变更情况请查看<a href="./changelog.html">更新日志</a>。</p>
+
+<p>在这个版本中，有一些不兼容的变化。</p>
+
+<ul>
+<li><code>@import-once</code>被移除，现在<code>@import</code>的默认行为就是只引入一次（和旧版本<code>@import-once</code>功能一样）。</li>
+<li>像<code>(~".myclass_@{index}") {...}</code>这样在选择器中插入变量的语法不再被支持，请使用<code>.myclass_@{index} {...}</code>来代替，这种新语法在1.3.1以上版本中都支持。</li>
+<li>用于浏览器的less.js不再包含es5-shim.js。因为我们之前用的es5-shim.js版本中有一些错误，而新版本的体积又明显变大了。使用时请根据需要选用es5-shim或者是只在现代浏览器中使用。</li>
+<li><p>引入了一种“严格运算模式”（可选），在严格运算模式中，数学运算必须被括号包裹，如：</p>
+
+<pre><code>(1 + 1)  // 2
+1 + 1    // 1+1
+</code></pre>
+
+<p>在1.4.0中，这个选项默认被关闭，但我们希望在未来的某个时间将它默认设置为开启。我们建议你升级代码的写法，并打开严格运算模式。（在命令行中加上<code>-strict-math=on</code>或者是在JavaScript代码中加入<code>strictMath:true</code>。）带括号的写法与旧版的less编译器兼容。</p></li>
+<li>引入了一种“严格单位模式”（<code>strictUnits:true</code>或者<code>strict-units=on</code>），这将强制让lessc验证单位的合法性。例如<code>4px/2px</code>结果为<code>2</code>，而不是<code>2px</code>，而<code>4em/2px</code>将报错。目前没有将这个选项默认打开的计划，但它可能在排查bug的时候有用。</li>
+<li>单位的运算功能已完成，所以<code>(4px * 3em) / 4px</code>以前结果是<code>3px</code>，但现在是<code>3em</code>。但是，我们没有取消有单位数字向无单位数字转换的功能，除非“严格单位模式”被开启。</li>
+</ul>
+
+<p>你可以现在就将选择器中插入变量、运算、单位的涉及到的变化应用到代码中去，这些变化能很好地与less 1.3.3兼容。</p></div>
+    </section>
+    <section class="page page-light">
+      <div class="content">
+        <h2>其他国家的LESS站点</h2><a href="http://lesscss.org" target="_blank">English(需要翻墙)</a><span>&nbsp|&nbsp</span><a href="http://lesscss.ru" target="_blank">Russian</a><span>&nbsp|&nbsp</span><a href="http://less-ja.studiomohawk.com/" target="_blank">Japanes</a><span>&nbsp|&nbsp</span><a href="http://ciembor.github.com/lesscss.org/" target="_blank">Polish</a><span>&nbsp|&nbsp</span><a href="http://bertzzie.com/post/7/dokumentasi-less-bahasa-indonesia" target="_blank">Indones</a><span>&nbsp|&nbsp</span><a href="http://www.designcontest.com/show/lesscss-be" target="_blank">Belorus</a><span>&nbsp|&nbsp</span><a href="http://lesscss.loopinfinito.com.br/" target="_blank">Portuge</a>
+        <h2>About</h2>
+        <p><a href="http://cloudhead.io">Alexis Sellier(LESS作者)</a><span>&nbsp|&nbsp</span><a href="http://veryued.org">飞长(LESS中国官网发起人)</a>
+          <!--span &nbsp|&nbsp-->
+          <!--a(href='http://ued.taobao.com', target='_blank') TaoBao UED-->
+        </p>
+        <p>QQ交流群：248796244</p>
+        <p>贡献者：<a href="http://veryued.org">飞长</a><span>&nbsp|&nbsp</span><a href="http://www.toobug.net">TooBug</a><span>&nbsp|&nbsp</span><a href="https://github.com/yuyucongcong">郁郁葱葱</a><span>&nbsp|&nbsp</span><a href="http://peters-playground.com/">Peter</a><span>&nbsp|&nbsp</span><a href="http://weibo.com/iwillwen">小问</a></p>
+        <p><a href="https://me.alipay.com/lesscss" target="_blank">赞助</a><span>(感谢赞助：星星、*海经、*德文 )</span><span>&nbsp|&nbsp</span><a href="https://github.com/feichang/lesscss.net">参与中文官网建设</a></p>
+        <footer></footer>
+      </div>
+    </section>
+    <script src="/js/hiless.js"></script>
+    <script type="text/javascript" src="http://js.tongji.linezing.com/2707131/tongji.js"></script>
+    <noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/2707131/tongji.gif"></a></noscript>
+  </body>
+</html>

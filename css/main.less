@@ -63,7 +63,7 @@ html { margin: 0 }
 body {
 	background-color: @darkest;
 	margin: 0 auto;
-	font-family: Arial, sans-serif;
+	font-family: Arial,hiragino sans gb,microsoft yahei, sans-serif;
 	font-size: 100%;
 	overflow-x: hidden;
 }
@@ -386,6 +386,9 @@ nav a, #dropdown li {
 	h3 {
 		margin: 15px 0;
 	}
+	h1,h2,h3,h4,h5,h6{
+		font-family: hiragino sans gb,microsoft yahei,serif;
+	}
 }
 
 .page-light {
@@ -430,6 +433,10 @@ nav a, #dropdown li {
 	}
 	pre code                    { font-size: 15px  }
 	p + h2, pre + h2, code + h2 { border-top-color: rgba(0, 0, 0, 0.1) }
+	h3,h4,h5,h6{
+		border-left:3px solid @blue;
+		padding-left:10px;
+	}
 }
 
 #reference .content {
@@ -547,6 +554,10 @@ td {
 		.comment { color: rgba(255, 255, 255, 0.2) }
 		.number { color: lighten(@blue, 10%) }
 		.class, .special { color: hsl(190, 20%, 50%) }
+	}
+	h3,h4,h5,h6{
+		border-left:3px solid @highlight;
+		padding-left:10px;
 	}
 }
 #usage {

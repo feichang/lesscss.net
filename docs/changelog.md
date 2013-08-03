@@ -101,7 +101,7 @@
 
 - 支持注释方式和`@media`方式的调试语句
 - 修复在chrome插件中异步调用的bug
-- 新函数`tint`、`shade`、`multiply`、`screen`、`overlay`、`hardlight`、`difference`、`exclusion`、`average`、`negation`、`softlight`、`red`、`green`、`blue`、`contrast`
+- 新函数`tint`、 `shade`、 `multiply`、 `screen`、 `overlay`、 `hardlight`、 `difference`、 `exclusion`、 `average`、 `negation`、 `softlight`、 `red`、 `green`、 `blue`、 `contrast`
 - 允许在属性名中“避免编译”
 - 允许在选择器中直接使用`@{a}`，如`.a.@{a} { color: black; }`
 - `round`函数直接小数参数

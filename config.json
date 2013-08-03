@@ -1,0 +1,30 @@
+{
+	"blogName": "LESSCSS中文官网",
+	"blogSubTitle": "",
+	"blogKeywords": "LESS,LESSCSS,CSS,样式表,预处理",
+	"blogDescription" : "LESSCSS中文官网",
+
+	"authorName" : "TooBug",
+
+	"domain" : "www.lesscss.net",
+
+	"sourcePath": "./source",
+	"blogPath":"./docs",
+	"globalPath":"./source/assets",
+	"distPath": "./dist",
+	"skinPath": "./source/skin",
+
+	"disabledParsePlugins":[
+		"parsePages"
+	],
+	"disabledPagePlugins":[
+		"packageSource",
+		"defineSkin",
+		"buildCategories",
+		"buildIndex",
+		"buildPages",
+		"buildRss"
+	]
+
+
+}

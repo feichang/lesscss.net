@@ -1,0 +1,70 @@
+!!!
+html
+	include ./include/head.jade
+	body
+		include ./include/header.jade
+		section
+			header#main
+				.content
+					section#intro.page
+						#logo  is More , Than CSS
+						#download_wrapper
+							a#download_less(href='https://github.com/less/less.js/raw/master/dist/less-1.4.2.min.js')
+								| 下载 less.js
+							a#download_koala(href='http://koala-app.com/index-zh.html')
+								| 下载 koala
+						#download-info
+							span
+								| 最新版本：1.4.2
+								span
+									span  | 
+									a(href='https://github.com/feichang/lesscss.net/blob/master/source/docs/changelog.md') 升级变更说明
+					section#example
+				div(style='clear: both')
+		section#synopsis.page.page-dark
+			.content !{content}
+		section.page.page-light
+			.content
+				h2 其他国家的LESS站点
+				a(href="http://lesscss.org",target="_blank") English(需要翻墙)
+				span &nbsp|&nbsp
+				a(href="http://lesscss.ru",target="_blank") Russian
+				span &nbsp|&nbsp
+				a(href="http://less-ja.studiomohawk.com/",target="_blank") Japanes
+				span &nbsp|&nbsp
+				a(href="http://ciembor.github.com/lesscss.org/",target="_blank") Polish
+				span &nbsp|&nbsp
+				a(href="http://bertzzie.com/post/7/dokumentasi-less-bahasa-indonesia",target="_blank") Indones
+				span &nbsp|&nbsp
+				a(href="http://www.designcontest.com/show/lesscss-be",target="_blank") Belorus
+				span &nbsp|&nbsp
+				a(href="http://lesscss.loopinfinito.com.br/",target="_blank") Portuge
+				h2 About
+				p
+					a(href='http://cloudhead.io') Alexis Sellier(LESS作者)
+					span &nbsp|&nbsp
+					a(href='http://veryued.org') 飞长(LESS中国官网发起人)
+					//span &nbsp|&nbsp
+					//a(href='http://ued.taobao.com', target='_blank') TaoBao UED
+				p QQ交流群：248796244
+				p 贡献者：
+					a(href='http://veryued.org') 飞长
+					span &nbsp|&nbsp
+					a(href='http://www.toobug.net') TooBug
+					span &nbsp|&nbsp
+					a(href='https://github.com/yuyucongcong') 郁郁葱葱
+					span &nbsp|&nbsp
+					a(href='http://peters-playground.com/') Peter
+					span &nbsp|&nbsp
+					a(href='http://weibo.com/iwillwen') 小问
+				p
+					a(href='https://me.alipay.com/lesscss', target='_blank') 赞助
+					span (感谢赞助：星星、*海经、*德文 )
+					span &nbsp|&nbsp
+					a(href='https://github.com/feichang/lesscss.net') 参与中文官网建设
+				footer
+		script(src='/js/hiless.js')
+		script(type='text/javascript', src='http://js.tongji.linezing.com/2707131/tongji.js')
+		noscript
+			a(href='http://www.linezing.com')
+				img(src='http://img.tongji.linezing.com/2707131/tongji.gif')

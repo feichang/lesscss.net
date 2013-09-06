@@ -1,70 +1,51 @@
 # 使用说明
 
-## 基本使用方式
+## 使用koala编译
 
-浏览器端使用是在使用LESS开发时最直观的一种方式。如果是在生产环境中，尤其是对性能要求比较高的场合，建议使用node或者其它第三方工具先编译成CSS再上线使用。
+Koala 是一款由国人开发的开源预处理语言图形编译工具，目前已支持 **Less**、**Sass**、**Compass** 与 **CoffeeScript**。
 
-浏览器端使用方法：
+目前支持以下系统：Windows，Mac, 10.7+，Linux: 32bit / 64bit，Ubuntu: 32bit / 64bit；
 
-1. 使用`link`引入.less文件，注意将`rel`设为`stylesheet/less`:
+我们可以从他们官方网站下载 koala：[点击进入](http://koala-app.com/index-zh.html),使用文档[点击进入](https://github.com/oklai/koala/wiki/%E4%B8%AD%E6%96%87wiki%E9%A6%96%E9%A1%B5)
 
-		<link rel="stylesheet/less" type="text/css" href="styles.less" />
-2. 在本站下载less.js，将它引入页面的`<head>`元素中，像这样：
+### 使用方法：
 
-		<script src="less.js" type="text/javascript"></script>
-		
-需要注意.less文件要在脚本文件之前引入。
+1.  安装完成后打开 Koala，把**文件夹**拖入界面或者是在左侧加号处选择文件夹，此时在界面左边有文件夹路径产生。
 
-### 特别注意
+	![选择文件夹](/images/usage_1.jpg)
 
-1. 由于less.js会通过ajax拉取.less文件，故**必须在http(s)协议下使用**，即直接双击打开是无法生效的
-2. 由于less.js会通过ajax拉取.less文件，故**.less文件不可以跨域使用**，否则会无法生效（当然，可以通过在服务端设置CORS来解决）
-3. 由于.less对于IIS来说是一个陌生的后缀，高版本IIS会阻止访问，返回404，解决方案是**为.less文件添加MIME为`text/css`**，或者更简单，改后缀为.css即可
+2.  同时有 less 文件将显示在界面中间，右键文件选择输出 CSS 文件的路径。
 
-## 高级设置
+	![设置输出路径](/images/usage_2.jpg)
 
-你可以引入less.js之前通过创建一个全局`less`对象的方式来指定参数，例如：
+3.  左键点击 less 文件在右边则有功能选项栏弹出，下面将介绍功能。
 
-	<script type="text/javascript">
-		less = {
-			env: "development", // 或者"production"
-			async: false,       // 异步加载导入的文件
-			fileAsync: false,   // 使用文件协议访问页面时异步加载导入的文件
-			poll: 1000,         // 在监视模式下，每两次请求之间的时间间隔（ms）
-			functions: {},      // user functions, keyed by name
-			dumpLineNumbers: "comments", // 或者"mediaQuery"，或者"all"
-			relativeUrls: false,// 是否调整相对路径
-								// 如果为false，则url已经是相对入口less文件的
-								// entry less file
-			rootpath: ":/a.com/"// 添加到每个url开始处的路径
-		};
-	</script>
-	<script src="less.js" type="text/javascript"></script>
+	![设置输出选项](/images/usage_2.jpg)
 
-## 监视模式
+### 功能介绍：
 
-监视模式是一种在客户端（浏览器）使用时的特性，它会在样式文件有更新时自动刷新页面。
+#### 自动编译（实时编译）：
 
-在URL中加入`#!watch`并刷新页面即可开启监视模式。你也可以通过在console中运行`less.watch()`来开启监视模式。
+当开启自动编译时，使用编辑器按下 Ctrl+S 保存时，CSS 文档会自动更新。如果没有打开这个功能，那么需要使用者在自行点击"执行编译"才更新 CSS 文档。
 
-## 修改变量
+![自动更新选择](/images/usage_4.jpg)
 
-使用`modifyVars`可以在运行时修改LESS变量。当用新的变量值调用了这个函数时，LESS文件将会被重新编译，但不会被重新加载。一个基本的用法示例：
+#### 编译选项：
 
-	less.modifyVars({
-		'@buttonFace': '#5B83AD',
-		'@buttonText': '#D9EEF2'
-	});
+1.  行注释（line comments）：这个功能会在 css 文件里对应的 less 编译出来的 css 代码上方提供一个注释。注释的内容分别说明来自 less 的第几行开始，同时标明是来自那个 less 文件。
+2.  调试信息（debug info）：这个调试功能是在保存时自动检测有无错误，注意实时编译关闭时不会开启，需要在你执行时才弹出错误。所以，建议开启实时编译。目前调试功能仅能检测出一些影响编译的错误：例如没有带{}、没带分号。这些错误，而有没有使用选择器或者样式输入错误则不会提示。
 
-## 调试
+	![输出调试信息](/images/usage_5.jpg)
 
-我们在生成的CSS中带上一些额外的信息，以便一些调试工具可以定位到LESS文件中的行数。
+3. 输出方式（代码压缩）：
 
-可以通过`dumpLineNumbers`选项或者在url中添加`!dumpLineNumbers:mediaQuery`来开启这个功能。
+	- 正常（normal）：顾名思义，就是不压缩。
+	- 压缩（compress）：顾名思义，就是压缩。
+	- YUI压缩（YUIcompress）：使用 YUI 的压缩打包工具进行压缩。
 
-你可以选择“注释”方式，使用FireLESS来调，或者选择“mediaQuery”方式，使用FireBug/Chrome开发者工具（被识别为SCSS media query调试格式）来调试。
+	![设置输出方式](/images/usage_6.jpg)
 
-## Node.js
+## Node.js命令行中使用
 
 ### 安装
 
@@ -90,7 +71,7 @@
 
 直接运行lessc，不带任何参数将可以看到所有的命令行参数。
 
-## 在代码中使用
+## 在Node.js代码中使用
 
 你可以在Node中调用编译器，例如：
 
@@ -127,3 +108,7 @@
 	parser.parse('.class { width: (1 + 1) }', function (e, tree) {
 		tree.toCSS({ compress: true }); // 压缩输出的CSS
 	});
+
+## 浏览器端使用
+
+你也可以直接在浏览器中使用LESS，详情请[查看这里](./usage_browser.html)。

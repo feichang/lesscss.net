@@ -39,9 +39,9 @@ Koala 是一款由国人开发的开源预处理语言图形编译工具，目�
 
 3. 输出方式（代码压缩）：
 
-- 正常（normal）：顾名思义，就是不压缩。
-- 压缩（compress）：顾名思义，就是压缩。
-- YUI压缩（YUIcompress）：使用 YUI 的压缩打包工具进行压缩。
+	- 正常（normal）：顾名思义，就是不压缩。
+	- 压缩（compress）：顾名思义，就是压缩。
+	- YUI压缩（YUIcompress）：使用 YUI 的压缩打包工具进行压缩。
 
 	![设置输出方式](/images/usage_6.jpg)
 

@@ -1,7 +1,6 @@
 # 下载
 
-
-## 下载
+## less.js下载
 
 LESS 1.5已经放出Beta 1版本，支持source map等新特性，欢迎尝鲜。详细变更请见[更新日志](./changelog.html)。
 

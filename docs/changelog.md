@@ -1,6 +1,26 @@
 # 更新日志
 
 
+## 1.5.0 Beta 1（2013-09-01）
+
+- 支持sourcemap
+- 支持使用内联语句将CSS内容引入但不用LESS处理，例如`@import (inline) "file.css";`
+- 更好地支持`modifyVars`（使用新的变量值来刷新页面样式）
+- 支持使用`reference`选项来引入外部样式，但外部样式不会被输出，只有调用混合或者是使用`extend`继承才会输出
+- 支持在选择器上使用guard表达式（现在仅支持单个选择器）
+- 添加`min`/`max`函数
+- 修复命名空间中操作符之间空格问题
+- 压缩时保留以感叹号开头的注释
+- 在`toCSS`中不再抛出异常，而是始终返回一个错误对象
+- 允许使用`+:`语法合并属性
+- 修复使用CSS语法传递`saturate`函数时的bug
+- 添加`svg-gradient`函数
+- 在lessc中添加`no-js`选择（在浏览器中，使用`javascriptEnabled: false`），用于禁止在LESS文件中使用JavaScript
+- 将cssmin换成了clean-css
+- 浏览器端：添加`logLevel`选项控制日志（2 = 所有日志, 1 = 只显示错误, 0 = 不显示日志）
+- 浏览器端：添加`errorReporting`选项，值可以为`"html"`（默认）或者`"console"`或者一个函数
+- 有关media query和extend的bug修复
+
 ## 1.4.2（2013-07-20）
 
 - 如果不传入“严格运算模式”参数，`font-size`/`line-height`又可以正确计算了

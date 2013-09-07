@@ -35,6 +35,27 @@ LESSCSS官方有一款基于Node.js的库，用于编译.less文件。
 
 [grunt-contrib-less](https://github.com/gruntjs/grunt-contrib-less)
 
+## 其它语言
+
+### Java
+
+- [LESS Engine](https://github.com/Asual/lesscss-engine) (在Rhino引擎中运行less.js)
+- [LESS CSS Compiler for Java](https://github.com/marceloverdijk/lesscss-java) (在Rhino引擎中运行less.js)
+- [Less4j](https://github.com/SomMeri/less4j) (原生Java实现)
+
+### .Net
+
+- [LESS CSS for .Net](http://www.dotlesscss.org/)
+
+### PHP
+
+- [lessphp](http://leafo.net/lessphp/docs/)
+- [BW LESS CSS](http://wordpress.org/extend/plugins/bw-less-css/) (WordPress插件)
+
+### Ruby
+
+- [Less.js In Ruby's V8 Engine](https://github.com/cowboyd/less.rb)
+
 ## 相关文章
 
 - [webstorm 用firewatcher编译less](http://www.cnblogs.com/enix/archive/2013/06/07/3123899.html)

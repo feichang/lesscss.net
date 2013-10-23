@@ -8,18 +8,22 @@
 - 更好地支持`modifyVars`（使用新的变量值来刷新页面样式）
 - 支持使用`reference`选项来引入外部样式，但外部样式不会被输出，只有调用混合或者是使用`extend`继承才会输出
 - 支持在选择器上使用guard表达式（现在仅支持单个选择器）
+- 允许使用`+:`语法合并属性
 - 添加`min`/`max`函数
+- 添加`length`函数，改进`extract`函数以更好地处理逗号分隔的值
+- 多次使用`import`时，子引用将在最终输出时输出多次
 - 修复命名空间中操作符之间空格问题
 - 压缩时保留以感叹号开头的注释
-- 在`toCSS`中不再抛出异常，而是始终返回一个错误对象
-- 允许使用`+:`语法合并属性
-- 修复使用CSS语法传递`saturate`函数时的bug
+- 修复使用CSS语法传入参数时`saturate`的行为
 - 添加`svg-gradient`函数
 - 在lessc中添加`no-js`选择（在浏览器中，使用`javascriptEnabled: false`），用于禁止在LESS文件中使用JavaScript
 - 将cssmin换成了clean-css
+- 添加对透明色的支持（识别为颜色），但不会在`rgba(0,0,0,0)`和`transparent`之间做转换
+- 移除`sys.puts`调用，以避免node.js即将移除这个特性的警告信息
 - 浏览器端：添加`logLevel`选项控制日志（2 = 所有日志, 1 = 只显示错误, 0 = 不显示日志）
 - 浏览器端：添加`errorReporting`选项，值可以为`"html"`（默认）或者`"console"`或者一个函数
-- 有关media query和extend的bug修复
+- 使用grunt进行构建和测试
+- 有关media query、extend、作用域、压缩、import-once的bug修复
 
 ## 1.4.2（2013-07-20）
 
